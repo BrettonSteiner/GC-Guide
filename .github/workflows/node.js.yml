@@ -31,8 +31,23 @@ jobs:
       with:
         node-version: 12.x
     
+    # Build front-end
+    - run: cd front
+    
     # Installs all dependencies listed in the package.json file
-    - run: cd front & npm ci
+    - run: npm ci
+    
+    # Builds the application
+    - run: npm run build --if-present
+    
+    # Runs all the tests in the test suite
+    - run: npm test
+   
+    # Build back-end
+    - run: cd ../back
+    
+    # Installs all dependencies listed in the package.json file
+    - run: npm ci
     
     # Builds the application
     - run: npm run build --if-present
