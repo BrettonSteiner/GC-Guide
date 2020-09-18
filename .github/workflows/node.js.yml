@@ -32,7 +32,7 @@ jobs:
         node-version: 12.x
     
     # Installs all dependencies listed in the package.json file
-    - run: npm ci
+    - run: cd front & npm ci
     
     # Builds the application
     - run: npm run build --if-present
