@@ -16,7 +16,7 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a job called "build-front-end"
-  build-front-end:
+  build1-front-end:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     env:
@@ -46,7 +46,7 @@ jobs:
       working-directory: ${{env.working-directory}}
 
 # This workflow also contains a job called "build-back-end"
-  build-back-end:
+  build2-back-end:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
     env:
