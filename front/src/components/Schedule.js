@@ -1,9 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React/*, {useState, useEffect}*/ from 'react';
 
 const Schedule = (props) => {
-  useEffect(() => {
-    //Call database for data
-  }, [])
+  // useEffect(() => {
+  //   //Call database for data
+  // }, [])
   return (<></>);
 }
 

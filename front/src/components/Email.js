@@ -1,8 +1,8 @@
-import React, {useState, useContext} from 'react';
-import { StudentContext } from '../contexts/StudentContext';
+import React/*, {useState, useContext}*/ from 'react';
+// import { StudentContext } from '../contexts/StudentContext';
 
 const Email = (props) => {
-  const {ITeamNumber, major, college, setITeamError, setCollegeError} = useContext(StudentContext);
+  // const {ITeamNumber, major, college, setITeamError, setCollegeError} = useContext(StudentContext);
   return (<></>);
 }
 
