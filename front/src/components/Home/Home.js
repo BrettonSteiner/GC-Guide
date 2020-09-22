@@ -10,7 +10,7 @@ const Home = (props) => {
   return(
     <>
       <div className="header" id="header">
-        <div className="header-container" >
+        <div className="container" >
           <div className="header-logo"></div>
           <h4 className="header-text">Get Connected Guide</h4>
         </div>
@@ -21,7 +21,11 @@ const Home = (props) => {
         <Schedule/>
         <Email/>
       </StudentContextProvider>
-      {/* footer */}
+      <div className="footer" id="footer">
+        <div className="container">
+          <h6 className="footer-text">Questions? Ask an I-Rep in a blue shirt.</h6>
+        </div>
+      </div>
     </>
   );
 }

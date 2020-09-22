@@ -4,12 +4,6 @@
   background-color: #0076B6;
 }
 
-.header-container {
-  width: 90%;
-  max-width: 1140px;
-  margin: auto;
-}
-
 .header-logo {
   float: left;
   background-image: url(./byuiLogo.jpg);
@@ -22,4 +16,25 @@
   text-align: left;
   padding-top: 15px;
   padding-left: 100px;
+}
+
+.footer {
+  background-color: #000;
+  width: 100%;
+  height: 60px;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+}
+
+.footer-text {
+  color: white;
+  text-align: left;
+  padding-top: 20px;
+}
+
+.container {
+  width: 90%;
+  max-width: 1140px;
+  margin: auto;
 }
