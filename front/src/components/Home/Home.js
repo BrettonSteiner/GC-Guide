@@ -4,15 +4,16 @@ import Email from '../Email/Email';
 import ITeam from '../ITeam/ITeam';
 import MajorCollege from '../MajorCollege/MajorCollege';
 import Schedule from '../Schedule/Schedule';
-// import logo from './byuiLogo.jpg';
 import './Home.css';
 
 const Home = (props) => {
   return(
     <>
       <div className="header" id="header">
-        {/* <img href={logo} alt="test" className="rounded float-left"/> */}
-        <div className="header-text"><h2>Get Connected Guide</h2></div>
+        <div className="header-container" >
+          <div className="header-logo"></div>
+          <h4 className="header-text">Get Connected Guide</h4>
+        </div>
       </div>
       <StudentContextProvider>
         <ITeam/>
