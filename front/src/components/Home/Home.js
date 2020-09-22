@@ -23,7 +23,7 @@ const Home = (props) => {
       </StudentContextProvider>
       <div className="footer" id="footer">
         <div className="container">
-          <h6 className="footer-text">Questions? Ask an I-Rep in a blue shirt.</h6>
+          <h6 className="footer-text">Questions? Ask an I-Rep wearing a blue shirt.</h6>
         </div>
       </div>
     </>
