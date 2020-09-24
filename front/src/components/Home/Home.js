@@ -15,12 +15,14 @@ const Home = (props) => {
           <h4 className="header-text">Get Connected Guide</h4>
         </div>
       </div>
+      <div className="container accordion" id="accordionExample">
       <StudentContextProvider>
         <ITeam/>
         <MajorCollege/>
         <Schedule/>
         <Email/>
       </StudentContextProvider>
+      </div>
       <div className="footer" id="footer">
         <div className="container">
           <h6 className="footer-text">Questions? Ask an I-Rep wearing a blue shirt.</h6>
