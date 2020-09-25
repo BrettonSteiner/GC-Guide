@@ -6,7 +6,12 @@ const MajorCollege = (props) => {
   // useEffect(() => {
   //   //Call database for data
   // }, [])
-  return (<></>);
+  return (<>
+  <div class="form-group">
+    <label for="majorName">Major Name</label>
+    <input type="text" class="form-control" id="majorName" placeholder="Major Name"></input>
+  </div>
+  </>);
 }
 
 export default MajorCollege;

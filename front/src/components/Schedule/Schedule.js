@@ -4,7 +4,9 @@ const Schedule = (props) => {
   // useEffect(() => {
   //   //Call database for data
   // }, [])
-  return (<></>);
+  return (<>
+  Schedule content
+  </>);
 }
 
 export default Schedule;

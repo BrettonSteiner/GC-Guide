@@ -6,7 +6,16 @@ const ITeam = (props) => {
   // useEffect(() => {
   //   //Call database for data
   // }, [])
-  return (<></>);
+  return (<>
+  <div class="form-group">
+    <label for="byuaddressOrApartmentComplexNameiEmail">Address or Apartment Complex Name</label>
+    <input type="text" class="form-control" id="addressOrApartmentComplexName" placeholder="Address or Apartment Complex Name"></input>
+  </div>
+  <div class="form-group">
+    <label for="apartmentNumber">Apartment Number</label>
+    <input type="text" class="form-control" id="apartmentNumber" placeholder="Apartment Number"></input>
+  </div>
+  </>);
 }
 
 export default ITeam;
