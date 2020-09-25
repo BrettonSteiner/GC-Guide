@@ -18,7 +18,7 @@ const Email = (props) => {
   <div class="form-check">
     <input class="form-check-input" type="checkbox" value="" id="collegeCheck"></input>
     <label class="form-check-label" for="collegeCheck">
-      Include College information
+      Include Academic Connections College information
     </label>
   </div>
   <div class="form-group form-check">
@@ -28,6 +28,15 @@ const Email = (props) => {
     </label>
   </div>
   <button type="button" class="btn btn-primary">Send Email</button>
+  <div id="emailResult">
+    <br></br>
+    <div class="alert alert-success" role="alert">
+      Email sent.
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  </div>
   </>);
 }
 
