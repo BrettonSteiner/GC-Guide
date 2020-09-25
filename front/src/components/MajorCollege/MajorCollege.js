@@ -7,12 +7,10 @@ const MajorCollege = (props) => {
   //   //Call database for data
   // }, [])
   return (<>
-  <form>
-    <div class="form-group">
-      <label for="majorName">Major Name</label>
-      <input type="text" class="form-control" id="majorName" placeholder="Major Name"></input>
-    </div>
-  </form>
+  <div class="form-group">
+    <label for="majorName">Major Name</label>
+    <input type="text" class="form-control" id="majorName" placeholder="Major Name"></input>
+  </div>
   </>);
 }
 

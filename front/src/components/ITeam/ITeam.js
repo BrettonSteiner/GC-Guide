@@ -7,16 +7,14 @@ const ITeam = (props) => {
   //   //Call database for data
   // }, [])
   return (<>
-  <form>
-    <div class="form-group">
-      <label for="byuaddressOrApartmentComplexNameiEmail">Address or Apartment Complex Name</label>
-      <input type="text" class="form-control" id="addressOrApartmentComplexName" placeholder="Address or Apartment Complex Name"></input>
-    </div>
-    <div class="form-group">
-      <label for="apartmentNumber">Apartment Number</label>
-      <input type="text" class="form-control" id="apartmentNumber" placeholder="Apartment Number"></input>
-    </div>
-  </form>
+  <div class="form-group">
+    <label for="byuaddressOrApartmentComplexNameiEmail">Address or Apartment Complex Name</label>
+    <input type="text" class="form-control" id="addressOrApartmentComplexName" placeholder="Address or Apartment Complex Name"></input>
+  </div>
+  <div class="form-group">
+    <label for="apartmentNumber">Apartment Number</label>
+    <input type="text" class="form-control" id="apartmentNumber" placeholder="Apartment Number"></input>
+  </div>
   </>);
 }
 
