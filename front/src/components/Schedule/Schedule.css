@@ -1,0 +1,33 @@
+
+#map {
+    width: 100%;
+    height: 500px;
+    background-color: grey;
+  }
+  
+  tr.hide-table-padding td {
+    padding: 0;
+  }
+  
+  .expand-button {
+    position: relative;
+  }
+  
+  .accordion-toggle .expand-button:after
+  {
+    position: absolute;
+    left:.75rem;
+    top: 50%;
+    transform: translate(0, -50%);
+    content: '-';
+  }
+  
+  .accordion-toggle.collapsed .expand-button:after
+  {
+    content: '+';
+  }
+  
+  .table-hover > tbody > tr.no-hover:hover > td,
+  .table-hover > tbody > tr.no-hover:hover > th {
+      background-color: white;
+  }

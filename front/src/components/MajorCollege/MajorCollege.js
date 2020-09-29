@@ -1,5 +1,6 @@
 import React/*, {useState, useContext, useEffect}*/ from 'react';
 // import { StudentContext } from '../contexts/StudentContext';
+import "./MajorCollege.css";
 
 const MajorCollege = (props) => {
   // const {setMajor, setCollege, collegeError, setCollegeError} = useContext(StudentContext);
