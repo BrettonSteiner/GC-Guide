@@ -32,7 +32,7 @@ const Home = (props) => {
         <div class="card">
           <button class="btn btn-light btn-block text-left card-header" id="headingTwo" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
             <h5 class="mb-0">
-              My Academic Connections College
+              Academic Connections
             </h5>
           </button>
           <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">

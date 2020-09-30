@@ -18,7 +18,7 @@ const Email = (props) => {
   <div class="form-check">
     <input class="form-check-input" type="checkbox" value="" id="collegeCheck"></input>
     <label class="form-check-label" for="collegeCheck">
-      Include Academic Connections College information
+      Include Academic Connections information
     </label>
   </div>
   <div class="form-group form-check">
