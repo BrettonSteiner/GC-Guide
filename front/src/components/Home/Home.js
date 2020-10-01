@@ -20,7 +20,7 @@ const Home = (props) => {
         <div className="card">
           <button class="btn btn-light btn-block text-left card-header" id="headingOne" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
             <h5 class="mb-0">
-              My I-Team
+              My I-Team <i class="fas fa-chevron-down fa-vc"></i>
             </h5>
           </button>
           <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
@@ -30,9 +30,9 @@ const Home = (props) => {
           </div>
         </div>
         <div class="card">
-          <button class="btn btn-light btn-block text-left card-header" id="headingTwo" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+          <button class="btn btn-light btn-block text-left card-header" id="headingTwo" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-controls="collapseTwo">
             <h5 class="mb-0">
-              Academic Connections
+              Academic Connections <i class="fas fa-chevron-down fa-vc"></i>
             </h5>
           </button>
           <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
@@ -42,9 +42,9 @@ const Home = (props) => {
           </div>
         </div>
         <div class="card">
-          <button class="btn btn-light btn-block text-left card-header" id="headingThree" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+          <button class="btn btn-light btn-block text-left card-header" id="headingThree" type="button" data-toggle="collapse" data-target="#collapseThree" aria-controls="collapseThree">
             <h5 class="mb-0">
-              Get Connected Schedule
+              Get Connected Schedule <i class="fas fa-chevron-down fa-vc"></i>
             </h5>
           </button>
           <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
@@ -54,9 +54,9 @@ const Home = (props) => {
           </div>
         </div>
         <div class="card">
-          <button class="btn btn-light btn-block text-left card-header" id="headingFour" type="button" data-toggle="collapse" data-target="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+          <button class="btn btn-light btn-block text-left card-header" id="headingFour" type="button" data-toggle="collapse" data-target="#collapseFour" aria-controls="collapseFour">
             <h5 class="mb-0">
-              Email Me
+              Email Me <i class="fas fa-chevron-down fa-vc"></i>
             </h5>
           </button>
           <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">

@@ -48,3 +48,17 @@ body {
 .centered {
   text-align: center;
 }
+
+.fas {
+  float: right;
+}
+
+.fa-vc {
+  line-height: inherit !important;
+}
+
+.card-header[aria-expanded="true"] i {
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	transform: rotate(180deg);
+} 

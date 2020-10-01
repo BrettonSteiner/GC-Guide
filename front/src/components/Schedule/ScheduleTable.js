@@ -9,16 +9,16 @@ const ScheduleTable = (props) => {
   <table class="table table-hover" id="scheduleTable">
     <thead>
       <tr>
-        <th scope="col">#</th>
         <th scope="col">Time</th>
         <th scope="col">Event</th>
+        <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
       <tr class="accordion-toggle collapsed" id="trAccordion1" data-toggle="collapse" data-target="#trCollapse1" aria-controls="#trCollapse1">
-        <td class="expand-button"></td>
         <td>09/13/2019<br/>8:00 a.m.</td>
         <td>Housing Complex Check-Ins</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -31,9 +31,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordion2" data-toggle="collapse" data-target="#trCollapse2" aria-controls="#trCollapse2">
-        <td class="expand-button"></td>
         <td>09/13/2019<br/>8:00 a.m. - 5:00 p.m.</td>
         <td>Get Connected Registration</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -46,9 +46,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordion3" data-toggle="collapse" data-target="#trCollapse3" aria-controls="#trCollapse3">
-        <td class="expand-button"></td>
         <td>09/13/2019<br/>9:00 a.m. - 5:00 p.m.</td>
         <td>Student Services</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -61,9 +61,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordion4" data-toggle="collapse"  data-target="#trCollapse4" aria-controls="#trCollapse4">
-        <td class="expand-button"></td>
         <td>09/13/2019<br/>9:00 a.m. - 1:00 p.m.</td>
         <td>Talent Show Auditions</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -76,9 +76,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordion5" data-toggle="collapse"  data-target="#trCollapse5" aria-controls="#trCollapse5">
-        <td class="expand-button"></td>
         <td>09/13/2019<br/>1:30 p.m. - 2:00 p.m.</td>
         <td>President's Welcome</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -92,9 +92,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordion6" data-toggle="collapse"  data-target="#trCollapse6" aria-controls="#trCollapse6">
-        <td class="expand-button"></td>
         <td>09/13/2019<br/>2:00 p.m. - 3:00 p.m.</td>
         <td>Secrets of Student Success</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -108,9 +108,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordion7" data-toggle="collapse"  data-target="#trCollapse7" aria-controls="#trCollapse7">
-        <td class="expand-button"></td>
         <td>09/13/2019<br/>3:00 p.m. - 3:40 p.m.</td>
         <td>Meet Your I-Team</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -124,9 +124,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordion8" data-toggle="collapse"  data-target="#trCollapse8" aria-controls="#trCollapse8">
-        <td class="expand-button"></td>
         <td>09/13/2019<br/>3:00 p.m. - 5:00 p.m.</td>
         <td>Parent Reception/Info Fair</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -140,9 +140,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordion9" data-toggle="collapse"  data-target="#trCollapse9" aria-controls="#trCollapse9">
-        <td class="expand-button"></td>
         <td>09/13/2019<br/>3:00 p.m. - 5:00 p.m.</td>
         <td>Parent Campus Tours</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -155,9 +155,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordion10" data-toggle="collapse"  data-target="#trCollapse10" aria-controls="#trCollapse10">
-        <td class="expand-button"></td>
         <td>09/13/2019<br/>4:00 p.m. - 5:00 p.m.</td>
         <td>Academic Connections</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -171,9 +171,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordion11" data-toggle="collapse" data-target="#trCollapse11" aria-controls="#trCollapse11">
-        <td class="expand-button"></td>
         <td>09/13/2019<br/>5:30 p.m. - 7:30 p.m.</td>
         <td>New Student / Parent Luau (Ticketed Event)</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -187,9 +187,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordion12" data-toggle="collapse" data-target="#trCollapse12" aria-controls="#trCollapse12">
-        <td class="expand-button"></td>
         <td>09/13/2019<br/>8:00 p.m. - 9:00 p.m.</td>
         <td>New Student Service Project</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -203,9 +203,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordion13" data-toggle="collapse" data-target="#trCollapse13" aria-controls="#trCollapse13">
-        <td class="expand-button"></td>
         <td>09/13/2019<br/>9:15 p.m. - 10:30 p.m.</td>
         <td>New Student Talent Show</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -219,9 +219,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordionS1" data-toggle="collapse" data-target="#trCollapseS1" aria-controls="#trCollapseS1">
-        <td class="expand-button"></td>
         <td>09/14/2019<br/>8:00 a.m. - 12:00 p.m.</td>
         <td>Get Connected Late Registration</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -234,9 +234,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordionS2" data-toggle="collapse" data-target="#trCollapseS2" aria-controls="#trCollapseS2">
-        <td class="expand-button"></td>
         <td>09/14/2019<br/>9:00 a.m. - 2:00 p.m.</td>
         <td>Student Services</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -249,9 +249,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordionS3" data-toggle="collapse" data-target="#trCollapseS3" aria-controls="#trCollapseS3">
-        <td class="expand-button"></td>
         <td>09/14/2019<br/>10:00 a.m. - 11:00 a.m.</td>
         <td>I-Strive</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -265,9 +265,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordionS4" data-toggle="collapse" data-target="#trCollapseS4" aria-controls="#trCollapseS4">
-        <td class="expand-button"></td>
         <td>09/14/2019<br/>11:00 a.m. - 12:00 p.m.</td>
         <td>Campus Connections Tours</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -281,9 +281,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordionS5" data-toggle="collapse" data-target="#trCollapseS5" aria-controls="#trCollapseS5">
-        <td class="expand-button"></td>
         <td>09/14/2019<br/>12:00 p.m. - 1:15 p.m.</td>
         <td>Lunch and Mentor Connections</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -297,9 +297,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordionS6" data-toggle="collapse" data-target="#trCollapseS6" aria-controls="#trCollapseS6">
-        <td class="expand-button"></td>
         <td>09/14/2019<br/>1:30 p.m. - 2:30 p.m.</td>
         <td>Spirit of BYU-Idaho Showcase</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -313,9 +313,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordionS7" data-toggle="collapse" data-target="#trCollapseS7" aria-controls="#trCollapseS7">
-        <td class="expand-button"></td>
         <td>09/14/2019<br/>2:30 p.m. - 3:30 p.m.</td>
         <td>Get Involved Fair</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -329,9 +329,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordionS8" data-toggle="collapse" data-target="#trCollapseS8" aria-controls="#trCollapseS8">
-        <td class="expand-button"></td>
         <td>09/14/2019<br/>3:30 p.m. - 5:00 p.m.</td>
         <td>International Student Orientation</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">
@@ -345,9 +345,9 @@ const ScheduleTable = (props) => {
         </td>
       </tr>
       <tr class="accordion-toggle collapsed" id="trAccordionS9" data-toggle="collapse" data-target="#trCollapseS9" aria-controls="#trCollapseS9">
-        <td class="expand-button"></td>
         <td>09/14/2019<br/>7:00 p.m. - 11:00 p.m.</td>
         <td>I-Night (Ticketed Event)</td>
+        <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
       </tr>
       <tr class="hide-table-padding no-hover">
         <td colspan="3">

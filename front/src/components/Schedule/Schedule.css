@@ -17,18 +17,14 @@ tr[aria-expanded="true"] {
   position: relative;
 }
 
-.accordion-toggle .expand-button:after
-{
-  position: absolute;
-  left:.75rem;
-  top: 50%;
-  transform: translate(0, -50%);
-  content: '-';
+tr.accordion-toggle i {
+  vertical-align: middle;
 }
 
-.accordion-toggle.collapsed .expand-button:after
-{
-  content: '+';
+tr.accordion-toggle[aria-expanded="true"] i {
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	transform: rotate(180deg);
 }
 
 .table-hover > tbody > tr.no-hover:hover > td,
