@@ -1,12 +1,45 @@
-import React/*, {useState, useEffect}*/ from 'react';
+import React, {useState, useEffect, Fragment} from 'react';
 import './Schedule.css';
 
+const dummyData = [
+  {
+    date: "09/13/2019",
+    time: "8:00 a.m.",
+    name: "Housing Complex Check-Ins",
+    details: "",
+    location: "Rexburg, Idaho",
+    mapSpots: [{
+      lat: 'latitude', // for Rexburg Idaho
+      lng: 'longitude',
+    },],
+  },
+  {
+    date: "09/13/2019",
+    time: "3:00 p.m. - 3:40 p.m.",
+    name: "New Student / Parent Luau (Ticketed Event)",
+    details: "Enjoy Polynesian food, dance, and music. Entertainment will be provided by Ailine's Touch of Polynesia, from Salt Lake City, Utah. This event typically sells out, so purchase your tickets early for $18 per person.",
+    location: "Manwaring Center (MC) Grand Ballroom & The Crossroads",
+    mapSpots: [{
+      lat: 'latitude', // for MC ballrooms
+      lng: 'longitude',
+    },
+    {
+      lat: 'latitude', // for MC Crossroads
+      lng: 'longitude',
+    },],
+  },
+]
+
 const ScheduleTable = (props) => {
-  // useEffect(() => {
-  //   //Call database for data
-  // }, [])
+  const [tableData, setTableData] = useState([]);
+  
+  useEffect(() => {
+    //Call database for data
+    setTableData(dummyData);
+  }, []);
+
   return (<>
-  <table class="table table-hover" id="scheduleTable">
+  <table className="table table-hover" id="scheduleTable">
     <thead>
       <tr>
         <th scope="col">Time</th>
@@ -15,7 +48,35 @@ const ScheduleTable = (props) => {
       </tr>
     </thead>
     <tbody>
-      <tr class="accordion-toggle collapsed" id="trAccordion1" data-toggle="collapse" data-target="#trCollapse1" aria-controls="#trCollapse1">
+      {
+        tableData.map( (row, index) => (
+          <Fragment key={"tableData" + index}>
+            <tr className="accordion-toggle collapsed" 
+              id={"trAccordionHeader" + index}
+              data-toggle="collapse" 
+              data-target={"#trCollapse" + index} 
+              aria-controls={"#trCollapse" + index} 
+              onClick={() => props.changeEvent(row)}>
+              <td>{row.date}<br/>{row.time}</td>
+              <td>{row.name}</td>
+              <td className="align-middle"><i className="fas fa-chevron-down"></i></td>
+            </tr>
+            <tr className="hide-table-padding no-hover">
+              <td colSpan="3">
+                <div id={"trCollapse" + index} className="collapse" data-parent="#scheduleTable">
+                  <div className="in p-3">
+                    {row.details && row.details !== `` ? (<p>{row.details}</p>) : null}
+                    {row.location && row.location !== `` ? (<p>Location: <a href="#selectedEventName">{row.location}</a></p>) : null}
+                    {row.mapSpots && row.mapSpots.length > 0 ? (<div className="mobileMap"></div>) : null}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </Fragment>
+        ))
+      }
+
+      {/* <tr class="accordion-toggle collapsed" id="trAccordion1" data-toggle="collapse" data-target="#trCollapse1" aria-controls="#trCollapse1">
         <td>09/13/2019<br/>8:00 a.m.</td>
         <td>Housing Complex Check-Ins</td>
         <td class="align-middle"><i class="fas fa-chevron-down"></i></td>
@@ -359,7 +420,7 @@ const ScheduleTable = (props) => {
             </div>
           </div>
         </td>
-      </tr>
+      </tr> */}
     </tbody>
   </table>
   </>);
