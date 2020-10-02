@@ -41,6 +41,7 @@ body {
 .container {
   width: 90%;
   max-width: 1140px;
+  min-width: 375px;
   margin: auto;
 }
 
@@ -48,10 +49,16 @@ body {
   text-align: center;
 }
 
-.color-box {
-  background-color: orange;
-  max-width: 100px;
-  height: 40px;
-  line-height: 40px;
-  margin: auto;
+.fas {
+  float: right;
 }
+
+.fa-vc {
+  line-height: inherit !important;
+}
+
+.card-header[aria-expanded="true"] i {
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	transform: rotate(180deg);
+} 

@@ -10,7 +10,7 @@
     />
     <!-- Bootstrap stuff-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.0/css/all.css">
 
     <link rel="shortcut icon" href="%PUBLIC_URL%/byuiLogo.jpg" />
     <!--
@@ -27,6 +27,23 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+    
+    <!-- <script>
+      $(document).ready(function(){
+          // Add down arrow icon for collapse element which is open by default
+          $(".collapse.show").each(function(){
+            $(this).prev(".card-header").find(".fa").addClass("fa-angle-down").removeClass("fa-angle-up");
+          });
+          
+          // Toggle right and down arrow icon on show hide of collapse element
+          $(".collapse").on('show.bs.collapse', function(){
+            $(this).prev(".card-header").find(".fas").removeClass("fa-angle-up").addClass("fa-angle-down");
+          }).on('hide.bs.collapse', function(){
+            $(this).prev(".card-header").find(".fas").removeClass("fa-angle-down").addClass("fa-angle-up");
+          });
+      });
+    </script> -->
+
     <title>GC-Guide</title>
   </head>
   <body>
