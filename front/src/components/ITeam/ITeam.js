@@ -53,7 +53,7 @@ const ITeam = (props) => {
       <h5>I-Team:</h5>
       <p><b id="iTeamNumber">{myTeam.number}</b></p>
       <h5>Mentors:</h5>
-      <p><b id="mentorName1">Brandon Sanders</b><br></br><b id="mentorName2">Melissa Frank</b></p>
+      <p><b id="mentorName1">{myTeam.maleName}</b><br></br><b id="mentorName2">{myTeam.femaleName}</b></p>
       <small id="iTeamHelp" className="form-text text-muted">To protect private information, mentor contact information is given only by BYU-I email or from an I-Rep wearing a blue shirt.</small>
     </div> : null }
   </>);
