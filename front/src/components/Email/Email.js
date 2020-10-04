@@ -1,5 +1,4 @@
 import React, {useState, useContext, useCallback} from 'react';
-// import { StudentContext } from '../../contexts/StudentContext.js';
 import { StudentContext } from '../../contexts/StudentContext/StudentContext.js';
 
 const Email = (props) => {
@@ -45,17 +44,17 @@ const Email = (props) => {
   return (<>
   <div className="form-group">
     <label htmlFor="byuiEmail">BYU-I Email Address</label>
-    <input type="email" className="form-control" id="byuiEmail" aria-describedby="emailHelp" placeholder="BYU-I Email Address" value={email} onChange={(e) => setEmail(e.target.value)}/>
+    <input type="email" className="form-control" id="byuiEmail" aria-describedby="emailHelp" placeholder="BYU-I Email Address" value={email} onChange={(e) => {setEmail(e.target.value); setEmailError(false);}}/>
     <small id="emailHelp" className="form-text text-muted">This will not subscribe you to anything. It is a one-time email only.</small>
   </div>
   <div className="form-check">
-    <input className="form-check-input" type="checkbox" value={includeITeam} id="iTeamCheck" onChange={(e) => setIncludeITeam(e.target.checked)}></input>
+    <input className="form-check-input" type="checkbox" value={includeITeam} id="iTeamCheck" onChange={(e) => {setIncludeITeam(e.target.checked); setITeamError(false);}}></input>
     <label className="form-check-label" htmlFor="iTeamCheck">
       Include I-Team information
     </label>
   </div>
   <div className="form-check">
-    <input className="form-check-input" type="checkbox" value={includeAcInfo} id="collegeCheck" onChange={(e) => setIncludeAcInfo(e.target.checked)}></input>
+    <input className="form-check-input" type="checkbox" value={includeAcInfo} id="collegeCheck" onChange={(e) => {setIncludeAcInfo(e.target.checked); setCollegeError(false);}}></input>
     <label className="form-check-label" htmlFor="collegeCheck">
       Include Academic Connections information
     </label>
@@ -71,7 +70,7 @@ const Email = (props) => {
     <br></br>
     {errorsExist ? (<>
       <div className="alert alert-danger">
-      {`Error: `} 
+        {`Error: `} 
         {emailError ? ` Invalid email address. Must be '...@byui.edu'.` : null}
         {ITeamError ? ` Missing I-Team Information.` : null}
         {collegeError ? ` Missing Academic Connections information.` : null}
