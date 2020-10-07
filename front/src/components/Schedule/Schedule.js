@@ -12,6 +12,7 @@ const Schedule = (props) => {
   return (<>
   <div className="row" id="scheduleComponent">
     <div className="col-lg table-wrapper-scroll-y my-custom-scrollbar" id="scheduleTableHolder">
+      <h6 className="centered" id="scheduleTableInstructions">Select an Event for details</h6>
       <ScheduleTable changeEvent={setCurrentEvent}/>
     </div>
     <div className="col-lg" id="scheduleDesktopMapHolder">

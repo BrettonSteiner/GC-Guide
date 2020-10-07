@@ -47,6 +47,10 @@ tr.accordion-toggle[aria-expanded="true"] i {
   .table-wrapper-scroll-y {
     display: block;
   }
+
+  #scheduleTableInstructions {
+    display: none;
+  }
 }
 
 @media screen and (max-width: 992px) {
