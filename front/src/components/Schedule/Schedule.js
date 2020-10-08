@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import './Schedule.css';
 import ScheduleTable from './ScheduleTable';
+import Map from '../Map/Map';
 
 const Schedule = (props) => {
   const [currentEvent, setCurrentEvent] = useState({});
@@ -17,7 +18,9 @@ const Schedule = (props) => {
     </div>
     <div className="col-lg" id="scheduleDesktopMapHolder">
       {currentEvent?.name ? <h5 className="centered" id="selectedEventName">{currentEvent.name}</h5> : <h5 className="centered" id="selectedEventName">Select an Event to see its location</h5>}
-      <div id="map"></div>
+      <div id="map">
+        <Map height="700px" />
+      </div>
     </div>
   </div>
   </>);

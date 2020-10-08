@@ -1,6 +1,7 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import './Schedule.css';
 import data from './dummyData.json'
+import Map from '../Map/Map';
 
 const ScheduleTable = (props) => {
   const [tableData, setTableData] = useState([]);
@@ -38,7 +39,7 @@ const ScheduleTable = (props) => {
                 <div id={"trCollapse" + index} className="collapse" data-parent="#scheduleTable">
                   <div className="in p-3">
                     {row.details && row.details !== `` ? (<p>{row.details}</p>) : null}
-                    {row.location && row.location !== `` ? (<p>Location: <a href="#selectedEventName">{row.location}</a></p>) : null}
+                    {row.location && row.location !== `` ? (<p>Location: {row.location}</p>) : null}
                     {row.mapSpots && row.mapSpots.length > 0 ? (<div className="mobileMap"></div>) : null}
                   </div>
                 </div>
