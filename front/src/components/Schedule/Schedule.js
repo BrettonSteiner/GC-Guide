@@ -19,7 +19,7 @@ const Schedule = (props) => {
     <div className="col-lg" id="scheduleDesktopMapHolder">
       {currentEvent?.name ? <h5 className="centered" id="selectedEventName">{currentEvent.name}</h5> : <h5 className="centered" id="selectedEventName">Select an Event to see its location</h5>}
       <div id="map">
-        <Map height="700px" />
+        <Map height="700px" event={currentEvent} />
       </div>
     </div>
   </div>

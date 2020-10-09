@@ -40,7 +40,7 @@ const ScheduleTable = (props) => {
                   <div className="in p-3">
                     {row.details && row.details !== `` ? (<p>{row.details}</p>) : null}
                     {row.location && row.location !== `` ? (<p>Location: {row.location}</p>) : null}
-                    {row.mapSpots && row.mapSpots.length > 0 ? (<div className="mobileMap"></div>) : null}
+                    {row.mapSpots && row.mapSpots.length > 0 ? (<div className="mobileMap" id={"mobileMap" + index}></div>) : null}
                   </div>
                 </div>
               </td>
