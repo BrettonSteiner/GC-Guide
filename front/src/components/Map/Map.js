@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -10,17 +10,37 @@ const Map = (props) => {
   const {isLoaded, loadError} = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
-  const height = props?.height? props.height : '300px';
-  const zoom = props?.zoom? props.zoom : 15;
-  const center = {
-    lat: props?.lat? props.lat : 43.8144,
-    lng: props?.lng? props.lng : -111.7833
-  }
-  const options = {
-    streetViewControl: false,
-  }
-  const markers = props?.event?.mapSpots? props.event.mapSpots : [];
-  const [selected, setSelected] = React.useState(null);
+  const [mapRef, setMapRef] = useState(null);
+  const [height, setHeight] = useState('300px');
+  const [zoom, setZoom] = useState(15);
+  const [center, setCenter] = useState({lat: 43.8144, lng: -111.7833});
+  // const center = {
+  //   lat: props?.lat? props.lat : 43.8144,
+  //   lng: props?.lng? props.lng : -111.7833
+  // }
+  const [markers, setMarkers] = useState(null);
+  const [selected, setSelected] = useState(null);
+  const [options] = useState({ streetViewControl: false});
+
+  useEffect(() => {
+    setHeight(props?.height? props.height : '300px');
+  }, [props.height]);
+  useEffect(() => {
+    setZoom(props?.zoom? props.zoom : 15);
+  }, [props.zoom]);
+  useEffect(() => {
+    setMarkers(props.event.mapSpots? props.event.mapSpots : []);
+    if (mapRef && markers != []) {
+      //Add code to find correct center for all markers
+      //Add code to find a good zoom level for all markers
+
+      //Use below function to move the map to the new center
+      // mapRef.panTo({lat: 44.0000, lng: -111.0000});
+
+      //Set the new zoom level, too;
+      // setZoom(17);
+    }
+  }, [props.event.mapSpots]);
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading maps";
@@ -28,6 +48,7 @@ const Map = (props) => {
   return (<>
   <div>
     <GoogleMap
+      onLoad={map => setMapRef(map)}
       mapContainerStyle={{
         width: '100%',
         height: height,
@@ -36,12 +57,12 @@ const Map = (props) => {
       center={center}
       options={options}
     >
-      {markers.map((marker) => (
+      {markers.map((row, index) => (
         <Marker 
-          key={props.event.name + props.event.location} 
-          position={{ lat: parseFloat(marker.lat), lng: parseFloat(marker.lng) }}
+          key={"marker" + index} 
+          position={{ lat: parseFloat(row.lat), lng: parseFloat(row.lng) }}
           onClick={() => {
-            setSelected(marker);
+            setSelected(row);
           }}
         />
       ))}
