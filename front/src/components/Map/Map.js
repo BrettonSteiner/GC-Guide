@@ -10,7 +10,7 @@ const Map = (props) => {
   const {isLoaded, loadError} = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
-  const [mapRef, setMapRef] = useState(null);
+  // const [mapRef, setMapRef] = useState(null);
   const [height, setHeight] = useState('300px');
   const [zoom, setZoom] = useState(15);
   const [center, setCenter] = useState({lat: 43.8144, lng: -111.7833});
@@ -47,7 +47,7 @@ const Map = (props) => {
   return (<>
   <div>
     <GoogleMap
-      onLoad={map => setMapRef(map)}
+      // onLoad={map => setMapRef(map)}
       mapContainerStyle={{
         width: '100%',
         height: height,
