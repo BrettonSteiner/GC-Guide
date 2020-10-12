@@ -30,16 +30,16 @@ const ITeam = (props) => {
     <div className="form-group">
       <label htmlFor="byuaddressOrApartmentComplexNameiEmail">Address or Apartment Complex Name</label>
       {/* Change from select to input to use autocomplete with 'places' */}
-      <select type="text" className={(ITeamError && !myPlace) ? "form-control error-style" : "form-control"} 
+      <input type="text" className={(ITeamError && !myPlace) ? "form-control error-style" : "form-control"} 
         id="addressOrApartmentComplexName" 
         placeholder="Address or Apartment Complex Name"
         value={myPlace} onChange={(e) => {setMyPlace(e.target.value); setMyApartNo(null); setMyTeam(null);}} > 
-        {places.map((place) => {
+        {/* {places.map((place) => {
           return (
           <option key={place.nameAddress} value={place.nameAddress} >{place.nameAddress}</option>
           )
-        })}
-        </select>
+        })} */}
+        </input>
     </div>
     <div className="form-group">
       <label htmlFor="apartmentNumber">Apartment Number</label>
