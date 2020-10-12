@@ -44,7 +44,7 @@ const Email = (props) => {
   return (<>
   <div className="form-group">
     <label htmlFor="byuiEmail">BYU-I Email Address</label>
-    <input type="email" className="form-control" id="byuiEmail" aria-describedby="emailHelp" placeholder="BYU-I Email Address" value={email} onChange={(e) => {setEmail(e.target.value); setEmailError(false);}}/>
+    <input type="email" className="form-control" id="byuiEmail" aria-describedby="emailHelp" placeholder="BYU-I Email Address" value={email} onChange={(e) => {setEmail(e.target.value); setEmailError(false); setErrorsExist(false);}}/>
     <small id="emailHelp" className="form-text text-muted">This will not subscribe you to anything. It is a one-time email only.</small>
   </div>
   <div className="form-check">

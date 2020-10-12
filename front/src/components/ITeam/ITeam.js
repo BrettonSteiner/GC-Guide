@@ -1,5 +1,6 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { StudentContext } from '../../contexts/StudentContext/StudentContext.js';
+import './iTeam.css';
 import data from './dummy.json';
 
 const ITeam = (props) => {
@@ -29,7 +30,7 @@ const ITeam = (props) => {
     <div className="form-group">
       <label htmlFor="byuaddressOrApartmentComplexNameiEmail">Address or Apartment Complex Name</label>
       {/* Change from select to input to use autocomplete with 'places' */}
-      <select type="text" className={!ITeamError ? "form-control" : "form-control error-style"} 
+      <select type="text" className={(ITeamError && !myPlace) ? "form-control error-style" : "form-control"} 
         id="addressOrApartmentComplexName" 
         placeholder="Address or Apartment Complex Name"
         value={myPlace} onChange={(e) => setMyPlace(e.target.value)}
@@ -44,7 +45,7 @@ const ITeam = (props) => {
     <div className="form-group">
       <label htmlFor="apartmentNumber">Apartment Number</label>
       {/* Change input to a select with options based on 'myPlace' */}
-      <input type="text" className="form-control" 
+      <input type="text" className={(ITeamError && !myApartNo) ? "form-control error-style" : "form-control"} 
         id="apartmentNumber" placeholder="Apartment Number" 
         value={myApartNo} onChange={(e) => findMyTeam(e.target.value)}/>
     </div>
