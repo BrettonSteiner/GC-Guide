@@ -1,9 +1,12 @@
 import React, {useState, useEffect, Fragment} from 'react';
+import MediaQuery from 'react-responsive';
 import './Schedule.css';
 import data from './dummyData.json'
+import Map from '../Map/Map';
 
 const ScheduleTable = (props) => {
   const [tableData, setTableData] = useState([]);
+  const [maps, setMaps] = useState([]);
   
   useEffect(() => {
     //Call database for data
@@ -28,7 +31,10 @@ const ScheduleTable = (props) => {
               data-toggle="collapse" 
               data-target={"#trCollapse" + index} 
               aria-controls={"#trCollapse" + index} 
-              onClick={() => props.changeEvent(row)}>
+              onClick={() => {
+                props.changeEvent(row);
+                setMaps(maps.includes(index)? maps : maps.concat(index));
+              }}>
               <td>{row.date}<br/>{row.time}</td>
               <td>{row.name}</td>
               <td className="align-middle"><i className="fas fa-chevron-down"></i></td>
@@ -38,8 +44,14 @@ const ScheduleTable = (props) => {
                 <div id={"trCollapse" + index} className="collapse" data-parent="#scheduleTable">
                   <div className="in p-3">
                     {row.details && row.details !== `` ? (<p>{row.details}</p>) : null}
-                    {row.location && row.location !== `` ? (<p>Location: <a href="#selectedEventName">{row.location}</a></p>) : null}
-                    {row.mapSpots && row.mapSpots.length > 0 ? (<div className="mobileMap"></div>) : null}
+                    {row.location && row.location !== `` ? (<p>Location: {row.location}</p>) : null}
+                    <MediaQuery maxDeviceWidth={992}>
+                      {row.mapSpots && row.mapSpots.length > 0 ? (<div className="mobileMap" id={"mobileMap" + index}>
+                        {
+                          maps?.includes(index)? <Map event={row} /> : null
+                        }
+                      </div>) : null}
+                    </MediaQuery>
                   </div>
                 </div>
               </td>
