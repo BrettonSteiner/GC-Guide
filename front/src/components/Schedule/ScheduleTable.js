@@ -1,4 +1,5 @@
 import React, {useState, useEffect, Fragment} from 'react';
+import MediaQuery from 'react-responsive';
 import './Schedule.css';
 import data from './dummyData.json'
 import Map from '../Map/Map';
@@ -44,11 +45,13 @@ const ScheduleTable = (props) => {
                   <div className="in p-3">
                     {row.details && row.details !== `` ? (<p>{row.details}</p>) : null}
                     {row.location && row.location !== `` ? (<p>Location: {row.location}</p>) : null}
-                    {row.mapSpots && row.mapSpots.length > 0 ? (<div className="mobileMap" id={"mobileMap" + index}>
-                      {
-                        maps?.includes(index)? <Map event={row} /> : null
-                      }
-                    </div>) : null}
+                    <MediaQuery maxDeviceWidth={992}>
+                      {row.mapSpots && row.mapSpots.length > 0 ? (<div className="mobileMap" id={"mobileMap" + index}>
+                        {
+                          maps?.includes(index)? <Map event={row} /> : null
+                        }
+                      </div>) : null}
+                    </MediaQuery>
                   </div>
                 </div>
               </td>
