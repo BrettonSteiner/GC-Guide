@@ -33,8 +33,7 @@ const ITeam = (props) => {
       <select type="text" className={(ITeamError && !myPlace) ? "form-control error-style" : "form-control"} 
         id="addressOrApartmentComplexName" 
         placeholder="Address or Apartment Complex Name"
-        value={myPlace} onChange={(e) => setMyPlace(e.target.value)}
-        onBlur={(e) => setMyPlace(e.target.value)} > 
+        value={myPlace} onChange={(e) => {setMyPlace(e.target.value); setMyApartNo(null); setMyTeam(null);}} > 
         {places.map((place) => {
           return (
           <option key={place.nameAddress} value={place.nameAddress} >{place.nameAddress}</option>
