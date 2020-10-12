@@ -14,10 +14,6 @@ const Map = (props) => {
   const [height, setHeight] = useState('300px');
   const [zoom, setZoom] = useState(15);
   const [center, setCenter] = useState({lat: 43.8144, lng: -111.7833});
-  // const center = {
-  //   lat: props?.lat? props.lat : 43.8144,
-  //   lng: props?.lng? props.lng : -111.7833
-  // }
   const [markers, setMarkers] = useState(null);
   const [selected, setSelected] = useState(null);
   const [options] = useState({ streetViewControl: false});
@@ -29,8 +25,11 @@ const Map = (props) => {
     setZoom(props?.zoom? props.zoom : 15);
   }, [props.zoom]);
   useEffect(() => {
+    setCenter(props?.center? props.center : {lat: 43.8144, lng: -111.7833});
+  }, [props.center]);
+  useEffect(() => {
     setMarkers(props.event.mapSpots? props.event.mapSpots : []);
-    if (mapRef && markers != []) {
+    // if (mapRef && markers !== []) {
       //Add code to find correct center for all markers
       //Add code to find a good zoom level for all markers
 
@@ -39,7 +38,7 @@ const Map = (props) => {
 
       //Set the new zoom level, too;
       // setZoom(17);
-    }
+    // }
   }, [props.event.mapSpots]);
 
   if (loadError) return "Error loading maps";
