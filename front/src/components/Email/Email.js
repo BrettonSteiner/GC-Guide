@@ -79,12 +79,12 @@ const Email = (props) => {
       </button>
     </div>
     </>) : null}
-    <div className="alert alert-success" role="alert">
+    {/* <div className="alert alert-success" role="alert">
       Email sent.
       <button type="button" className="close" data-dismiss="alert" aria-label="Close">
         <span aria-hidden="true">&times;</span>
       </button>
-    </div>
+    </div> */}
   </div>
   </>);
 }

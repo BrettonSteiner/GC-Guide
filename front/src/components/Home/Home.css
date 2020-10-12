@@ -46,6 +46,12 @@ body {
   margin: auto;
 }
 
+@media screen and (max-width: 500px) {
+  .container {
+    width: 100%;
+  }
+}
+
 .centered {
   text-align: center;
 }

@@ -4,9 +4,9 @@ import './iTeam.css';
 import data from './dummy.json';
 
 const ITeam = (props) => {
-  const [myTeam, setMyTeam] = useState(null);
-  const [myPlace, setMyPlace] = useState(null);
-  const [myApartNo, setMyApartNo] = useState(null);
+  const [myTeam, setMyTeam] = useState('');
+  const [myPlace, setMyPlace] = useState('');
+  const [myApartNo, setMyApartNo] = useState('');
   const [iTeams, setITeams] = useState([]);
   const [places, setPlaces] = useState([]);
 
@@ -33,7 +33,7 @@ const ITeam = (props) => {
       <input type="text" className={(ITeamError && !myPlace) ? "form-control error-style" : "form-control"} 
         id="addressOrApartmentComplexName" 
         placeholder="Address or Apartment Complex Name"
-        value={myPlace} onChange={(e) => {setMyPlace(e.target.value); setMyApartNo(null); setMyTeam(null);}} > 
+        value={myPlace} onChange={(e) => {setMyPlace(e.target.value); setMyApartNo(''); setMyTeam('');}} > 
         {/* {places.map((place) => {
           return (
           <option key={place.nameAddress} value={place.nameAddress} >{place.nameAddress}</option>
