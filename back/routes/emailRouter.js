@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
+var emailService = require('../services/emailService');
 
 /* POST - Send email. */
-router.post('/', function(req, res, next) {
-  res.send('respond with an Email confirmation');
-});
+router.post('/', emailService.sendEmail);
 
 module.exports = router;
