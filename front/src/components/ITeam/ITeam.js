@@ -19,8 +19,17 @@ const ITeam = (props) => {
     setData(dummyData.dummyModel1);
   }, []);
 
+  useEffect(() => {
+    if (myPlace?.teams?.length === 1) {
+      let iTeamNumber = myPlace.teams[0].iTeamNumber;
+      setMyTeam(iTeams.find((team) => team?.number === iTeamNumber));
+      setITeamNumber(iTeamNumber);
+      setITeamError(false);
+    }
+  }, [myPlace, iTeams, setITeamError, setITeamNumber]);
+
   let placeOnChange = (value) => {
-    setMyPlace(value); 
+    setMyPlace(data.find((place) => place.nameAddress === value));
     setMyApartNo(''); 
     setMyTeam('');
     // findMyTeam('');
@@ -29,8 +38,7 @@ const ITeam = (props) => {
   let findMyTeam = (apartNo) => {
     setMyApartNo(apartNo);
     // figure out my I team info.
-    let tempPlace = data.find((place) => place.nameAddress === myPlace);
-    let tempTeamNumber = tempPlace.teams.find((team) => team.apartmentNos.includes(apartNo)).iTeamNumber; 
+    let tempTeamNumber = myPlace.teams.find((team) => team.apartmentNos.includes(apartNo)).iTeamNumber; 
     setMyTeam(iTeams.find((team) => team.number === tempTeamNumber));
     setITeamNumber(tempTeamNumber);
     setITeamError(false);
@@ -47,18 +55,14 @@ const ITeam = (props) => {
         id="apartmentNumber" value={myApartNo}
         onChange={(e) => findMyTeam(e.target.value)}>
 
-          { myPlace !== '' ? [ <option key={-1}>-- Choose --</option>, data.map( (place) => {
-            if (place.nameAddress === myPlace) {
-              return place.teams.map( (team, index) => {
+          { myPlace ? [ <option key={-1}>-- Choose --</option>, 
+              myPlace.teams.map( (team, index) => {
                 return team.apartmentNos.map( (apartment) => {
                   return (
                     <option key={apartment+index} value={apartment}>{apartment}</option>
                   )
                 })
-              })
-            }
-            return null
-          }) ]: null
+              }) ] : null
           }
 
       </select>
