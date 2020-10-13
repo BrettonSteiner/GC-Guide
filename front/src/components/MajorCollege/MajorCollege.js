@@ -6,14 +6,14 @@ import dummyData from './collegeDummyData.json'
 const MajorCollege = (props) => {
   // const {setMajor, setCollege, collegeError, setCollegeError} = useContext(StudentContext);
   // TODO: Once we get to a point where we always need the back-end running, remove the dummyData back-up.
-  const [collegeData, setCollegeData] = useState(dummyData.colleges);
+  // const [collegeData, setCollegeData] = useState(dummyData.colleges);
 
-  useEffect(() => {
-    //Call database for data
-    fetch('/colleges/')
-      .then((response) => response.json())
-      .then((data) => setCollegeData(data?.colleges));
-  }, [])
+  // useEffect(() => {
+  //   //Call database for data
+  //   fetch('/colleges/')
+  //     .then((response) => response.json())
+  //     .then((data) => setCollegeData(data?.colleges));
+  // }, [])
 
   return (<>
   <div className="form-group">
