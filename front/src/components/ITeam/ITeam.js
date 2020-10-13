@@ -1,52 +1,67 @@
 import React, {useState, useContext, useEffect} from 'react';
 import { StudentContext } from '../../contexts/StudentContext/StudentContext.js';
+import AutoComplete from '../AutoComplete/AutoComplete.js';
 import './iTeam.css';
-import data from './dummy.json';
+import dummyData from './dummy.json';
 
 const ITeam = (props) => {
   const [myTeam, setMyTeam] = useState('');
   const [myPlace, setMyPlace] = useState('');
   const [myApartNo, setMyApartNo] = useState('');
   const [iTeams, setITeams] = useState([]);
-  const [places, setPlaces] = useState([]);
+  const [data, setData] = useState([]);
 
   const {setITeamNumber, ITeamError, setITeamError} = useContext(StudentContext);
 
   useEffect(() => {
     //Call database for data
-    setITeams(data.dummyIteams);
-    setPlaces(data.dummyModel1);
+    setITeams(dummyData.dummyIteams);
+    setData(dummyData.dummyModel1);
   }, []);
+
+  let placeOnChange = (value) => {
+    setMyPlace(value); 
+    setMyApartNo(''); 
+    setMyTeam('');
+    // findMyTeam('');
+  }
 
   let findMyTeam = (apartNo) => {
     setMyApartNo(apartNo);
-    // determine team from location data
-    setMyTeam(iTeams[0]);
-    setITeamNumber(iTeams[0].number);
+    // figure out my I team info.
+    let tempPlace = data.find((place) => place.nameAddress === myPlace);
+    let tempTeamNumber = tempPlace.teams.find((team) => team.apartmentNos.includes(apartNo)).iTeamNumber; 
+    setMyTeam(iTeams.find((team) => team.number === tempTeamNumber));
+    setITeamNumber(tempTeamNumber);
     setITeamError(false);
   };
 
   return (<>
     <div className="form-group">
       <label htmlFor="byuaddressOrApartmentComplexNameiEmail">Address or Apartment Complex Name</label>
-      {/* Change from select to input to use autocomplete with 'places' */}
-      <input type="text" className={(ITeamError && !myPlace) ? "form-control error-style" : "form-control"} 
-        id="addressOrApartmentComplexName" 
-        placeholder="Address or Apartment Complex Name"
-        value={myPlace} onChange={(e) => {setMyPlace(e.target.value); setMyApartNo(''); setMyTeam('');}} > 
-        {/* {places.map((place) => {
-          return (
-          <option key={place.nameAddress} value={place.nameAddress} >{place.nameAddress}</option>
-          )
-        })} */}
-        </input>
+      <AutoComplete suggestions={data.map((place) => place.nameAddress)} onChange={placeOnChange}/>
     </div>
     <div className="form-group">
       <label htmlFor="apartmentNumber">Apartment Number</label>
-      {/* Change input to a select with options based on 'myPlace' */}
-      <input type="text" className={(ITeamError && !myApartNo) ? "form-control error-style" : "form-control"} 
-        id="apartmentNumber" placeholder="Apartment Number" 
-        value={myApartNo} onChange={(e) => findMyTeam(e.target.value)}/>
+      <select className={(ITeamError && !myApartNo) ? "form-control error-style" : "form-control"}
+        id="apartmentNumber" value={myApartNo}
+        onChange={(e) => findMyTeam(e.target.value)}>
+
+          { myPlace !== '' ? [ <option key={-1}>-- Choose --</option>, data.map( (place) => {
+            if (place.nameAddress === myPlace) {
+              return place.teams.map( (team, index) => {
+                return team.apartmentNos.map( (apartment) => {
+                  return (
+                    <option key={apartment+index} value={apartment}>{apartment}</option>
+                  )
+                })
+              })
+            }
+            return null
+          }) ]: null
+          }
+
+      </select>
     </div>
     { myTeam ? 
     <div className="centered" id="iTeamResults">

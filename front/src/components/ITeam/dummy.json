@@ -19,7 +19,7 @@
   "dummyModel1": [
     {
       "nameAddress": "Somerset",
-      "apartments": [
+      "teams": [
         {
           "iTeamNumber": 1,
           "apartmentNos": [
@@ -40,13 +40,22 @@
     },
     {
       "nameAddress": "Ridge",
-      "apartments": [
+      "teams": [
         {
           "iTeamNumber": 2,
           "apartmentNos": [
             "301-305",
             "311-316"
           ] 
+        }
+      ]
+    },
+    {
+      "nameAddress": "123 N 1456 E Rexburg Idaho",
+      "teams": [
+        {
+          "iTeamNumber": 2,
+          "apartmentNos": [] 
         }
       ]
     }
