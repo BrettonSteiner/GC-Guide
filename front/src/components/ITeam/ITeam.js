@@ -36,12 +36,18 @@ const ITeam = (props) => {
   }
 
   let findMyTeam = (apartNo) => {
-    setMyApartNo(apartNo);
-    // figure out my I team info.
-    let tempTeamNumber = myPlace.teams.find((team) => team.apartmentNos.includes(apartNo)).iTeamNumber; 
-    setMyTeam(iTeams.find((team) => team.number === tempTeamNumber));
-    setITeamNumber(tempTeamNumber);
-    setITeamError(false);
+    if (apartNo !== "-- Choose --") {
+      setMyApartNo(apartNo);
+      // figure out my I team info.
+      let tempTeamNumber = myPlace.teams.find((team) => team.apartmentNos.includes(apartNo)).iTeamNumber; 
+      setMyTeam(iTeams.find((team) => team.number === tempTeamNumber));
+      setITeamNumber(tempTeamNumber);
+      setITeamError(false);
+    } else {
+      setMyApartNo("");
+      setMyTeam("");
+      setITeamNumber("");
+    }
   };
 
   return (<>
