@@ -47,9 +47,10 @@ const ITeam = (props) => {
   return (<>
     <div className="form-group">
       <label htmlFor="byuaddressOrApartmentComplexNameiEmail">Address or Apartment Complex Name</label>
-      <AutoComplete suggestions={data.map((place) => place.nameAddress)} onChange={placeOnChange}/>
+      <AutoComplete suggestions={data.map((place) => place.nameAddress)} onChange={placeOnChange} 
+        hasError={(ITeamError && !myPlace)}/>
     </div>
-    <div className="form-group">
+    {myPlace?.teams?.length > 1 ? <div className="form-group">
       <label htmlFor="apartmentNumber">Apartment Number</label>
       <select className={(ITeamError && !myApartNo) ? "form-control error-style" : "form-control"}
         id="apartmentNumber" value={myApartNo}
@@ -66,7 +67,7 @@ const ITeam = (props) => {
           }
 
       </select>
-    </div>
+    </div> : null} 
     { myTeam ? 
     <div className="centered" id="iTeamResults">
       <h5>I-Team:</h5>

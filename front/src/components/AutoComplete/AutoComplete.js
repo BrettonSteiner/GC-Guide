@@ -26,7 +26,7 @@ const AutoComplete = (props) => {
   return (<>
     <div>
       <input type="text"
-        className="form-control"
+        className={props.hasError ? "form-control error-style" : "form-control"}
         onChange={onChange}
         value={userInput}/>
 
