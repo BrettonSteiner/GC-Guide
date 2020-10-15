@@ -1,0 +1,63 @@
+{
+  "dummyIteams": [
+    {
+      "number": 1,
+      "maleName": "Brandon Sanders",
+      "femaleName": "Melissa Frank"
+    },
+    {
+      "number": 2,
+      "maleName": "Simba",
+      "femaleName": "Nala"
+    },
+    {
+      "number": 3,
+      "maleName": "Steve Rodgers",
+      "femaleName": "Peggy Stuart"
+    }
+  ],
+  "dummyModel1": [
+    {
+      "nameAddress": "Somerset",
+      "teams": [
+        {
+          "iTeamNumber": 1,
+          "apartmentNos": [
+            "101-105",
+            "201-205",
+            "111-116",
+            "211-216"
+          ] 
+        },
+        {
+          "iTeamNumber": 3,
+          "apartmentNos": [
+            "301-305",
+            "311-316"
+          ] 
+        }
+      ]
+    },
+    {
+      "nameAddress": "Ridge",
+      "teams": [
+        {
+          "iTeamNumber": 2,
+          "apartmentNos": [
+            "301-305",
+            "311-316"
+          ] 
+        }
+      ]
+    },
+    {
+      "nameAddress": "123 N 1456 E Rexburg Idaho",
+      "teams": [
+        {
+          "iTeamNumber": 2,
+          "apartmentNos": [] 
+        }
+      ]
+    }
+  ]
+}
