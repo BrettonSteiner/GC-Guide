@@ -25,13 +25,14 @@ const ITeam = (props) => {
       setMyTeam(iTeams.find((team) => team?.number === iTeamNumber));
       setITeamNumber(iTeamNumber);
       setITeamError(false);
-    }
+    } 
   }, [myPlace, iTeams, setITeamError, setITeamNumber]);
 
   let placeOnChange = (value) => {
     setMyPlace(data.find((place) => place.nameAddress === value));
     setMyApartNo(''); 
     setMyTeam('');
+    setITeamNumber('');
     // findMyTeam('');
   }
 

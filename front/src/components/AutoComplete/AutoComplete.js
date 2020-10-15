@@ -21,6 +21,10 @@ const AutoComplete = (props) => {
     ));
     setShowSuggestions(true);
     setUserInput(e.currentTarget.value);
+    if (e.currentTarget.value === "") {
+      if (props.onChange)
+        props.onChange(e.currentTarget.innerText);
+    }
   };
   
   return (<>
