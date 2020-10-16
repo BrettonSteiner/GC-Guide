@@ -3,12 +3,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
-var indexRouter = require('./routes/index');
-var iteamsRouter = require('./routes/iteams');
-var collegesRouter = require('./routes/colleges');
-var scheduleRouter = require('./routes/schedule');
-var emailRouter = require('./routes/email');
-var usersRouter = require('./routes/users');
+var iteamRouter = require('./routes/iteamRouter');
+var collegeRouter = require('./routes/collegeRouter');
+var scheduleRouter = require('./routes/scheduleRouter');
+var emailRouter = require('./routes/emailRouter');
+var userRouter = require('./routes/userRouter');
 
 var app = express();
 
@@ -18,11 +17,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../front/build')));
 
-app.use('/', indexRouter);
-app.use('/iteams', iteamsRouter);
-app.use('/colleges', collegesRouter);
+app.use('/iteams', iteamRouter);
+app.use('/colleges', collegeRouter);
 app.use('/schedule', scheduleRouter);
 app.use('/email', emailRouter);
-app.use('/users', usersRouter);
+app.use('/users', userRouter);
 
 module.exports = app;

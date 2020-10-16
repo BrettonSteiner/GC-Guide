@@ -1,16 +1,19 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import MediaQuery from 'react-responsive';
 import './Schedule.css';
-import data from './dummyData.json'
+import dummyData from './dummyData.json'
 import Map from '../Map/Map';
 
 const ScheduleTable = (props) => {
-  const [tableData, setTableData] = useState([]);
+  // TODO: Once we get to a point where we always need the back-end running, remove the dummyData back-up.
+  const [tableData, setTableData] = useState(dummyData.schedule);
   const [maps, setMaps] = useState([]);
   
   useEffect(() => {
     //Call database for data
-    setTableData(data.dummyData);
+    fetch('/schedule/')
+      .then((response) => response.json())
+      .then((data) => setTableData(data.schedule));
   }, []);
 
   return (<>

@@ -8,15 +8,19 @@ const ITeam = (props) => {
   const [myTeam, setMyTeam] = useState('');
   const [myPlace, setMyPlace] = useState('');
   const [myApartNo, setMyApartNo] = useState('');
-  const [iTeams, setITeams] = useState([]);
-  const [data, setData] = useState([]);
+  const [iTeams, setITeams] = useState(dummyData.dummyIteams);
+  const [data, setData] = useState(dummyData.dummyModel1);
 
   const {setITeamNumber, ITeamError, setITeamError} = useContext(StudentContext);
 
   useEffect(() => {
     //Call database for data
-    setITeams(dummyData.dummyIteams);
-    setData(dummyData.dummyModel1);
+    fetch('/iteams/')
+      .then((response) => response.json())
+      .then((data) => {
+        setITeams(data.dummyIteams);
+        setData(data.dummyModel1);
+      });
   }, []);
 
   useEffect(() => {
