@@ -31,7 +31,6 @@ const Map = (props) => {
   }, [props.event.mapSpots]);
 
   const recenterMap = () => {
-    console.log("Entered recenterMap()");
     if (mapRef && props.event.mapSpots) {
       const bounds = new window.google.maps.LatLngBounds();
       props.event.mapSpots.forEach(marker => {
