@@ -22,7 +22,7 @@ const MajorCollege = (props) => {
   </div>
   <div className="centered" id="collegeResults">
     <h5>Academic Connections College:</h5>
-  <p><b id="collegeName">{collegeData[0].name}</b></p>
+    <p><b id="collegeName">{collegeData[0].name}</b></p>
     <p className="color-box"><b id="collegeColor">{collegeData[0].flagColor}</b></p>
   </div>
   </>);
