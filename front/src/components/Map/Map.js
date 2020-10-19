@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -19,18 +19,16 @@ const Map = (props) => {
   useEffect(() => {
     setHeight(props?.height? props.height : '300px');
   }, [props.height]);
+
   useEffect(() => {
     setZoom(props?.zoom? props.zoom : 17);
   }, [props.zoom]);
+
   useEffect(() => {
     setCenter(props?.center? props.center : {lat: 43.8144, lng: -111.7833});
   }, [props.center]);
-  useEffect(() => {
-    setMarkers(props.event.mapSpots? props.event.mapSpots : []);
-    recenterMap();
-  }, [props.event.mapSpots]);
-
-  const recenterMap = () => {
+  
+  const recenterMap = useCallback(() => {
     if (mapRef && props.event.mapSpots) {
       const bounds = new window.google.maps.LatLngBounds();
       props.event.mapSpots.forEach(marker => {
@@ -43,7 +41,12 @@ const Map = (props) => {
       mapRef.setCenter(center);
       mapRef.setZoom(zoom);
     }
-  };
+  }, [center, mapRef, props.event.mapSpots, zoom]);
+
+  useEffect(() => {
+    setMarkers(props.event.mapSpots? props.event.mapSpots : []);
+    recenterMap();
+  }, [props.event.mapSpots, recenterMap]);
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading maps";
