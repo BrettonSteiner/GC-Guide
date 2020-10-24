@@ -1,15 +1,9 @@
 version: '2'
 services:
-  front:
-    build: ./front
+  web:
+    build: .
     ports:
-      - '80:80'
-    depends_on:
-      - back
-  back:
-    build: ./back
-    ports:
-      - '8080:8080'
+      - '3080:3080'
     depends_on:
       - mongo
   mongo:
