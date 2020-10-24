@@ -5,11 +5,11 @@ RUN cd front && npm install && npm run build
 
 FROM node:10 AS back-build
 WORKDIR /root/
-COPY --from=front-build /usr/src/front/build ./front/build
+COPY --from=front-build /usr/src/app/front/build ./front/build
 COPY back/package*.json ./back/
 RUN cd back && npm install
-COPY back/app.js ./api/
+COPY back/ ./back/
 
 EXPOSE 3080
 
-CMD ["node", "./back/app.js"]
+CMD ["node", "./back/bin/www"]
