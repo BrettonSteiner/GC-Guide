@@ -4,11 +4,19 @@ import "./MajorCollege.css";
 import dummyData from './collegeDummyData.json'
 import AutoComplete from '../AutoComplete/AutoComplete';
 
+//remove this once development is over.
+let dummyAllMajors = [];
+dummyData.colleges.forEach((col) => {
+  col.majors.forEach((maj) => {
+    dummyAllMajors.push(maj);
+  })
+});
+
 const MajorCollege = (props) => {
   const {major, setMajor, college, setCollege, collegeError, setCollegeError} = useContext(StudentContext);
   // TODO: Once we get to a point where we always need the back-end running, remove the dummyData back-up.
   const [collegeData, setCollegeData] = useState(dummyData.colleges);
-  const [allMajors, setAllMajors] = useState([]);
+  const [allMajors, setAllMajors] = useState(dummyAllMajors);
 
   useEffect(() => {
     //Call database for data
