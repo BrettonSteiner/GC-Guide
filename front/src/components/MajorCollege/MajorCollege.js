@@ -52,7 +52,8 @@ const MajorCollege = (props) => {
   <div className="centered" id="collegeResults">
     <h5>Academic Connections College:</h5>
     <p><b id="collegeName">{college.name}</b></p>
-    <p className={college.flagColor + '-box'}><b id="collegeColor">{college.flagColor}</b></p>
+    <h5>Flag Color:</h5>
+    <p className={''/*college.flagColor + '-box'*/}><b id="collegeColor">{college.flagColor}</b></p>
   </div> : null }
   </>);
 }
