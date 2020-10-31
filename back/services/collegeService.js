@@ -7,9 +7,25 @@ module.exports = {
 };
 
 const collegeDummyData = require('../public/dummyData/collegeDummyData.json');
+const College = require('../models/college');
 
 function createCollege(req, res, next) {
-  res.send('Not implemented');
+  const college = new College({
+    college: "College of Language and Letters",
+    majors: [
+      "English",
+      "Spanish"
+    ],
+    flagColor: "Purple"
+  });
+
+  college.save()
+  .then(result => {
+    res.send(result);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 }
 
 function getColleges(req, res, next) {
