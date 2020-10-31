@@ -7,9 +7,13 @@ module.exports = {
 };
 
 const collegeDummyData = require('../public/dummyData/collegeDummyData.json');
-const College = require('../models/college');
+const {College} = require('../models/college');
 
 function createCollege(req, res, next) {
+  res.send(collegeDummyData);
+}
+
+function getColleges(req, res, next) {
   const college = new College({
     college: "College of Language and Letters",
     majors: [
@@ -26,10 +30,6 @@ function createCollege(req, res, next) {
   .catch(err => {
     console.log(err);
   });
-}
-
-function getColleges(req, res, next) {
-  res.send(collegeDummyData);
 }
 
 function updateCollege(req, res, next) {

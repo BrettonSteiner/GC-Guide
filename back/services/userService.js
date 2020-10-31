@@ -3,7 +3,7 @@ module.exports = {
   createUser: createUser,
 };
 
-const User = require('../src/User.model');
+const User = require('../models/User.model');
 
 async function getUsers(req, res, next) {
   const users = await User.find();
