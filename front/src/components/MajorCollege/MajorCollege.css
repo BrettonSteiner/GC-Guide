@@ -1,8 +1,62 @@
 
-.color-box {
+.Orange-box {
   background-color: orange;
   max-width: 100px;
   height: 40px;
   line-height: 40px;
   margin: auto;
+  border-radius: 4px;
+}
+.Purple-box {
+  background-color: purple;
+  color: white;
+  max-width: 100px;
+  height: 40px;
+  line-height: 40px;
+  margin: auto;
+  border-radius: 4px;
+}
+.Green-box {
+  background-color: green;
+  color: white;
+  max-width: 100px;
+  height: 40px;
+  line-height: 40px;
+  margin: auto;
+  border-radius: 4px;
+}
+.Red-box {
+  background-color: red;
+  color: white;
+  max-width: 100px;
+  height: 40px;
+  line-height: 40px;
+  margin: auto;
+  border-radius: 4px;
+}
+.Blue-box {
+  background-color: blue;
+  color: white;
+  max-width: 100px;
+  height: 40px;
+  line-height: 40px;
+  margin: auto;
+  border-radius: 4px;
+}
+.Yellow-box {
+  background-color: yellow;
+  max-width: 100px;
+  height: 40px;
+  line-height: 40px;
+  margin: auto;
+  border-radius: 4px;
+}
+.Grey-box {
+  background-color: grey;
+  color: white;
+  max-width: 100px;
+  height: 40px;
+  line-height: 40px;
+  margin: auto;
+  border-radius: 4px;
 }
