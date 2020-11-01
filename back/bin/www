@@ -7,7 +7,6 @@
 var app = require('../app');
 var debug = require('debug')('back:server');
 var http = require('http');
-var connectDb = require('../connection');
 
 /**
  * Get port from environment and store in Express.
@@ -88,8 +87,4 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
-
-  connectDb().then(() => {
-    console.log("MongoDb connected");
-  })
 }

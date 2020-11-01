@@ -2,12 +2,17 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var connectDb = require('./connection');
 
 var iteamRouter = require('./routes/iteamRouter');
 var collegeRouter = require('./routes/collegeRouter');
 var scheduleRouter = require('./routes/scheduleRouter');
 var emailRouter = require('./routes/emailRouter');
 var userRouter = require('./routes/userRouter');
+
+connectDb().then(() => {
+    console.log("MongoDb connected");
+  })
 
 var app = express();
 

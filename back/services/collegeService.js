@@ -10,26 +10,27 @@ const collegeDummyData = require('../public/dummyData/collegeDummyData.json');
 const {College} = require('../models/college');
 
 function createCollege(req, res, next) {
-  res.send(collegeDummyData);
+  res.send('Not implemented');
 }
 
 function getColleges(req, res, next) {
-  const college = new College({
-    college: "College of Language and Letters",
-    majors: [
-      "English",
-      "Spanish"
-    ],
-    flagColor: "Purple"
-  });
+  // const college = new College({
+  //   college: "College of Language and Letters",
+  //   majors: [
+  //     "English",
+  //     "Spanish"
+  //   ],
+  //   flagColor: "Purple"
+  // });
 
-  college.save()
-  .then(result => {
-    res.send(result);
-  })
-  .catch(err => {
-    console.log(err);
-  });
+  // college.save()
+  // .then(result => {
+  //   res.send(result);
+  // })
+  // .catch(err => {
+  //   console.log(err);
+  // });
+  res.send(collegeDummyData);
 }
 
 function updateCollege(req, res, next) {

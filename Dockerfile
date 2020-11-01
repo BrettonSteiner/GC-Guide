@@ -10,6 +10,7 @@ COPY back/package*.json ./back/
 RUN cd back && npm install
 COPY back/ ./back/
 
-EXPOSE 3080
+EXPOSE 8080
 
-CMD ["node", "./back/bin/www"]
+WORKDIR /root/back
+CMD ["npm", "start"]
