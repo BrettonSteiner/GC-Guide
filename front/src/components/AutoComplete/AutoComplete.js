@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import "./AutoComplete.css";
 
 const AutoComplete = (props) => {
   const [filteredSuggestions, setFilteredSuggestions] = useState([]);
@@ -35,11 +36,11 @@ const AutoComplete = (props) => {
         value={userInput}/>
 
       { userInput && showSuggestions ? filteredSuggestions.length > 0 ? (
-        <ul className="list-group">
+        <ul className="list-group auto-complete-ul">
           {
             filteredSuggestions.map((suggestion) => {
               return (
-                <li key={suggestion} onClick={clickSuggestion} className="list-group-item">
+                <li key={suggestion} onClick={clickSuggestion} className="list-group-item auto-complete-li">
                   {suggestion}
                 </li>
               )
