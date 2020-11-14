@@ -11,8 +11,8 @@ const Admin = (props) => {
           <h4 className="header-text">Get Connected Guide Admin</h4>
         </div>
       </div>
-      {/* Put admin stuff here */}
       <div className="container">
+        {/* Put admin stuff here */}
         <Tabs>
           <div label="I-Team">
             <h5>I-Team Stuff</h5>
