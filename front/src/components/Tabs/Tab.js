@@ -1,4 +1,4 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import './Tabs.css';
 
 const Tab = (props) => {
@@ -8,18 +8,9 @@ const Tab = (props) => {
     onClick(label);
   }
 
-  const getClass = useCallback(() => {
-    let myClass = "tab-list-item";
-
-    if (activeTab === label)
-      myClass += " tab-list-active";
-      
-    return myClass;
-  }, [activeTab, label]);
-
   return(
     <>
-      <li className={getClass()}
+      <li className={activeTab === label ? "tab-list-item tab-list-active" : "tab-list-item"}
         onClick={clickTab} >
           {label}
       </li>
