@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useState, } from 'react';
 import Tabs from '../Tabs/Tabs.js';
 import './Admin.css';
 
 const Admin = (props) => {
+  const [selectedSemester, setSelectedSemester] = useState({});
   return(
     <>
       <div className="header" id="header">
