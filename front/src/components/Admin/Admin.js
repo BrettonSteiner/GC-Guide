@@ -41,12 +41,12 @@ const Admin = (props) => {
   return(
     <>
       <div className="header" id="header">
-        <div className="container" >
+        <div className="admin-container" >
           <div className="header-logo"></div>
           <h4 className="header-text">Get Connected Guide Admin</h4>
         </div>
       </div>
-      <div className="container">
+      <div className="admin-container">
         <div className="semester-div">
           <select className="form-control semester-select" id="semester-select" value={selectedSemester?.name}
             onChange={changeSemester}>

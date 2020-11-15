@@ -8,3 +8,8 @@
   display: flex;
   margin-top: -15px;
 }
+
+.admin-container {
+  width: 95%;
+  margin: auto;
+}
