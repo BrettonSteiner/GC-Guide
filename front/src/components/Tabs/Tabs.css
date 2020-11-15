@@ -23,6 +23,7 @@
 	border-radius: 4px; 
 	flex-basis: 80%;
 	max-width: 80%;
+	margin-left: 5px;
 }
 
 .tab-list-item {

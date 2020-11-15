@@ -19,6 +19,7 @@ const Admin = (props) => {
   };
 
   let activateSemester = () => {
+    //call backend to update
     setSemesters(currSemesters => {
       return currSemesters.map(sem => {
         if (sem.name === selectedSemesterName)
@@ -59,10 +60,10 @@ const Admin = (props) => {
           : (<input type="button" value="Set As Active Semester" className="btn btn-info" onClick={activateSemester}/>)}
         </div>
         <Tabs>
-          <div label="I-Team">
+          <div label="I-Teams">
             <h5>I-Team Stuff</h5>
           </div>
-          <div label="Major / College">
+          <div label="Academic Connections">
             <h5>Academic Connections Stuff</h5>
           </div>
           <div label="Schedule">
