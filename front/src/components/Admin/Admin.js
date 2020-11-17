@@ -7,8 +7,8 @@ import ScheduleAdmin from './ScheduleAdmin/ScheduleAdmin.js';
 
 const testSemesters = [
   {name: "Winter 2020", activeFlag: false, colleges: [{collegeName: "Science and Engineering"}, {collegeName: "Arts"}], iteams: [], events: []},
-  {name: "Spring 2020", activeFlag: false, colleges: [], iteams: [], events: []},
-  {name: "Fall 2020", activeFlag: true, colleges: [], iteams: [], events: []},
+  {name: "Spring 2020", activeFlag: false, colleges: [], iteams: [{ITeamNumber: 1}], events: []},
+  {name: "Fall 2020", activeFlag: true, colleges: [], iteams: [], events: [{name: "Academic Connections"}]},
   {name: "Winter 2021", activeFlag: false, colleges: [], iteams: [], events: []},
 ]
 
