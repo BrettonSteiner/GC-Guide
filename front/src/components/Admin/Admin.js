@@ -1,6 +1,9 @@
 import React, {useState, } from 'react';
 import Tabs from '../Tabs/Tabs.js';
 import './Admin.css';
+import ITeamAdmin from './ITeamAdmin/ITeamAdmin.js';
+import MajorCollegeAdmin from './MajorCollegeAdmin/MajorCollegeAdmin.js';
+import ScheduleAdmin from './ScheduleAdmin/ScheduleAdmin.js';
 
 const testSemesters = [
   {name: "Winter 2020", activeFlag: false},
@@ -61,13 +64,13 @@ const Admin = (props) => {
         </div>
         <Tabs>
           <div label="I-Teams">
-            <h5>I-Team Stuff</h5>
+            <ITeamAdmin />
           </div>
           <div label="Academic Connections">
-            <h5>Academic Connections Stuff</h5>
+            <MajorCollegeAdmin />
           </div>
           <div label="Schedule">
-            <h5>Schedule Stuff</h5>
+            <ScheduleAdmin />
           </div>
         </Tabs>
       </div>
