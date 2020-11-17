@@ -6,10 +6,10 @@ import MajorCollegeAdmin from './MajorCollegeAdmin/MajorCollegeAdmin.js';
 import ScheduleAdmin from './ScheduleAdmin/ScheduleAdmin.js';
 
 const testSemesters = [
-  {name: "Winter 2020", activeFlag: false},
-  {name: "Spring 2020", activeFlag: false},
-  {name: "Fall 2020", activeFlag: true},
-  {name: "Winter 2021", activeFlag: false},
+  {name: "Winter 2020", activeFlag: false, colleges: [{collegeName: "Science and Engineering"}, {collegeName: "Arts"}], iteams: [], events: []},
+  {name: "Spring 2020", activeFlag: false, colleges: [], iteams: [], events: []},
+  {name: "Fall 2020", activeFlag: true, colleges: [], iteams: [], events: []},
+  {name: "Winter 2021", activeFlag: false, colleges: [], iteams: [], events: []},
 ]
 
 const Admin = (props) => {
@@ -64,13 +64,13 @@ const Admin = (props) => {
         </div>
         <Tabs>
           <div label="I-Teams">
-            <ITeamAdmin />
+            <ITeamAdmin iteams={selectedSemester.iteams}/>
           </div>
           <div label="Academic Connections">
-            <MajorCollegeAdmin />
+            <MajorCollegeAdmin colleges={selectedSemester.colleges}/>
           </div>
           <div label="Schedule">
-            <ScheduleAdmin />
+            <ScheduleAdmin events={selectedSemester.events}/>
           </div>
         </Tabs>
       </div>
