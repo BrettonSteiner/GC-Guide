@@ -1,0 +1,19 @@
+.semester-select {
+  margin-left: 90px;
+  margin-right: 10px;
+  max-width: 200px;
+}
+
+.semester-div {
+  display: flex;
+  margin-top: -15px;
+}
+
+.admin-container {
+  width: 95%;
+  margin: auto;
+}
+
+.admin-btn {
+  margin-left: 10px;
+}
