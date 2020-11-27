@@ -14,7 +14,11 @@ const iTeamSchema = new Schema({
     name: String,
     phone: String
   },
-  complex: [{
+  complexes: [{
+    complex_id: {
+      type: Schema.Types.ObjectId,
+      ref: "Complex"
+    },
     name: {
       type: String,
       required: true

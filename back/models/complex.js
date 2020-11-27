@@ -8,6 +8,10 @@ const complexSchema = new Schema({
   },
   teams: [
     {
+      iTeam_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'ITeam'
+      },
       iTeamNumber: {
         type: Number,
         required: true
