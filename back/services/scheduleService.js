@@ -7,21 +7,65 @@ module.exports = {
 };
 
 const scheduleDummyData = require('../public/dummyData/scheduleDummyData.json');
+const {Event} = require('../models/event');
 
 function createEvent(req, res, next) {
-  res.send('Not implemented');
+  const event = new Event({
+    date: req.body.date,
+    time: req.body.time,
+    name: req.body.name,
+    location: req.body.location,
+    description: req.body.description,
+    mapSpots: req.body.mapSpots
+  });
+
+  event.save()
+  .then(result => {
+    res.send(result);
+  })
+  .catch(err => {
+    console.log(err);
+  });
 }
 
 function getSchedule(req, res, next) {
-  res.send(scheduleDummyData);
+  Event.find()
+  .then(docs => {
+    res.json({schedule: docs});
+  })
+  .catch(err => {
+    console.log(err);
+  });
+  // res.send(scheduleDummyData);
 }
 
 function updateEvent(req, res, next) {
-  res.send('Not implemented');
+  Event.findByIdAndUpdate(
+    req.body._id,
+    {$set:{
+      date: req.body.date,
+      time: req.body.time,
+      name: req.body.name,
+      location: req.body.location,
+      description: req.body.description,
+      mapSpots: req.body.mapSpots
+    }},
+    {new: true},
+    (err, doc) => {
+      if (err) {
+          console.log("Something wrong when updating event!");
+      }
+      res.send(doc);
+  });
 }
 
 function deleteEvent(req, res, next) {
-  res.send('Not Implemented');
+  Event.findByIdAndRemove(req.body._id, (err, doc) => {
+    if (err) {
+        console.log("Something wrong when deleting event!");
+    }
+    res.send(doc);
+  });
 }
 
 function importSchedule(req, res, next) {
