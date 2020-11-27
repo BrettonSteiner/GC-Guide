@@ -11,9 +11,7 @@ var scheduleRouter = require('./routes/scheduleRouter');
 var emailRouter = require('./routes/emailRouter');
 var userRouter = require('./routes/userRouter');
 
-connectDb().then(() => {
-    console.log("MongoDb connected");
-  })
+connectDb();
 
 var app = express();
 
