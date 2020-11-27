@@ -1,7 +1,20 @@
 module.exports = {
   getUsers: getUsers,
+  createUser: createUser,
 };
 
-function getUsers(req, res, next) {
-  res.send('Not Implemented');
+const User = require('../models/User.model');
+
+async function getUsers(req, res, next) {
+  const users = await User.find();
+
+  res.json(users);
+}
+
+async function createUser(req, res, next) {
+  const user = new User({ username: "userTest" });
+
+  await user.save().then(() => console.log("User created"));
+
+  res.send("User created\n");
 }
