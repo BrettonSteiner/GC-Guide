@@ -1,6 +1,7 @@
 module.exports = {
   createITeam: createITeam,
   getITeams: getITeams,
+  getPublicITeams: getPublicITeams,
   updateITeam: updateITeam,
   deleteITeam: deleteITeam,
   importITeams: importITeams
@@ -8,8 +9,8 @@ module.exports = {
 
 const iteamDummyData = require('../public/dummyData/iteamDummyData.json');
 const {ITeam} = require('../models/iTeam');
-const {Complex} = require('../models/complex');
-const {ITeamPublic} = require('../models/iTeamPublic');
+
+var complexService = require('./complexService');
 
 function createITeam(req, res, next) {
   ITeam.findOne({ 'iTeamNumber': req.body.iTeamNumber })
@@ -21,12 +22,13 @@ function createITeam(req, res, next) {
         iTeamNumber: req.body.iTeamNumber,
         mentor1: req.body.mentor1,
         mentor2: req.body.mentor2,
-        complexes: []
+        complexes: req.body.complexes
       });
 
       iTeam.save()
       .then(result => {
-        createOrUpdateComplexes(req.body.complexes, req.body.iTeamNumber);
+        // TODO: Update I-Team ID list in Semester with this new ID.
+        complexService.createOrUpdateComplexes(req.body.complexes, req.body.iTeamNumber);
         res.send(result);
       })
       .catch(err => {
@@ -40,41 +42,62 @@ function createITeam(req, res, next) {
 }
 
 function getITeams(req, res, next) {
-  // ITeamPublic.find()
-  // .populate('iTeams', 'iTeamNumber mentor1.name mentor2.name')
-  // .populate('complexes', 'nameAddress teams.iTeamNumber teams.apartments')
-  // .exec(function(err, publicIteamsDocs) {
-  //   if (err) {
-  //     console.log("Something wrong when deleting college!");
-  // }
-  // res.send(publicIteamsDocs);
-  // });
-
-  const iTeams = ITeam.find()
+  ITeam.find()
   .then(docs => {
-    res.json({iTeams: docs});
-    // return docs;
+    res.json({iTeams: docs})
   })
   .catch(err => {
     console.log(err);
   });
-
-  const complexes = Complex.find()
-  .then(docs => {
-    // res.json({complexes: docs});
-    return docs;
-  })
-  .catch(err => {
-    console.log(err);
-  });
-
-  // res.json({iTeams: iTeams, complexes: complexes})
-
-  // res.send(iteamDummyData);
 }
 
-function updateITeam(req, res, next) {
-  res.send('Not implemented');
+function getPublicITeams(req, res, next) {
+  ITeam.find()
+  .select('iTeamNumber mentor1.name mentor2.name')
+  .then(iTeams => {
+    complexService.getComplexes()
+    .then(complexes => {
+      res.json(Object.assign({iTeams: iTeams}, {complexes: complexes}));
+      // res.send(iteamDummyData);
+    });
+  })
+  .catch(err => {
+    console.log(err);
+  });
+}
+
+async function updateITeam(req, res, next) {
+  if (req.body.oldITeamNumber != null && req.body.oldITeamNumber != req.body.iTeamNumber)
+  {
+    var alreadyExists = await ITeam.findOne({ 'iTeamNumber': req.body.iTeamNumber })
+    .then(result => {
+      return result != null;
+    })
+    .catch(err => {
+      console.log(err);
+    });
+
+    if (alreadyExists) {
+      return res.status(400).send("An I-Team with that number already exists.");
+    }
+  }
+
+  ITeam.findByIdAndUpdate(
+    req.body._id,
+    {$set:{
+      iTeamNumber: req.body.iTeamNumber,
+      mentor1: req.body.mentor1,
+      mentor2: req.body.mentor2,
+      complexes: req.body.complexes
+    }},
+    {new: true}, // This returns the updated result, not the previous result.
+    (err, doc) => {
+      if (err) {
+          console.log("Something wrong when updating ITeam!");
+      }
+      complexService.createOrUpdateComplexes(req.body.complexes, req.body.iTeamNumber, req.body.oldITeamNumber);
+      res.send(doc);
+  });
 }
 
 function deleteITeam(req, res, next) {
@@ -82,69 +105,11 @@ function deleteITeam(req, res, next) {
     if (err) {
         console.log("Something wrong when deleting I-Team!");
     }
+    complexService.deleteITeamFromComplexes(doc.iTeamNumber);
     res.send(doc);
   });
-  // res.send('Not Implemented');
 }
 
 function importITeams(req, res, next) {
   res.send('Not Implemented');
-}
-
-function createOrUpdateComplexes(complexes, iTeamNumber) {
-  complexes.forEach(complex => {
-    const nameAddress = complex.name + " - " + complex.address;
-    Complex.findOne({ 'nameAddress': nameAddress })
-    .then(result => {
-      if(result != null) {
-        console.log(createOrUpdateComplexITeam(result, iTeamNumber, complex.apartments));
-      }
-      else {
-        const complexToCreate = new Complex({
-          nameAddress: nameAddress,
-          teams: [{
-            iTeamNumber: iTeamNumber,
-            apartments: complex.apartments
-          }]
-        });
-
-        complexToCreate.save()
-        .then(result => {
-          console.log(result);
-        })
-        .catch(err => {
-          console.log(err);
-        });
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
-  });
-}
-
-function createOrUpdateComplexITeam(complex, iTeamNumber, apartments) {
-  var teams = complex.teams;
-
-  //Remove the existing iTeam from teams if it is there
-  teams = teams.filter(function(team) { return team.iTeamNumber != iTeamNumber; });
-
-  //Add the new version of the iTeam
-  teams.push({
-    iTeamNumber: iTeamNumber,
-    apartments: apartments
-  });
-  const complexToUpdate = new Complex({
-    nameAddress: complex.nameAddress,
-    teams: teams
-  });
-
-  //Update the complex
-  complexToUpdate.update()
-  .then(result => {
-    return result;
-  })
-  .catch(err => {
-    console.log(err);
-  });
 }

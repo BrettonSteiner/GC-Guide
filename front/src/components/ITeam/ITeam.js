@@ -8,25 +8,25 @@ const ITeam = (props) => {
   const [myTeam, setMyTeam] = useState('');
   const [myPlace, setMyPlace] = useState('');
   const [myApartNo, setMyApartNo] = useState('');
-  const [iTeams, setITeams] = useState(dummyData.dummyIteams);
-  const [data, setData] = useState(dummyData.dummyModel1);
+  const [iTeams, setITeams] = useState(dummyData.iTeams);
+  const [data, setData] = useState(dummyData.complexes);
 
   const {setITeamNumber, ITeamError, setITeamError} = useContext(StudentContext);
 
   useEffect(() => {
     //Call database for data
-    fetch('/iteams/')
+    fetch('/iteams/public/')
       .then((response) => response.json())
       .then((data) => {
-        setITeams(data.dummyIteams);
-        setData(data.dummyModel1);
+        setITeams(data.iTeams);
+        setData(data.complexes);
       });
   }, []);
 
   useEffect(() => {
     if (myPlace?.teams?.length === 1) {
       let iTeamNumber = myPlace.teams[0].iTeamNumber;
-      setMyTeam(iTeams.find((team) => team?.number === iTeamNumber));
+      setMyTeam(iTeams.find((team) => team?.iTeamNumber === iTeamNumber));
       setITeamNumber(iTeamNumber);
       setITeamError(false);
     } 
@@ -44,8 +44,8 @@ const ITeam = (props) => {
     if (apartNo !== "-- Choose --") {
       setMyApartNo(apartNo);
       // figure out my I team info.
-      let tempTeamNumber = myPlace.teams.find((team) => team.apartmentNos.includes(apartNo)).iTeamNumber; 
-      setMyTeam(iTeams.find((team) => team.number === tempTeamNumber));
+      let tempTeamNumber = myPlace.teams.find((team) => team.apartments.includes(apartNo)).iTeamNumber; 
+      setMyTeam(iTeams.find((team) => team.iTeamNumber === tempTeamNumber));
       setITeamNumber(tempTeamNumber);
       setITeamError(false);
     } else {
@@ -57,8 +57,8 @@ const ITeam = (props) => {
 
   return (<>
     <div className="form-group">
-      <label htmlFor="byuaddressOrApartmentComplexNameiEmail">Address or Apartment Complex Name</label>
-      <AutoComplete suggestions={data.map((place) => place.nameAddress)} onChange={placeOnChange} 
+      <label htmlFor="addressOrApartmentComplexName">Address or Apartment Complex Name</label>
+      <AutoComplete suggestions={data ? data.map((place) => place.nameAddress) : []} onChange={placeOnChange} 
         hasError={(ITeamError && !myPlace)}/>
     </div>
     {myPlace?.teams?.length > 1 ? <div className="form-group">
@@ -69,7 +69,7 @@ const ITeam = (props) => {
 
           { myPlace ? [ <option key={-1}>-- Choose --</option>, 
               myPlace.teams.map( (team, index) => {
-                return team.apartmentNos.map( (apartment) => {
+                return team.apartments.map( (apartment) => {
                   return (
                     <option key={apartment+index} value={apartment}>{apartment}</option>
                   )
@@ -82,9 +82,9 @@ const ITeam = (props) => {
     { myTeam ? 
     <div className="centered" id="iTeamResults">
       <h5>I-Team:</h5>
-      <p><b id="iTeamNumber">{myTeam.number}</b></p>
+      <p><b id="iTeamNumber">{myTeam.iTeamNumber}</b></p>
       <h5>Mentors:</h5>
-      <p><b id="mentorName1">{myTeam.maleName}</b><br></br><b id="mentorName2">{myTeam.femaleName}</b></p>
+      <p><b id="mentorName1">{myTeam.mentor1.name}</b><br></br><b id="mentorName2">{myTeam.mentor2.name}</b></p>
       <small id="iTeamHelp" className="form-text text-muted">To protect private information, mentor contact information is given only by BYU-I email or from an I-Rep wearing a blue shirt.</small>
     </div> : null }
   </>);

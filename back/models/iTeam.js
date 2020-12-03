@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const iTeamSchema = new Schema({
   iTeamNumber: {
-    type: String,
+    type: Number,
     required: true
   },
   mentor1: {
@@ -15,15 +15,14 @@ const iTeamSchema = new Schema({
     phone: String
   },
   complexes: [{
-    complex_id: {
-      type: Schema.Types.ObjectId,
-      ref: "Complex"
-    },
     name: {
       type: String,
       required: true
     },
     address: [{type: String}],
+    apartments: [{
+      type: String
+    }]
   }]
 }, {timestamps: true});
 

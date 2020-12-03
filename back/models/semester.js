@@ -13,9 +13,18 @@ const semesterSchema = new Schema({
     type: Boolean,
     required: true,
   },
-  colleges: [collegeSchema],
-  iteams: [iTeamSchema],
-  events: [eventSchema]
+  colleges: [{
+    type: Schema.Types.ObjectId,
+    ref: "College"
+  }],
+  iteams: [{
+    type: Schema.Types.ObjectId,
+    ref: "ITeam"
+  }],
+  events: [{
+    type: Schema.Types.ObjectId,
+    ref: "Event"
+  }]
 }, {timestamps: true});
 
 const Semester = mongoose.model('Semester', semesterSchema);

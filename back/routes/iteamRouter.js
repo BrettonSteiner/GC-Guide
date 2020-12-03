@@ -8,6 +8,9 @@ router.post('/create', iteamService.createITeam);
 /* GET - Get all I-Team listings. */
 router.get('/', iteamService.getITeams);
 
+/* GET - Get all I-Team and associated Complex listings. */
+router.get('/public', iteamService.getPublicITeams);
+
 /* POST - Update I-Team listing. */
 router.post('/update', iteamService.updateITeam);
 
