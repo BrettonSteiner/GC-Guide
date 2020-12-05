@@ -57,7 +57,7 @@ function getSemesters(req, res, next) {
 }
 
 function getSemester(req, res, next)  {
-  Semester.findById(req.body._id)
+  Semester.findById(req.body.semesterId)
   .populate('colleges')
   .populate('iTeams')
   .populate('events')
@@ -90,7 +90,7 @@ async function updateSemesterActiveFlag(req, res, next) {
   // Check if another semester has the activeFlag set to true.
   var activeSemesterId = await Semester.findOne({ 'activeFlag': true })
   .then(result => {
-    if (result != null && result._id != req.body._id) {
+    if (result != null && result._id != req.body.semesterId) {
       return result._id;
     }
     else {
@@ -118,7 +118,7 @@ async function updateSemesterActiveFlag(req, res, next) {
   }
 
   Semester.findByIdAndUpdate(
-    req.body._id,
+    req.body.semesterId,
     {$set:{ activeFlag: req.body.activeFlag }},
     {new: true})
   .populate('iTeams')
@@ -239,7 +239,7 @@ async function updateSemesterEvents(semesterId, eventId) {
 
 async function deleteSemester(req, res, next) {
   // Async Parallel Limit
-  var semester = await Semester.findById(req.body._id)
+  var semester = await Semester.findById(req.body.semesterId)
   .then(result => {
     return result;
   })

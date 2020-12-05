@@ -65,7 +65,7 @@ function getColleges(req, res, next) {
 
 function updateCollege(req, res, next) {
   College.findByIdAndUpdate(
-    req.body._id,
+    req.body.collegeId,
     {$set:{
       name: req.body.name,
       flagColor: req.body.flagColor,
@@ -81,7 +81,7 @@ function updateCollege(req, res, next) {
 }
 
 async function deleteCollege(req, res, next) {
-  var result = await deleteCollegeById(req.body.semesterId, req.body._id);
+  var result = await deleteCollegeById(req.body.semesterId, req.body.collegeId);
   res.send(result);
 }
 

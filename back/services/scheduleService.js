@@ -25,7 +25,7 @@ function createEvent(req, res, next) {
 
   event.save()
   .then(result => {
-    // TODO: Update the Event ID list in the semester with this new ID.
+    // Update the Event ID list in the semester with this new ID.
     semesterService.updateSemesterEvents(req.body.semesterId, result._id);
     res.send(result);
   })
@@ -58,7 +58,7 @@ function getSchedule(req, res, next) {
 
 function updateEvent(req, res, next) {
   Event.findByIdAndUpdate(
-    req.body._id,
+    req.body.eventId,
     {$set:{
       date: req.body.date,
       time: req.body.time,
@@ -77,7 +77,7 @@ function updateEvent(req, res, next) {
 }
 
 async function deleteEvent(req, res, next) {
-  var result = await deleteEventById(req.body.semesterId, req.body._id);
+  var result = await deleteEventById(req.body.semesterId, req.body.eventId);
   res.send(result);
 }
 

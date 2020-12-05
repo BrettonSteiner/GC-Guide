@@ -30,7 +30,7 @@ function createITeam(req, res, next) {
 
       iTeam.save()
       .then(async result => {
-        // TODO: Update I-Team ID list in Semester with this new ID.
+        // Update I-Team ID list in Semester with this new ID.
         semesterService.updateSemesterITeams(req.body.semesterId, result._id);
         if (await semesterService.isSemesterActive(req.body.semesterId)) {
           complexService.createOrUpdateComplexes(req.body.complexes, req.body.iTeamNumber);
@@ -108,7 +108,7 @@ async function updateITeam(req, res, next) {
   }
 
   ITeam.findByIdAndUpdate(
-    req.body._id,
+    req.body.iTeamId,
     {$set:{
       iTeamNumber: req.body.iTeamNumber,
       mentor1: req.body.mentor1,
@@ -128,7 +128,7 @@ async function updateITeam(req, res, next) {
 }
 
 async function deleteITeam(req, res, next) {
-  var result = await deleteITeamById(req.body.semesterId, req.body._id);
+  var result = await deleteITeamById(req.body.semesterId, req.body.iTeamId);
 
   if (await semesterService.isSemesterActive(req.body.semesterId)) {
     complexService.deleteITeamFromComplexes(doc.iTeamNumber);
