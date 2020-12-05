@@ -1,10 +1,18 @@
 module.exports = {
+  createComplexes: createComplexes,
   getComplexes: getComplexes,
   createOrUpdateComplexes: createOrUpdateComplexes,
   deleteITeamFromComplexes: deleteITeamFromComplexes,
   deleteAllComplexes: deleteAllComplexes
 };
+
 const {Complex} = require('../models/complex');
+
+function createComplexes(iteams) {
+  iteams.forEach(iteam => {
+    createOrUpdateComplexes(iteam.complexes, iteam.iTeamNumber);
+  });
+}
 
 function getComplexes() {
   return Complex.find()

@@ -3,11 +3,15 @@ module.exports = {
   getSchedule: getSchedule,
   updateEvent: updateEvent,
   deleteEvent: deleteEvent,
+  deleteEventById: deleteEventById,
   importSchedule: importSchedule
 };
 
 const scheduleDummyData = require('../public/dummyData/scheduleDummyData.json');
 const {Event} = require('../models/event');
+const {Semester} = require('../models/semester');
+
+var semesterService = require('./semesterService');
 
 function createEvent(req, res, next) {
   const event = new Event({
@@ -22,6 +26,7 @@ function createEvent(req, res, next) {
   event.save()
   .then(result => {
     // TODO: Update the Event ID list in the semester with this new ID.
+    semesterService.updateSemesterEvents(req.body.semesterId, result._id);
     res.send(result);
   })
   .catch(err => {
@@ -30,14 +35,25 @@ function createEvent(req, res, next) {
 }
 
 function getSchedule(req, res, next) {
-  Event.find()
-  .then(docs => {
-    res.json({schedule: docs});
-  })
-  .catch(err => {
-    console.log(err);
-  });
-  // res.send(scheduleDummyData);
+  if (req.body.semesterId != null) {
+    Semester.findById(req.body.semesterId)
+    .populate('events')
+    .then(docs => {
+      res.json({schedule: docs ? docs.events : []})
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+  else {
+    Event.find()
+    .then(docs => {
+      res.json({schedule: docs});
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
 }
 
 function updateEvent(req, res, next) {
@@ -60,12 +76,19 @@ function updateEvent(req, res, next) {
   });
 }
 
-function deleteEvent(req, res, next) {
-  Event.findByIdAndRemove(req.body._id, (err, doc) => {
+async function deleteEvent(req, res, next) {
+  var result = await deleteEventById(req.body.semesterId, req.body._id);
+  res.send(result);
+}
+
+function deleteEventById(semesterId, eventId) {
+  return Event.findByIdAndRemove(eventId, (err, doc) => {
     if (err) {
         console.log("Something wrong when deleting event!");
     }
-    res.send(doc);
+    // Remove eventId from Semester events list
+    semesterService.updateSemesterEvents(semesterId, eventId);
+    return doc;
   });
 }
 
