@@ -9,7 +9,7 @@ import {
   useExpanded,
   // useRowSelect,
 } from 'react-table'
-import matchSorter from 'match-sorter'
+// import matchSorter from 'match-sorter'
 
 // import makeData from './makeData'
 
@@ -225,19 +225,19 @@ function DefaultColumnFilter({
 //   )
 // }
 
-function fuzzyTextFilterFn(rows, id, filterValue) {
-  return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
-}
+// function fuzzyTextFilterFn(rows, id, filterValue) {
+//   return matchSorter(rows, filterValue, { keys: [row => row.values[id]] })
+// }
 
 // Let the table remove the filter if the string is empty
-fuzzyTextFilterFn.autoRemove = val => !val
+// fuzzyTextFilterFn.autoRemove = val => !val
 
 // Be sure to pass our updateMyData and the skipReset option
 function Table({ columns, data,  }) {
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
-      fuzzyText: fuzzyTextFilterFn,
+      // fuzzyText: fuzzyTextFilterFn,
       // Or, override the default text filter to use
       // "startWith"
       text: (rows, id, filterValue) => {
@@ -274,23 +274,23 @@ function Table({ columns, data,  }) {
     // which has only the rows for the active page
 
     // The rest of these things are super handy, too ;)
-    canPreviousPage,
-    canNextPage,
-    pageOptions,
-    pageCount,
-    gotoPage,
-    nextPage,
-    previousPage,
-    setPageSize,
-    state: {
-      pageIndex,
-      pageSize,
-      sortBy,
-      groupBy,
-      expanded,
-      filters,
-      // selectedRowIds,
-    },
+    // canPreviousPage,
+    // canNextPage,
+    // pageOptions,
+    // pageCount,
+    // gotoPage,
+    // nextPage,
+    // previousPage,
+    // setPageSize,
+    // state: {
+    //   pageIndex,
+    //   pageSize,
+    //   sortBy,
+    //   groupBy,
+    //   expanded,
+    //   filters,
+    //   // selectedRowIds,
+    // },
   } = useTable(
     {
       columns,
@@ -314,7 +314,7 @@ function Table({ columns, data,  }) {
     useSortBy,
     useExpanded,
     usePagination,
-    useRowSelect,
+    // useRowSelect,
     // Here we will use a plugin to add our selection column
     // hooks => {
     //   hooks.visibleColumns.push(columns => {
@@ -462,8 +462,8 @@ function DataTable(props) {
   return (
     <>
       <Table
-        columns={columns}
-        data={data}
+        columns={props.columns}
+        data={props.data}
       />
     </>
   )

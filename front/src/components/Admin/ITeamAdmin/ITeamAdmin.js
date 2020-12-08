@@ -1,4 +1,5 @@
 import React, { /*useState, useEffect*/ } from 'react'
+import DataTable from '../DataTable/DataTable'
 
 const ITeamAdmin = (props) => {
   // const [selectedITeamId, setSelectedITeamId] = useState("");
@@ -16,6 +17,7 @@ const ITeamAdmin = (props) => {
         <div className="card-body">
           {/* ADD ADMIN STUFF HERE */}
           <p>There are {props.iteams.length} I-Teams in this semester</p>
+          <DataTable columns={[]} data={[]} />
         </div>
       </div>
     </>
