@@ -21,6 +21,7 @@ function createEvent(req, res, next) {
 
   event.save()
   .then(result => {
+    // TODO: Update the Event ID list in the semester with this new ID.
     res.send(result);
   })
   .catch(err => {

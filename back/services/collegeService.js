@@ -23,6 +23,7 @@ function createCollege(req, res, next) {
 
       college.save()
       .then(result => {
+        // TODO: Update College ID list in semester with this new ID.
         res.send(result);
       })
       .catch(err => {

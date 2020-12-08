@@ -1,28 +1,40 @@
 {
-  "dummyIteams": [
+  "iTeams": [
     {
-      "number": 1,
-      "maleName": "Brandon Sanders",
-      "femaleName": "Melissa Frank"
+      "iTeamNumber": 1,
+      "mentor1": { 
+        "name": "Brandon Sanders" 
+      },
+      "mentor2": { 
+        "name": "Melissa Frank" 
+      }
     },
     {
-      "number": 2,
-      "maleName": "Simba",
-      "femaleName": "Nala"
+      "iTeamNumber": 2,
+      "mentor1": { 
+        "name": "Simba" 
+      },
+      "mentor2": { 
+        "name": "Nala" 
+      }
     },
     {
-      "number": 3,
-      "maleName": "Steve Rodgers",
-      "femaleName": "Peggy Stuart"
+      "iTeamNumber": 3,
+      "mentor1": { 
+        "name": "Steve Rodgers" 
+      },
+      "mentor2": { 
+        "name": "Peggy Stuart" 
+      }
     }
   ],
-  "dummyModel1": [
+  "complexes": [
     {
       "nameAddress": "Somerset",
       "teams": [
         {
           "iTeamNumber": 1,
-          "apartmentNos": [
+          "apartments": [
             "101-105",
             "201-205",
             "111-116",
@@ -31,7 +43,7 @@
         },
         {
           "iTeamNumber": 3,
-          "apartmentNos": [
+          "apartments": [
             "301-305",
             "311-316"
           ] 
@@ -43,7 +55,7 @@
       "teams": [
         {
           "iTeamNumber": 2,
-          "apartmentNos": [
+          "apartments": [
             "301-305",
             "311-316"
           ] 
@@ -55,7 +67,7 @@
       "teams": [
         {
           "iTeamNumber": 2,
-          "apartmentNos": [] 
+          "apartments": [] 
         }
       ]
     }
