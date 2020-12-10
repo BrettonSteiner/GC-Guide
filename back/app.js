@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var connectDb = require('./connection');
 
+var semesterRouter = require('./routes/semesterRouter');
 var iteamRouter = require('./routes/iteamRouter');
 var collegeRouter = require('./routes/collegeRouter');
 var scheduleRouter = require('./routes/scheduleRouter');
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../front/build')));
 app.use(bodyParser.json());
 
+app.use('/semesters', semesterRouter);
 app.use('/iteams', iteamRouter);
 app.use('/colleges', collegeRouter);
 app.use('/schedule', scheduleRouter);

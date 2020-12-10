@@ -1,8 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const collegeSchema = require('./college');
-const iTeamSchema = require('./iTeam');
-const eventSchema = require('./event');
 
 const semesterSchema = new Schema({
   name: {
@@ -17,7 +14,7 @@ const semesterSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "College"
   }],
-  iteams: [{
+  iTeams: [{
     type: Schema.Types.ObjectId,
     ref: "ITeam"
   }],
@@ -29,4 +26,4 @@ const semesterSchema = new Schema({
 
 const Semester = mongoose.model('Semester', semesterSchema);
 
-module.exports = Semester;
+module.exports = {Semester, semesterSchema};
