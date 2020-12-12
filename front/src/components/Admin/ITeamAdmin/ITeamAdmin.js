@@ -1,8 +1,47 @@
-import React, { /*useState, useEffect*/ } from 'react'
+import React, { useState, useMemo /*, useEffect*/ } from 'react'
 import DataTable from '../DataTable/DataTable'
+
+const teamInfo = ({row}) => {
+  return (
+  <span>Does this work?{row?.iTeamNumber}</span>
+  )
+}
 
 const ITeamAdmin = (props) => {
   // const [selectedITeamId, setSelectedITeamId] = useState("");
+
+  let [expanded, setExpanded] = useState([])
+  let [allExpanded, setAllExpanded] = useState(true)
+  const columns = useMemo(() => {
+    return [
+      {
+        Header: "I-Team Number",
+        accessor: "iTeamNumber",
+      },
+      {
+        Header: "Mentors",
+        accessor: "",
+      },
+      {
+        Header: "Phone Numbers",
+        accessor: "",
+      },
+      {
+        Header: "Addresses",
+        accessor: "",
+      },
+      {
+        Header: "Complex Names",
+        accessor: "",
+      },
+      {
+        id: "expander",
+        canFilter: false,
+        Header: "",
+        accessor: "expander",
+      },
+    ] 
+  })
 
   return (
     <>
@@ -17,7 +56,7 @@ const ITeamAdmin = (props) => {
         <div className="card-body">
           {/* ADD ADMIN STUFF HERE */}
           <p>There are {props.iteams.length} I-Teams in this semester</p>
-          <DataTable columns={[]} data={[]} />
+          <DataTable columns={columns} data={[]} SubComponent={teamInfo}/>
         </div>
       </div>
     </>

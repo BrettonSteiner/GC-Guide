@@ -95,11 +95,12 @@ function DefaultColumnFilter({
 
   return (
     <input
+      className="form-control"
       value={filterValue || ''}
       onChange={e => {
         setFilter(e.target.value || undefined) // Set undefined to remove the filter entirely
       }}
-      placeholder={`Search ${count} records...`}
+      // placeholder={`Search ${count} records...`}
     />
   )
 }
@@ -464,6 +465,7 @@ function DataTable(props) {
       <Table
         columns={props.columns}
         data={props.data}
+        SubComponent={props.SubComponent}
       />
     </>
   )
