@@ -4,12 +4,15 @@ module.exports = {
   getPublicITeams: getPublicITeams,
   updateITeam: updateITeam,
   deleteITeam: deleteITeam,
+  deleteITeamById: deleteITeamById,
   importITeams: importITeams
 };
 
 const iteamDummyData = require('../public/dummyData/iteamDummyData.json');
 const {ITeam} = require('../models/iTeam');
+const {Semester} = require('../models/semester');
 
+var semesterService = require('./semesterService');
 var complexService = require('./complexService');
 
 function createITeam(req, res, next) {
@@ -26,9 +29,12 @@ function createITeam(req, res, next) {
       });
 
       iTeam.save()
-      .then(result => {
-        // TODO: Update I-Team ID list in Semester with this new ID.
-        complexService.createOrUpdateComplexes(req.body.complexes, req.body.iTeamNumber);
+      .then(async result => {
+        // Update I-Team ID list in Semester with this new ID.
+        semesterService.updateSemesterITeams(req.body.semesterId, result._id);
+        if (await semesterService.isSemesterActive(req.body.semesterId)) {
+          complexService.createOrUpdateComplexes(req.body.complexes, req.body.iTeamNumber);
+        }
         res.send(result);
       })
       .catch(err => {
@@ -42,28 +48,47 @@ function createITeam(req, res, next) {
 }
 
 function getITeams(req, res, next) {
-  ITeam.find()
-  .then(docs => {
-    res.json({iTeams: docs})
-  })
-  .catch(err => {
-    console.log(err);
-  });
+  if (req.body.semesterId != null) {
+    Semester.findById(req.body.semesterId)
+    .populate('iTeams')
+    .then(docs => {
+      res.json({iTeams: docs ? docs.iTeams : []})
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
+  else {
+    ITeam.find()
+    .then(iTeams => {
+      res.json({iTeams: iTeams})
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  }
 }
 
-function getPublicITeams(req, res, next) {
-  ITeam.find()
-  .select('iTeamNumber mentor1.name mentor2.name')
-  .then(iTeams => {
-    complexService.getComplexes()
-    .then(complexes => {
-      res.json(Object.assign({iTeams: iTeams}, {complexes: complexes}));
-      // res.send(iteamDummyData);
+async function getPublicITeams(req, res, next) {
+  var activeSemesterId = await semesterService.getActiveSemesterId();
+
+  if (activeSemesterId != null) {
+    Semester.findById(activeSemesterId)
+    .populate('iTeams')
+    // .select('iTeams.iTeamNumber iTeams.mentor1.name iTeams.mentor2.name')
+    .then(semester => {
+      complexService.getComplexes()
+      .then(complexes => {
+        res.json(Object.assign({iTeams: semester.iTeams}, {complexes: complexes}));
+      });
+    })
+    .catch(err => {
+      console.log(err);
     });
-  })
-  .catch(err => {
-    console.log(err);
-  });
+  }
+  else {
+    res.json({iTeams: [], complexes: []});
+  }
 }
 
 async function updateITeam(req, res, next) {
@@ -83,7 +108,7 @@ async function updateITeam(req, res, next) {
   }
 
   ITeam.findByIdAndUpdate(
-    req.body._id,
+    req.body.iTeamId,
     {$set:{
       iTeamNumber: req.body.iTeamNumber,
       mentor1: req.body.mentor1,
@@ -91,22 +116,35 @@ async function updateITeam(req, res, next) {
       complexes: req.body.complexes
     }},
     {new: true}, // This returns the updated result, not the previous result.
-    (err, doc) => {
+    async (err, doc) => {
       if (err) {
           console.log("Something wrong when updating ITeam!");
       }
-      complexService.createOrUpdateComplexes(req.body.complexes, req.body.iTeamNumber, req.body.oldITeamNumber);
+      if (await semesterService.isSemesterActive(req.body.semesterId)) {
+        complexService.createOrUpdateComplexes(req.body.complexes, req.body.iTeamNumber, req.body.oldITeamNumber);
+      }
       res.send(doc);
   });
 }
 
-function deleteITeam(req, res, next) {
-  ITeam.findByIdAndRemove(req.body._id, (err, doc) => {
+async function deleteITeam(req, res, next) {
+  var result = await deleteITeamById(req.body.semesterId, req.body.iTeamId);
+
+  if (await semesterService.isSemesterActive(req.body.semesterId)) {
+    complexService.deleteITeamFromComplexes(doc.iTeamNumber);
+  }
+
+  res.send(result);
+}
+
+function deleteITeamById(semesterId, iTeamId) {
+  return ITeam.findByIdAndRemove(iTeamId, (err, doc) => {
     if (err) {
         console.log("Something wrong when deleting I-Team!");
     }
-    complexService.deleteITeamFromComplexes(doc.iTeamNumber);
-    res.send(doc);
+    // Remove iTeamId from Semester iTeams list
+    semesterService.updateSemesterITeams(semesterId, iTeamId);
+    return doc;
   });
 }
 
