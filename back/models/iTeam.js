@@ -16,10 +16,9 @@ const iTeamSchema = new Schema({
   },
   complexes: [{
     name: {
-      type: String,
-      required: true
+      type: String
     },
-    address: [{type: String}],
+    address: {type: String},
     apartments: [{type: String}]
   }]
 }, {timestamps: true});
