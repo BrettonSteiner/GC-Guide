@@ -4,14 +4,14 @@
       "date": "09/13/2019",
       "time": "8:00 a.m.",
       "name": "Housing Complex Check-Ins",
-      "details": "",
+      "description": "",
       "location": "Rexburg, Idaho"
     },
     {
       "date": "09/13/2019",
       "time": "8:00 a.m. - 5:00 p.m.",
       "name": "Get Connected Registration",
-      "details": "",
+      "description": "",
       "location": "Manwaring Center (MC) and Kimball Building",
       "mapSpots": [{
         "lat": "43.818256",
@@ -26,7 +26,7 @@
       "date": "09/13/2019",
       "time": "9:00 a.m. - 5:00 p.m.",
       "name": "Student Services",
-      "details": "",
+      "description": "",
       "location": "Manwaring Center (MC) and Kimball Building",
       "mapSpots": [{
         "lat": "43.818256",
@@ -41,7 +41,7 @@
       "date": "09/13/2019",
       "time": "9:00 a.m. - 1:00 p.m.",
       "name": "Talent Show Auditions",
-      "details": "",
+      "description": "",
       "location": "Manwaring Center (MC) 201",
       "mapSpots": [{
         "lat": "43.818256",
@@ -52,7 +52,7 @@
       "date": "09/13/2019",
       "time": "1:30 p.m. - 2:00 p.m.",
       "name": "President's Welcome",
-      "details": "At 1:30 p.m. on September 13 the BYU-Idaho President's Welcome for new students and parents will take place in the BYU-Idaho Center Auditorium. Participants will have the opportunity to hear from President Henry J. and Sister Kelly C. Eyring. They will provide council on how to have a successful college experience.",
+      "description": "At 1:30 p.m. on September 13 the BYU-Idaho President's Welcome for new students and parents will take place in the BYU-Idaho Center Auditorium. Participants will have the opportunity to hear from President Henry J. and Sister Kelly C. Eyring. They will provide council on how to have a successful college experience.",
       "location": "BYU-Idaho Center Auditorium",
       "mapSpots": [{
         "lat": "43.818413",
@@ -63,7 +63,7 @@
       "date": "09/13/2019",
       "time": "2:00 p.m. - 3:00 p.m.",
       "name": "Secrets of Student Success",
-      "details": "Parents and students together will find out the secrets that lead to success at BYU-Idaho. This will take place at 2:00 p.m. on September 13 in the BYU-Idaho Center Auditorium directly after the BYU-Idaho Welcome.",
+      "description": "Parents and students together will find out the secrets that lead to success at BYU-Idaho. This will take place at 2:00 p.m. on September 13 in the BYU-Idaho Center Auditorium directly after the BYU-Idaho Welcome.",
       "location": "BYU-Idaho Center Auditorium",
       "mapSpots": [{
         "lat": "43.818413",
@@ -74,7 +74,7 @@
       "date": "09/13/2019",
       "time": "3:00 p.m. - 3:40 p.m.",
       "name": "Meet Your I-Team",
-      "details": "At 3:00 p.m. on September 13 students will meet their New Student Mentor at the Meet Your I-Team gathering. Here, students will make new friends and get acquanted with other new students at BYU-Idaho. Meet Your I-Team will take place at the BYU-Idaho Stadium adjacent to the Hart Building.",
+      "description": "At 3:00 p.m. on September 13 students will meet their New Student Mentor at the Meet Your I-Team gathering. Here, students will make new friends and get acquanted with other new students at BYU-Idaho. Meet Your I-Team will take place at the BYU-Idaho Stadium adjacent to the Hart Building.",
       "location": "BYU-Idaho Stadium",
       "mapSpots": [{
         "lat": "43.821020",
@@ -85,7 +85,7 @@
       "date": "09/13/2019",
       "time": "3:00 p.m. - 5:00 p.m.",
       "name": "Parent Reception/Info Fair",
-      "details": "Parents have the opportunity to learn about resources available for their student during their time at BYU-Idaho. Representatives will be present to answer any questions they might have and campus tours will be offered to anyone interested in getting to know the campus better.",
+      "description": "Parents have the opportunity to learn about resources available for their student during their time at BYU-Idaho. Representatives will be present to answer any questions they might have and campus tours will be offered to anyone interested in getting to know the campus better.",
       "location": "BYU-Idaho Center - Courts",
       "mapSpots": [{
         "lat": "43.818413",
@@ -96,7 +96,7 @@
       "date": "09/13/2019",
       "time": "3:00 p.m. - 5:00 p.m",
       "name": "Parent Campus Tours",
-      "details": "",
+      "description": "",
       "location": "BYU-Idaho Center - Courts",
       "mapSpots": [{
         "lat": "43.818413",
@@ -107,7 +107,7 @@
       "date": "09/13/2019",
       "time": "4:00 p.m. - 5:00 p.m.",
       "name": "Academic Connections",
-      "details": "This is a great opportunity for students to meet and get acquanted with their college dean, faculty, and academic advisors in their chosen major. Meetings will be held across campus.",
+      "description": "This is a great opportunity for students to meet and get acquanted with their college dean, faculty, and academic advisors in their chosen major. Meetings will be held across campus.",
       "location": "Various BYU-Idaho Campus locations",
       "mapSpots": [{
         "lat": "43.818413",
@@ -142,7 +142,7 @@
       "date": "09/13/2019",
       "time": "5:30 p.m. - 7:30 p.m.",
       "name": "New Student / Parent Luau (Ticketed Event)",
-      "details": "Enjoy Polynesian food, dance, and music. Entertainment will be provided by Ailine's Touch of Polynesia, from Salt Lake City, Utah. This event typically sells out, so purchase your tickets early for $18 per person.",
+      "description": "Enjoy Polynesian food, dance, and music. Entertainment will be provided by Ailine's Touch of Polynesia, from Salt Lake City, Utah. This event typically sells out, so purchase your tickets early for $18 per person.",
       "location": "Manwaring Center (MC) Grand Ballroom & The Crossroads",
       "mapSpots": [{
         "lat": "43.818256",
@@ -153,7 +153,7 @@
       "date": "09/13/2019",
       "time": "8:00 p.m. - 9:00 p.m.",
       "name": "New Student Service Project",
-      "details": "Want to help in a great cause? Join fellow students at the BYU-Idaho Center Courts at 8:00 p.m. to create and organize items for local humanitarian center. Projects include: plarn mats for homeless to sleep on, dog toys for animal shelters, and jump ropes for children in need.",
+      "description": "Want to help in a great cause? Join fellow students at the BYU-Idaho Center Courts at 8:00 p.m. to create and organize items for local humanitarian center. Projects include: plarn mats for homeless to sleep on, dog toys for animal shelters, and jump ropes for children in need.",
       "location": "BYU-Idaho Center - Courts",
       "mapSpots": [{
         "lat": "43.818413",
@@ -164,7 +164,7 @@
       "date": "09/13/2019",
       "time": "9:15 p.m. - 10:30 p.m.",
       "name": "New Student Talent Show",
-      "details": "Come check out the talent show! Please be seated fifteen minutes before the show. Auditions are September 13 from 9:00 a.m. to 1:00 p.m. in MC 201. Wristbands are required for this event.",
+      "description": "Come check out the talent show! Please be seated fifteen minutes before the show. Auditions are September 13 from 9:00 a.m. to 1:00 p.m. in MC 201. Wristbands are required for this event.",
       "location": "Hart Building - Auditorium",
       "mapSpots": [{
         "lat": "43.819607",
@@ -175,7 +175,7 @@
       "date": "09/14/2019",
       "time": "8:00 a.m. - 12:00 p.m.",
       "name": "Get Connected Late Registration",
-      "details": "",
+      "description": "",
       "location": "Manwaring Center (MC) and Kimball Building - Foyer",
       "mapSpots": [{
         "lat": "43.818256",
@@ -190,7 +190,7 @@
       "date": "09/14/2019",
       "time": "9:00 a.m. - 2:00 p.m.",
       "name": "Student Services",
-      "details": "",
+      "description": "",
       "location": "Manwaring Center (MC) and Kimball Building",
       "mapSpots": [{
         "lat": "43.818256",
@@ -205,7 +205,7 @@
       "date": "09/14/2019",
       "time": "10:00 a.m. - 11:00 a.m.",
       "name": "I-Strive",
-      "details": "Students will gather with their I-Team in the Hart Auditorium to learn about the unique culture of BYU-Idaho. Through this interactive forum hour, students will learn about Student Honor and Student Living.",
+      "description": "Students will gather with their I-Team in the Hart Auditorium to learn about the unique culture of BYU-Idaho. Through this interactive forum hour, students will learn about Student Honor and Student Living.",
       "location": "Hart Building - Auditorium",
       "mapSpots": [{
         "lat": "43.819607",
@@ -216,14 +216,14 @@
       "date": "09/14/2019",
       "time": "11:00 a.m. - 12:00 p.m.",
       "name": "Campus Connections Tours",
-      "details": "New Student Mentors will guide students on a tour of campus, highlighting all major student services offered at BYU-Idaho.",
+      "description": "New Student Mentors will guide students on a tour of campus, highlighting all major student services offered at BYU-Idaho.",
       "location": "BYU-Idaho Campus"
     },
     {
       "date": "09/14/2019",
       "time": "12:00 p.m. - 1:15 p.m.",
       "name": "Lunch and Mentor Connections",
-      "details": "Mentor Connections provides an opportunity for students to meet with their New Student Mentor. Students will learn more about how New Student Mentors will help them navigate their first semester at BYU-Idaho. Lunch will also be provided. Wristbands are required for this event.",
+      "description": "Mentor Connections provides an opportunity for students to meet with their New Student Mentor. Students will learn more about how New Student Mentors will help them navigate their first semester at BYU-Idaho. Lunch will also be provided. Wristbands are required for this event.",
       "location": "BYU-Idaho Center Courts",
       "mapSpots": [{
         "lat": "43.818413",
@@ -234,7 +234,7 @@
       "date": "09/14/2019",
       "time": "1:30 p.m. - 2:30 p.m.",
       "name": "Spirit of BYU-Idaho Showcase",
-      "details": "New students will learn about the history of the Spirit of BYU-Idaho. Students will also learn how to reach their full potential while at BYU-Idaho, as they are introduced to the many ways they can be involved on campus, and gain leadership experience which will benefit them during their time here and after graduation.",
+      "description": "New students will learn about the history of the Spirit of BYU-Idaho. Students will also learn how to reach their full potential while at BYU-Idaho, as they are introduced to the many ways they can be involved on campus, and gain leadership experience which will benefit them during their time here and after graduation.",
       "location": "Hart Building - Auditorium",
       "mapSpots": [{
         "lat": "43.819607",
@@ -245,7 +245,7 @@
       "date": "09/14/2019",
       "time": "2:30 p.m. - 3:30 p.m.",
       "name": "Get Involved Fair",
-      "details": "Real world preparation means more than just getting a degree. Directly following the Spirit of BYU-Idaho Showcase, students will attend the Get Involved Fair. Booths will be placed around the courts to give students the opportunity to receive more information and sign up to volunteer or get involved at BYU-Idaho.",
+      "description": "Real world preparation means more than just getting a degree. Directly following the Spirit of BYU-Idaho Showcase, students will attend the Get Involved Fair. Booths will be placed around the courts to give students the opportunity to receive more information and sign up to volunteer or get involved at BYU-Idaho.",
       "location": "BYU-Idaho Center Courts",
       "mapSpots": [{
         "lat": "43.818413",
@@ -256,7 +256,7 @@
       "date": "09/14/2019",
       "time": "3:30 p.m. - 5:00 p.m.",
       "name": "International Student Orientation",
-      "details": "All new international students are required to attend the International Student Orientation meeting. Many important regulations will be discussed that students need to be aware of regarding visa requirements while they are studying at BYU-Idaho.",
+      "description": "All new international students are required to attend the International Student Orientation meeting. Many important regulations will be discussed that students need to be aware of regarding visa requirements while they are studying at BYU-Idaho.",
       "location": "Manwaring Center (MC) Little Theater",
       "mapSpots": [{
         "lat": "43.818256",
@@ -267,7 +267,7 @@
       "date": "09/14/2019",
       "time": "7:00 p.m. - 11:00 p.m.",
       "name": "I-Night (Ticketed Event)",
-      "details": "Events will be held in the BYU-Idaho Center courts, the Hart Building, and the Manwaring Center. Tickets are $5 per person.",
+      "description": "Events will be held in the BYU-Idaho Center courts, the Hart Building, and the Manwaring Center. Tickets are $5 per person.",
       "location": "Manwaring Center (MC) and BYU-Idaho Center Courts",
       "mapSpots": [{
         "lat": "43.818256",

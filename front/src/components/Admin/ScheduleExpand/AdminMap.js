@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect, /*useCallback*/} from "react";
 import {
   GoogleMap,
   useLoadScript,
@@ -9,11 +9,10 @@ const Map = (props) => {
   const {isLoaded, loadError} = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAPS_API_KEY
   });
-  const [mapRef, setMapRef] = useState(null);
   const [height, setHeight] = useState('300px');
   const [zoom, setZoom] = useState(17);
   const [center, setCenter] = useState({lat: 43.818256, lng: -111.783633});
-  const [markers, setMarkers] = useState(null);
+  const [markers, setMarkers] = useState([]);
   const [options] = useState({ streetViewControl: false});
 
   useEffect(() => {
@@ -27,26 +26,10 @@ const Map = (props) => {
   useEffect(() => {
     setCenter(props?.center? props.center : {lat: 43.818256, lng: -111.783633});
   }, [props.center]);
-  
-  const recenterMap = useCallback(() => {
-    if (mapRef && props.event.mapSpots) {
-      const bounds = new window.google.maps.LatLngBounds();
-      props.event.mapSpots.forEach(marker => {
-        bounds.extend(new window.google.maps.LatLng(parseFloat(marker.lat), parseFloat(marker.lng)));
-      });
-      mapRef.fitBounds(bounds);
-      mapRef.setZoom(mapRef.zoom > 18 ? 18 : mapRef.zoom);
-    }
-    else if (mapRef) {
-      mapRef.setCenter(center);
-      mapRef.setZoom(zoom);
-    }
-  }, [center, mapRef, props.event.mapSpots, zoom]);
 
   useEffect(() => {
     setMarkers(props.event.mapSpots? props.event.mapSpots : []);
-    recenterMap();
-  }, [props.event.mapSpots, recenterMap]);
+  }, [props.event.mapSpots]);
 
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading maps";
@@ -54,10 +37,6 @@ const Map = (props) => {
   return (<>
   <div>
     <GoogleMap
-      onLoad={map => {
-        setMapRef(map);
-        recenterMap();
-      }}
       mapContainerStyle={{
         width: '100%',
         height: height,
@@ -65,11 +44,17 @@ const Map = (props) => {
       zoom={zoom}
       center={center}
       options={options}
+      onClick={(event) => {
+        setMarkers(current => [...current, {
+          lat: event.latLng.lat(),
+          lng: event.latLng.lng()
+        }]);
+      }}
     >
-      {markers.map((row, index) => (
-        <Marker 
-          key={"marker" + index} 
-          position={{ lat: parseFloat(row.lat), lng: parseFloat(row.lng) }}
+      {markers.map((marker, index) => (
+        <Marker
+          key={"marker" + index}
+          position={{ lat: marker.lat, lng: marker.lng }}
         />
       ))}
     </GoogleMap>

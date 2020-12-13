@@ -46,7 +46,7 @@ const ScheduleTable = (props) => {
               <td colSpan="3">
                 <div id={"trCollapse" + index} className="collapse" data-parent="#scheduleTable">
                   <div className="in p-3">
-                    {row.details && row.details !== `` ? (<p>{row.details}</p>) : null}
+                    {row.description && row.description !== `` ? (<p>{row.description}</p>) : null}
                     {row.location && row.location !== `` ? (<p>Location: {row.location}</p>) : null}
                     <MediaQuery maxDeviceWidth={992}>
                       {row.mapSpots && row.mapSpots.length > 0 ? (<div className="mobileMap" id={"mobileMap" + index}>

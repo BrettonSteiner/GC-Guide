@@ -1,4 +1,5 @@
 import React, { /*useState, useEffect*/ } from 'react'
+import ScheduleExpand from "../ScheduleExpand/ScheduleExpand.js";
 
 const ScheduleAdmin = (props) => {
   // const [selectedEventId, setSelectedEventId] = useState("");
@@ -16,6 +17,7 @@ const ScheduleAdmin = (props) => {
         <div className="card-body">
           {/* ADD ADMIN STUFF HERE */}
           <p>There are {props.events.length} Events in this semester</p>
+          <ScheduleExpand></ScheduleExpand>
         </div>
       </div>
     </>

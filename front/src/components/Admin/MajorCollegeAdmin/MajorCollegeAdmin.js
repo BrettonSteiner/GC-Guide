@@ -1,4 +1,5 @@
-import React, { /*useState, useEffect*/ } from 'react'
+import React, { /*useState, useEffect*/ } from 'react';
+import CollegeExpand from '../CollegeExpand/CollegeExpand.js';
 
 const MajorCollegeAdmin = (props) => {
   // const [selectedCollegeId, setSelectedCollegeId] = useState("");
@@ -16,6 +17,7 @@ const MajorCollegeAdmin = (props) => {
         <div className="card-body">
           {/* ADD ADMIN STUFF HERE */}
           <p>There are {props.colleges.length} Colleges in this semester</p>
+          <CollegeExpand></CollegeExpand>
         </div>
       </div>
     </>

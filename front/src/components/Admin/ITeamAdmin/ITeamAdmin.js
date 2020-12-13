@@ -1,4 +1,5 @@
-import React, { /*useState, useEffect*/ } from 'react'
+import React, { /*useState, useEffect*/ } from 'react';
+import ITeamExpand from '../ITeamExpand/ITeamExpand.js';
 
 const ITeamAdmin = (props) => {
   // const [selectedITeamId, setSelectedITeamId] = useState("");
@@ -16,6 +17,7 @@ const ITeamAdmin = (props) => {
         <div className="card-body">
           {/* ADD ADMIN STUFF HERE */}
           <p>There are {props.iteams.length} I-Teams in this semester</p>
+          <ITeamExpand></ITeamExpand>
         </div>
       </div>
     </>

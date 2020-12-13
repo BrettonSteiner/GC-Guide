@@ -1,0 +1,5 @@
+.card-header-icon[aria-expanded="true"] i {
+	-webkit-transform: rotate(180deg);
+	-moz-transform: rotate(180deg);
+	transform: rotate(180deg);
+} 

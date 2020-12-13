@@ -50,7 +50,7 @@ const Admin = (props) => {
           <h4 className="header-text">Get Connected Guide Admin</h4>
         </div>
       </div>
-      <div className="admin-container">
+      <div className="subheader" id="subheader">
         <div className="semester-div">
           <select className="form-control semester-select" id="semester-select" value={selectedSemester?.name}
             onChange={changeSemester}>
@@ -62,6 +62,8 @@ const Admin = (props) => {
           ? (<input type="button" value="Deactivate Semester" className="btn btn-warning" onClick={deactivateSemester}/>)
           : (<input type="button" value="Set As Active Semester" className="btn btn-info" onClick={activateSemester}/>)}
         </div>
+      </div>
+      <div className="admin-container">
         <Tabs>
           <div label="I-Teams">
             <ITeamAdmin iteams={selectedSemester.iteams}/>
