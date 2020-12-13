@@ -20,9 +20,7 @@ const iTeamSchema = new Schema({
       required: true
     },
     address: [{type: String}],
-    apartments: [{
-      type: String
-    }]
+    apartments: [{type: String}]
   }]
 }, {timestamps: true});
 

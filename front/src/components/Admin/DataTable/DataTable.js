@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 // import styled from 'styled-components'
 import {
   useTable,
@@ -233,14 +233,17 @@ function DefaultColumnFilter({
 // Let the table remove the filter if the string is empty
 // fuzzyTextFilterFn.autoRemove = val => !val
 
+
+
 // Be sure to pass our updateMyData and the skipReset option
-function Table({ columns, data,  }) {
+function Table({ columns, data, customFilters, SubComponent }) {
   const filterTypes = React.useMemo(
     () => ({
       // Add a new fuzzyTextFilterFn filter type.
       // fuzzyText: fuzzyTextFilterFn,
       // Or, override the default text filter to use
       // "startWith"
+      ...customFilters,
       text: (rows, id, filterValue) => {
         return rows.filter(row => {
           const rowValue = row.values[id]
@@ -252,7 +255,7 @@ function Table({ columns, data,  }) {
         })
       },
     }),
-    []
+    [customFilters]
   )
 
   const defaultColumn = React.useMemo(
@@ -283,15 +286,16 @@ function Table({ columns, data,  }) {
     // nextPage,
     // previousPage,
     // setPageSize,
-    // state: {
-    //   pageIndex,
-    //   pageSize,
-    //   sortBy,
-    //   groupBy,
-    //   expanded,
-    //   filters,
-    //   // selectedRowIds,
-    // },
+    visibleColumns,
+    state: {
+      // pageIndex,
+      // pageSize,
+      // sortBy,
+      // groupBy,
+      expanded,
+      filters,
+      // selectedRowIds,
+    },
   } = useTable(
     {
       columns,
@@ -367,25 +371,33 @@ function Table({ columns, data,  }) {
                     </span>
                   </div>
                   {/* Render the columns filter UI */}
-                  <div>{column.canFilter ? column.render('Filter') : null}</div>
+                  <div>{column.canFilter && !column?.hideFilter === true ? column.render('Filter') : null}</div>
                 </th>
               ))}
             </tr>
           ))}
         </thead>
         <tbody {...getTableBodyProps()}>
-          {page.map(row => {
+          {page.map((row, index) => {
             prepareRow(row)
             return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map(cell => {
-                  return (
-                    <td {...cell.getCellProps()}>
-                      {cell.render('Cell',)}
-                    </td>
-                  )
-                })}
-              </tr>
+              <Fragment key={index}>
+                <tr {...row.getRowProps()}>
+                  {row.cells.map(cell => {
+                    return (
+                      <td {...cell.getCellProps()}>
+                        {cell.render('Cell',)}
+                      </td>
+                    )
+                  })}
+                </tr>
+                  {row.isExpanded ? (
+                    <tr>
+                      <td colSpan={visibleColumns.length}>
+                        {SubComponent({row})}
+                      </td>
+                    </tr>) : null}
+              </Fragment>
             )
           })}
         </tbody>
@@ -466,6 +478,7 @@ function DataTable(props) {
         columns={props.columns}
         data={props.data}
         SubComponent={props.SubComponent}
+        customFilters={props.customFilters}
       />
     </>
   )
