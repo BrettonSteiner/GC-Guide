@@ -176,9 +176,11 @@ const CollegeExpand = (props) => {
                   </Fragment>
                 ))
                 :
-                <div className="centered">
-                  No majors
-                </div>
+                <tr>
+                  <td className="centered">
+                    No majors
+                  </td>
+                </tr>
               }
             </tbody>
           </table>

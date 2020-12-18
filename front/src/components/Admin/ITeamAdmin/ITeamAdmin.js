@@ -3,6 +3,39 @@ import ITeamExpand from '../ITeamExpand/ITeamExpand.js';
 
 const ITeamAdmin = (props) => {
   // const [selectedITeamId, setSelectedITeamId] = useState("");
+  const dummyExpandData = {
+    "iTeamNumber": 1,
+    "mentor1": {
+      "name": "Simba",
+      "phone": "208-555-1234"
+    },
+    "mentor2": {
+      "name": "Nala",
+      "phone": "208-555-5678"
+    },
+    "complexes": [{
+      "name": "Pride Rock",
+      "address": "Sunrise, Africa",
+      "apartments": [
+        "101",
+        "102",
+        "103",
+        "104",
+        "105"
+      ]
+    },
+    {
+      "name": "Pride Lands",
+      "address": "Sunrise, Africa",
+      "apartments": [
+        "2101",
+        "2102",
+        "2103",
+        "2104",
+        "2105"
+      ]
+    }]
+  }
 
   return (
     <>
@@ -17,7 +50,12 @@ const ITeamAdmin = (props) => {
         <div className="card-body">
           {/* ADD ADMIN STUFF HERE */}
           <p>There are {props.iteams.length} I-Teams in this semester</p>
-          <ITeamExpand></ITeamExpand>
+          <ITeamExpand
+            iTeamNumber={dummyExpandData.iTeamNumber}
+            mentor1={dummyExpandData.mentor1}
+            mentor2={dummyExpandData.mentor2}
+            complexes={dummyExpandData.complexes}
+          />
         </div>
       </div>
     </>
