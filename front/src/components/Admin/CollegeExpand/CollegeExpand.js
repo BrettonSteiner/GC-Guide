@@ -59,9 +59,14 @@ const CollegeExpand = (props) => {
 
     if (!hasErrors && isAltered) {
       //Call server to update college
-      console.log("Update college.")
+      console.log("Update college.");
     }
   }, [collegeName, flagColor, isAltered]);
+
+  const deleteCollege = useCallback(() => {
+    //Call server to delete college
+    console.log("Delete college.");
+  }, []);
 
   return (
     <>
@@ -182,7 +187,7 @@ const CollegeExpand = (props) => {
       <div className="row">
         <div className="col">
           <button type="button" className="btn btn-primary" disabled={!isAltered} onClick={() => updateCollege()}>Save/Update</button>
-          <button type="button" className="btn btn-danger float-right">Delete</button>
+          <button type="button" className="btn btn-danger float-right" onClick={() => deleteCollege()}>Delete</button>
         </div>
       </div>
     </form>
