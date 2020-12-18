@@ -3,6 +3,16 @@ import CollegeExpand from '../CollegeExpand/CollegeExpand.js';
 
 const MajorCollegeAdmin = (props) => {
   // const [selectedCollegeId, setSelectedCollegeId] = useState("");
+  const dummyExpandData = {
+    "name": "College of Physical Sciences and Engineering",
+    "flagColor": "Orange",
+    "majors": [
+      "Computer Science",
+      "Software Engineering",
+      "Mechanical Engineering",
+      "Electrical Engineering"
+    ]
+  };
 
   return (
     <>
@@ -17,11 +27,11 @@ const MajorCollegeAdmin = (props) => {
         <div className="card-body">
           {/* ADD ADMIN STUFF HERE */}
           <p>There are {props.colleges.length} Colleges in this semester</p>
-          <CollegeExpand></CollegeExpand>
+          <CollegeExpand name={dummyExpandData.name} flagColor={dummyExpandData.flagColor} majors={dummyExpandData.majors} />
         </div>
       </div>
     </>
   )
 }
 
-export default MajorCollegeAdmin
+export default MajorCollegeAdmin;
