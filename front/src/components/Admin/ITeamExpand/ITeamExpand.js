@@ -67,10 +67,10 @@ const ITeamExpand = (props) => {
 
   useEffect(() => {
     var hasBeenAltered = props?.iTeamNumber? iTeamNumber !== props.iTeamNumber.toString() : true;
-    hasBeenAltered = (!hasBeenAltered && props?.mentor1?.name? mentor1Name !== props.mentor1.name : true)
-    hasBeenAltered = (!hasBeenAltered && props?.mentor1?.phone? mentor1Phone !== props.mentor1.phone : true)
-    hasBeenAltered = (!hasBeenAltered && props?.mentor2?.name? mentor2Name !== props.mentor2.name : true)
-    hasBeenAltered = (!hasBeenAltered && props?.mentor2?.phone? mentor2Phone !== props.mentor2.phone : true)
+    hasBeenAltered = (!hasBeenAltered && props?.mentor1?.name? mentor1Name !== props.mentor1.name : true);
+    hasBeenAltered = (!hasBeenAltered && props?.mentor1?.phone? mentor1Phone !== props.mentor1.phone : true);
+    hasBeenAltered = (!hasBeenAltered && props?.mentor2?.name? mentor2Name !== props.mentor2.name : true);
+    hasBeenAltered = (!hasBeenAltered && props?.mentor2?.phone? mentor2Phone !== props.mentor2.phone : true);
 
     if (!hasBeenAltered && props?.complexes? true : false) {
       var sortedOriginalComplexes = sortComplexes(props.complexes);

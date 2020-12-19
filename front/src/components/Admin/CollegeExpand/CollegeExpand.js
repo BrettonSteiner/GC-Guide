@@ -14,7 +14,7 @@ const CollegeExpand = (props) => {
   useEffect(() => {
     var hasBeenAltered = props?.name? collegeName !== props.name : true;
 
-    hasBeenAltered = (!hasBeenAltered && props?.flagColor? flagColor !== props.flagColor : true)
+    hasBeenAltered = (!hasBeenAltered && props?.flagColor? flagColor !== props.flagColor : true);
 
     if (!hasBeenAltered && props?.majors? true : false) {
       var sortedOriginalMajors = props.majors.slice().sort();
