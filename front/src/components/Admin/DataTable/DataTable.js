@@ -1,4 +1,8 @@
-import React, {Fragment} from 'react'
+import React, {Fragment} from 'react';
+import ITeamExpand from '../ITeamExpand/ITeamExpand.js';
+import CollegeExpand from '../CollegeExpand/CollegeExpand.js';
+import ScheduleExpand from '../ScheduleExpand/ScheduleExpand.js';
+
 // import styled from 'styled-components'
 import {
   useTable,
@@ -379,6 +383,7 @@ function Table({ columns, data, customFilters, SubComponent }) {
         </thead>
         <tbody {...getTableBodyProps()}>
           {page.map((row, index) => {
+            console.log(row);
             prepareRow(row)
             return (
               <Fragment key={index}>
@@ -394,7 +399,31 @@ function Table({ columns, data, customFilters, SubComponent }) {
                   {row.isExpanded ? (
                     <tr>
                       <td colSpan={visibleColumns.length}>
-                        {SubComponent({row})}
+                        {row?.original?.iTeamNumber?
+                          <ITeamExpand
+                            iTeamNumber={row.original.iTeamNumber}
+                            mentor1={row.original.mentor1}
+                            mentor2={row.original.mentor2}
+                            complexes={row.original.complexes}
+                          /> :
+                          row?.original?.collegeName?
+                            <CollegeExpand
+                              name={row.original.name}
+                              flagColor={row.original.flagColor}
+                              majors={row.original.majors}
+                            /> :
+                            row?.original?.eventName?
+                              <ScheduleExpand 
+                                name={row.original.name}
+                                date={row.original.date}
+                                startTime={row.original.startTime}
+                                endTime={row.original.endTime}
+                                location={row.original.location}
+                                description={row.original.description}
+                                mapSpots={row.original.mapSpots}
+                              /> :
+                              <>Error loading expand component!</>
+                        }
                       </td>
                     </tr>) : null}
               </Fragment>
