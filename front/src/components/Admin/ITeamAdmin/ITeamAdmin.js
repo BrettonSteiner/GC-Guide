@@ -1,40 +1,113 @@
-import React, { /*useState, useEffect*/ } from 'react';
-import ITeamExpand from '../ITeamExpand/ITeamExpand.js';
+import React, { useState, useMemo /*, useEffect*/ } from 'react'
+import DataTable from '../DataTable/DataTable'
+
+const teamInfo = ({row}) => {
+  return (
+  <span>Does this work?{JSON.stringify({ values: row.original.mentor1 }, null, 2)}</span>
+  )
+}
+
+const dummyData = [{
+  iTeamNumber: 1,
+  mentor1: {name: "Braden Steiner", phone: "801-123-4567" },
+  mentor2: {name: "Rachel Steiner", phone: "801-987-6543" },
+  complexes: [{
+    name: "Somerset",
+    address: ["123 E. 450 S. Rexburg ID", "test"],
+    apartments: ["101", "102", "103"],
+  }, {
+    name: "Ridge",
+    address: ["wow", "here"],
+    apartments: ["200", "201", "202"],
+  }]
+}]
 
 const ITeamAdmin = (props) => {
   // const [selectedITeamId, setSelectedITeamId] = useState("");
-  const dummyExpandData = {
-    "iTeamNumber": 1,
-    "mentor1": {
-      "name": "Simba",
-      "phone": "208-555-1234"
-    },
-    "mentor2": {
-      "name": "Nala",
-      "phone": "208-555-5678"
-    },
-    "complexes": [{
-      "name": "Pride Rock",
-      "address": "Sunrise, Africa",
-      "apartments": [
-        "101",
-        "102",
-        "103",
-        "104",
-        "105"
-      ]
-    },
-    {
-      "name": "Pride Lands",
-      "address": "Sunrise, Africa",
-      "apartments": [
-        "2101",
-        "2102",
-        "2103",
-        "2104",
-        "2105"
-      ]
-    }]
+  let [iteams, setIteams] = useState(dummyData);
+
+  // let [expanded, setExpanded] = useState([])
+  // let [allExpanded, setAllExpanded] = useState(true)
+  const columns = useMemo(() => {
+    return [
+      {
+        Header: "I-Team Number",
+        accessor: "iTeamNumber",
+      },
+      {
+        Header: "Mentors",
+        accessor: "displayMentors",
+        filter: 'filterMentors'
+      },
+      {
+        Header: "Phone Numbers",
+        accessor: "displayNumbers",
+        filter: 'filterPhoneNumbers'
+      },
+      {
+        Header: "Addresses",
+        accessor: "displayAddresses",
+        filter: "filterAddresses"
+      },
+      {
+        Header: "Complex Names",
+        accessor: "displayComplexes",
+        filter: "filterComplex"
+      },
+      {
+        id: "expander",
+        hideFilter: true,
+        Header: ({ getToggleAllRowsExpandedProps, isAllRowsExpanded }) => (
+          <span {...getToggleAllRowsExpandedProps()}>
+            {isAllRowsExpanded ? <i className="fas fa-chevron-down fa-vc"></i> : <i className="fas fa-chevron-up fa-vc"></i>}
+          </span>
+        ),
+        Cell: ({ row }) =>
+          // Use the row.canExpand and row.getToggleRowExpandedProps prop getter
+          // to build the toggle for expanding a row
+          (
+            <span {...row.getToggleRowExpandedProps()}>
+              {row.isExpanded ? <i className="fas fa-chevron-down fa-vc"></i> : <i className="fas fa-chevron-up fa-vc"></i>}
+            </span>
+          ),
+      },
+    ] 
+  })
+
+  const filterMentors = (rows, id, filterValue) => {
+    return rows.filter(row => {
+      return row.original?.mentor1.name.includes(filterValue) || row.original?.mentor2.name.includes(filterValue);
+    })
+  }
+  
+  const filterPhoneNumbers = (rows, id, filterValue) => {
+    return rows.filter(row => {
+      return row.original?.mentor1.phone.includes(filterValue) || row.original?.mentor2.phone.includes(filterValue);
+    })
+  }
+  
+  const filterAddresses = (rows, id, filterValue) => {
+    return rows.filter(row => {
+      let found = false;
+      row.original?.complexes.forEach(complex => {
+        complex?.address.forEach(addr => {
+          if (addr.includes(filterValue))
+            found = true;
+        })
+      });
+      return found;
+    })
+  }
+  
+  const filterComplex = (rows, id, filterValue) => {
+    return rows.filter(row => {
+      let found = false;
+      row.original?.complexes.forEach(complex => {
+        if (complex.name.includes(filterValue))
+          found = true;
+      })
+      return found;
+    })
   }
 
   return (
@@ -50,12 +123,17 @@ const ITeamAdmin = (props) => {
         <div className="card-body">
           {/* ADD ADMIN STUFF HERE */}
           <p>There are {props.iteams.length} I-Teams in this semester</p>
-          <ITeamExpand
-            iTeamNumber={dummyExpandData.iTeamNumber}
-            mentor1={dummyExpandData.mentor1}
-            mentor2={dummyExpandData.mentor2}
-            complexes={dummyExpandData.complexes}
-          />
+          <DataTable columns={columns} 
+            data={iteams.map(row => {
+              let newRow= {...row};
+              newRow.displayMentors = <><div>{newRow.mentor1.name}</div><div>{newRow.mentor2.name}</div></>;
+              newRow.displayNumbers = <><div>{newRow.mentor1.phone}</div><div>{newRow.mentor2.phone}</div></>;
+              newRow.displayAddresses = newRow.complexes.length > 0 ? <div>{newRow.complexes[0].address[0]}{newRow.complexes.length > 1 ? "..." : ""}</div> : null;
+              newRow.displayComplexes = newRow.complexes.length > 0 ? <div>{newRow.complexes[0].name}{newRow.complexes.length > 1 ? "..." : ""}</div> : null;
+              return newRow;
+            })} 
+            SubComponent={teamInfo}
+            customFilters={{filterMentors, filterPhoneNumbers, filterAddresses, filterComplex}}/>
         </div>
       </div>
     </>
