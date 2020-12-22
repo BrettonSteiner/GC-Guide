@@ -1,9 +1,15 @@
-import React, { useState, useMemo /*, useEffect*/ } from 'react'
-import DataTable from '../DataTable/DataTable'
+import React, { useState, useMemo /*, useEffect*/ } from 'react';
+import DataTable from '../DataTable/DataTable';
+import ITeamExpand from '../ITeamExpand/ITeamExpand';
 
 const teamInfo = ({row}) => {
   return (
-  <span>Does this work?{JSON.stringify({ values: row.original.mentor1 }, null, 2)}</span>
+  <ITeamExpand
+    iTeamNumber={row.original.iTeamNumber}
+    mentor1={row.original.mentor1}
+    mentor2={row.original.mentor2}
+    complexes={row.original.complexes}
+  />
   )
 }
 
@@ -13,12 +19,44 @@ const dummyData = [{
   mentor2: {name: "Rachel Steiner", phone: "801-987-6543" },
   complexes: [{
     name: "Somerset",
-    address: ["123 E. 450 S. Rexburg ID", "test"],
+    address: "123 E. 450 S. Rexburg ID",
     apartments: ["101", "102", "103"],
   }, {
     name: "Ridge",
-    address: ["wow", "here"],
+    address: "here",
     apartments: ["200", "201", "202"],
+  }]
+}, {
+  iTeamNumber: 2,
+  mentor1: {
+    name: "Simba",
+    phone: "208-555-1234"
+  },
+  mentor2: {
+    name: "Nala",
+    phone: "208-555-5678"
+  },
+  complexes: [{
+    name: "Pride Rock",
+    address: "100 Somewhere Sunrise, Africa",
+    apartments: [
+      "101",
+      "102",
+      "103",
+      "104",
+      "105"
+    ]
+  },
+  {
+    name: "Pride Lands",
+    address: "450 Everywhere Sunrise, Africa",
+    apartments: [
+      "2101",
+      "2102",
+      "2103",
+      "2104",
+      "2105"
+    ]
   }]
 }]
 
@@ -57,19 +95,10 @@ const ITeamAdmin = (props) => {
       {
         id: "expander",
         hideFilter: true,
-        Header: ({ getToggleAllRowsExpandedProps, isAllRowsExpanded }) => (
-          <span {...getToggleAllRowsExpandedProps()}>
-            {isAllRowsExpanded ? <i className="fas fa-chevron-down fa-vc"></i> : <i className="fas fa-chevron-up fa-vc"></i>}
-          </span>
-        ),
         Cell: ({ row }) =>
           // Use the row.canExpand and row.getToggleRowExpandedProps prop getter
           // to build the toggle for expanding a row
-          (
-            <span {...row.getToggleRowExpandedProps()}>
-              {row.isExpanded ? <i className="fas fa-chevron-down fa-vc"></i> : <i className="fas fa-chevron-up fa-vc"></i>}
-            </span>
-          ),
+          (<i className={row.isExpanded ? "fas fa-chevron-down fa-vc" : "fas fa-chevron-up fa-vc"}></i>),
       },
     ] 
   })
@@ -90,10 +119,8 @@ const ITeamAdmin = (props) => {
     return rows.filter(row => {
       let found = false;
       row.original?.complexes.forEach(complex => {
-        complex?.address.forEach(addr => {
-          if (addr.includes(filterValue))
-            found = true;
-        })
+        if (complex?.address?.includes(filterValue))
+          found = true;
       });
       return found;
     })
@@ -128,7 +155,7 @@ const ITeamAdmin = (props) => {
               let newRow= {...row};
               newRow.displayMentors = <><div>{newRow.mentor1.name}</div><div>{newRow.mentor2.name}</div></>;
               newRow.displayNumbers = <><div>{newRow.mentor1.phone}</div><div>{newRow.mentor2.phone}</div></>;
-              newRow.displayAddresses = newRow.complexes.length > 0 ? <div>{newRow.complexes[0].address[0]}{newRow.complexes.length > 1 ? "..." : ""}</div> : null;
+              newRow.displayAddresses = newRow.complexes.length > 0 ? <div>{newRow.complexes[0].address}{newRow.complexes.length > 1 ? "..." : ""}</div> : null;
               newRow.displayComplexes = newRow.complexes.length > 0 ? <div>{newRow.complexes[0].name}{newRow.complexes.length > 1 ? "..." : ""}</div> : null;
               return newRow;
             })} 

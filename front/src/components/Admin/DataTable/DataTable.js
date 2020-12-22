@@ -353,12 +353,12 @@ function Table({ columns, data, customFilters, SubComponent }) {
   // Render the UI for your table
   return (
     <>
-      <table {...getTableProps()}>
+      <table {...getTableProps()} className="table table-hover">
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map(column => (
-                <th {...column.getHeaderProps()}>
+                <th {...column.getHeaderProps()} scope="col">
                   <div>
                     <span {...column.getSortByToggleProps()}>
                       {column.render('Header')}
@@ -382,17 +382,17 @@ function Table({ columns, data, customFilters, SubComponent }) {
             prepareRow(row)
             return (
               <Fragment key={index}>
-                <tr {...row.getRowProps()}>
+                <tr {...row.getRowProps()} {...row.getToggleRowExpandedProps()}>
                   {row.cells.map(cell => {
                     return (
-                      <td {...cell.getCellProps()}>
+                      <td {...cell.getCellProps()} className="align-middle">
                         {cell.render('Cell',)}
                       </td>
                     )
                   })}
                 </tr>
                   {row.isExpanded ? (
-                    <tr>
+                    <tr className="no-hover">
                       <td colSpan={visibleColumns.length}>
                         {SubComponent({row})}
                       </td>
