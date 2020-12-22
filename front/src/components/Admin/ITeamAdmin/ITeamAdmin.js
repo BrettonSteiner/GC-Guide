@@ -1,6 +1,5 @@
-import React, { useState, useMemo /*, useEffect*/ } from 'react';
-import DataTable from '../DataTable/DataTable';
-import ITeamExpand from '../ITeamExpand/ITeamExpand.js';
+import React, { useState, useMemo /*, useEffect*/ } from 'react'
+import DataTable from '../DataTable/DataTable'
 
 const teamInfo = ({row}) => {
   return (
@@ -14,11 +13,11 @@ const dummyData = [{
   mentor2: {name: "Rachel Steiner", phone: "801-987-6543" },
   complexes: [{
     name: "Somerset",
-    address: "123 E. 450 S. Rexburg ID",
+    address: ["123 E. 450 S. Rexburg ID", "test"],
     apartments: ["101", "102", "103"],
   }, {
     name: "Ridge",
-    address: "here",
+    address: ["wow", "here"],
     apartments: ["200", "201", "202"],
   }]
 }]
@@ -133,12 +132,7 @@ const ITeamAdmin = (props) => {
               newRow.displayComplexes = newRow.complexes.length > 0 ? <div>{newRow.complexes[0].name}{newRow.complexes.length > 1 ? "..." : ""}</div> : null;
               return newRow;
             })} 
-            SubComponent={<ITeamExpand
-              iTeamNumber={dummyData[0].iTeamNumber}
-              mentor1={dummyData[0].mentor1}
-              mentor2={dummyData[0].mentor2}
-              complexes={dummyData[0].complexes}
-            />}
+            SubComponent={teamInfo}
             customFilters={{filterMentors, filterPhoneNumbers, filterAddresses, filterComplex}}/>
         </div>
       </div>
