@@ -31,7 +31,7 @@ const ScheduleTable = (props) => {
           <Fragment key={"tableData" + index}>
             <tr className="accordion-toggle collapsed" 
               id={"trAccordionHeader" + index}
-              data-toggle="collapse" 
+              data-toggle="collapse"
               data-target={"#trCollapse" + index} 
               aria-controls={"#trCollapse" + index} 
               onClick={() => {

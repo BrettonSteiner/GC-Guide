@@ -1,9 +1,15 @@
 import React, { useState, useEffect, useCallback, Fragment } from 'react';
 
 const CollegeExpand = (props) => {
-  const [collegeName, setCollegeName] = useState(props?.name? props.name : '');
-  const [flagColor, setflagColor] = useState(props?.flagColor? props.flagColor : "-- Select --");
-  const [majors, setMajors] = useState(props?.majors? props.majors.slice().sort() : []);
+  const [createMode] = useState(props?.row?.createMode? props.row.createMode : false);
+  const [cancelTarget] = useState(props?.row?.cancelTarget? props.row.cancelTarget : "");
+  const [collegeId] = useState(props?.row?.collegeId? props.row.collegeId : "0");
+  const [originalCollegeName] = useState(props?.row?.name? props.row.name : "");
+  const [originalFlagColor] = useState(props?.row?.flagColor? props.row.flagColor : "-- Select --");
+  const [originalMajors] = useState(props?.row?.majors? props.row.majors.slice().sort() : []);
+  const [collegeName, setCollegeName] = useState(props?.row?.name? props.row.name : "");
+  const [flagColor, setflagColor] = useState(props?.row?.flagColor? props.row.flagColor : "-- Select --");
+  const [majors, setMajors] = useState(props?.row?.majors? props.row.majors.slice().sort() : []);
   const [newMajor, setNewMajor] = useState("");
   const [isAltered, setIsAltered] = useState(false);
   const [collegeNameError, setCollegeNameError] = useState(false);
@@ -12,12 +18,11 @@ const CollegeExpand = (props) => {
   const [existingMajorNameError, setExistingMajorNameError] = useState(false);
 
   useEffect(() => {
-    var hasBeenAltered = props?.name? collegeName !== props.name : true;
+    var hasBeenAltered = collegeName !== originalCollegeName;
+    hasBeenAltered = (!hasBeenAltered? flagColor !== originalFlagColor : true);
 
-    hasBeenAltered = (!hasBeenAltered && props?.flagColor? flagColor !== props.flagColor : true);
-
-    if (!hasBeenAltered && props?.majors? true : false) {
-      var sortedOriginalMajors = props.majors.slice().sort();
+    if (!hasBeenAltered) {
+      var sortedOriginalMajors = originalMajors.slice().sort();
       var sortedCurrentMajors = majors.slice().sort();
 
       hasBeenAltered = !(sortedOriginalMajors.length === sortedCurrentMajors.length && sortedOriginalMajors.every(function(value, index) {
@@ -26,7 +31,14 @@ const CollegeExpand = (props) => {
     }
 
     setIsAltered(hasBeenAltered);
-  }, [props.name, collegeName, props.flagColor, flagColor, props.majors, majors]);
+  }, [
+    originalCollegeName,
+    originalFlagColor,
+    originalMajors,
+    collegeName,
+    flagColor,
+    majors
+  ]);
 
   const addNewMajor = useCallback(major => {
     var hasErrors = false;
@@ -44,6 +56,39 @@ const CollegeExpand = (props) => {
       setMajors(majors.concat([major]).sort());
     }
   }, [majors]);
+
+  const resetForm = useCallback(() => {
+    setCollegeName(originalCollegeName);
+    setflagColor(originalFlagColor);
+    setMajors(originalMajors);
+    setNewMajor("");
+    setCollegeNameError(false);
+    setFlagColorError(false);
+    setEmptyMajorNameError(false);
+    setExistingMajorNameError(false);
+  }, [
+    originalCollegeName,
+    originalFlagColor,
+    originalMajors,
+  ]);
+
+  const createCollege = useCallback(() => {
+    var hasErrors = false;
+    if (collegeName === "") {
+      setCollegeNameError(true);
+      hasErrors = true;
+    }
+
+    if (flagColor === "-- Select --") {
+      setFlagColorError(true);
+      hasErrors = true;
+    }
+
+    if (!hasErrors && isAltered) {
+      //Call server to create college
+      console.log("Create college.");
+    }
+  }, [collegeName, flagColor, isAltered]);
 
   const updateCollege = useCallback(() => {
     var hasErrors = false;
@@ -78,9 +123,8 @@ const CollegeExpand = (props) => {
             <input
               type="text"
               className={collegeNameError ? "form-control is-invalid" : "form-control"}
-              id="collegeName"
               placeholder="College Name"
-              defaultValue={collegeName}
+              defaultValue={originalCollegeName}
               onChange={e => {
                 setCollegeName(e.target.value);
                 if (collegeNameError) {
@@ -96,8 +140,7 @@ const CollegeExpand = (props) => {
             <label htmlFor="flagColor">Flag Color</label>
             <select
               className={flagColorError ? "form-control is-invalid" : "form-control"}
-              id="flagColor"
-              defaultValue={props?.flagColor? props.flagColor : flagColor}
+              defaultValue={originalFlagColor}
               onChange={e => {
                 setflagColor(e.target.value);
                 if (flagColorError) {
@@ -125,7 +168,6 @@ const CollegeExpand = (props) => {
               <input
                 type="text"
                 className={(emptyMajorNameError || existingMajorNameError) ? "form-control is-invalid" : "form-control"}
-                id="majors"
                 placeholder="Add a major"
                 onChange={e => {
                   setNewMajor(e.target.value);
@@ -159,7 +201,7 @@ const CollegeExpand = (props) => {
                 majors.length > 0
                 ?
                 majors.map( (major, index) => (
-                  <Fragment key={props.name + "major" + index}>
+                  <Fragment key={collegeId + "major" + index}>
                     <tr>
                       <td>{major}</td>
                       <td>
@@ -187,10 +229,30 @@ const CollegeExpand = (props) => {
         </div>
       </div>
       <div className="row">
-        <div className="col">
-          <button type="button" className="btn btn-primary" disabled={!isAltered} onClick={() => updateCollege()}>Save/Update</button>
-          <button type="button" className="btn btn-danger float-right" onClick={() => deleteCollege()}>Delete</button>
-        </div>
+        { createMode === true
+          ?
+          <div className="col">
+            <button type="button" className="btn btn-primary" disabled={!isAltered} onClick={() => createCollege()}>Create College</button>
+            <button type="reset" className="btn btn-warning admin-btn" disabled={!isAltered} onClick={() => resetForm()}>Reset</button>
+            { cancelTarget !== ""?
+              <button
+                type="button"
+                className="btn btn-danger float-right"
+                data-toggle="collapse"
+                data-target={"#" + cancelTarget}
+                aria-controls={cancelTarget}
+              >Cancel</button>
+              :
+              null
+            }
+          </div>
+          :
+          <div className="col">
+            <button type="button" className="btn btn-primary" disabled={!isAltered} onClick={() => updateCollege()}>Save/Update</button>
+            <button type="reset" className="btn btn-warning admin-btn" disabled={!isAltered} onClick={() => resetForm()}>Reset</button>
+            <button type="button" className="btn btn-danger float-right" onClick={() => deleteCollege()}>Delete</button>
+          </div>
+        }
       </div>
     </form>
     </>

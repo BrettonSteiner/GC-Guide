@@ -3,14 +3,14 @@ import React, { useState, useEffect, useCallback, Fragment } from 'react';
 const calculateNameAddress = complex => {
   var nameAddress = "";
 
-  if (complex.name !== "") {
+  if (complex.name !== undefined && complex.name !== null && complex.name !== "") {
     nameAddress = complex.name;
 
-    if (complex.address !== "") {
+    if (complex.address !== undefined && complex.address !== null && complex.address !== "") {
       nameAddress += " - ";
     }
   }
-  if (complex.address !== "") {
+  if (complex.address !== undefined && complex.address !== null && complex.address !== "") {
     nameAddress += complex.address;
   }
 
@@ -47,14 +47,22 @@ const organizeComplexApartments = complexes => {
 };
 
 const ITeamExpand = (props) => {
-  const [iTeamId] = useState(props?.iTeamId? props.iTeamId : "0")
-  const [iTeamNumber, setITeamNumber] = useState(props?.iTeamNumber? props.iTeamNumber.toString() : "");
-  const [mentor1Name, setMentor1Name] = useState(props?.mentor1?.name? props.mentor1.name : "");
-  const [mentor1Phone, setMentor1Phone] = useState(props?.mentor1?.phone? props.mentor1.phone : "");
-  const [mentor2Name, setMentor2Name] = useState(props?.mentor2?.name? props.mentor2.name : "");
-  const [mentor2Phone, setMentor2Phone] = useState(props?.mentor2?.phone? props.mentor2.phone : "");
-  const [complexes, setComplexes] = useState(props?.complexes? sortComplexes(props.complexes) : []);
-  const [complexApartmentLists] = useState(props?.complexes? organizeComplexApartments(props.complexes) : []);
+  const [createMode] = useState(props?.row?.createMode? props.row.createMode : false);
+  const [cancelTarget] = useState(props?.row?.cancelTarget? props.row.cancelTarget : "");
+  const [iTeamId] = useState(props?.row?.iTeamId? props.row.iTeamId : "0")
+  const [originalITeamNumber] = useState(props?.row?.iTeamNumber? props.row.iTeamNumber.toString() : "");
+  const [originalMentor1Name] = useState(props?.row?.mentor1?.name? props.row.mentor1.name : "");
+  const [originalMentor1Phone] = useState(props?.row?.mentor1?.phone? props.row.mentor1.phone : "");
+  const [originalMentor2Name] = useState(props?.row?.mentor2?.name? props.row.mentor2.name : "");
+  const [originalMentor2Phone] = useState(props?.row?.mentor2?.phone? props.row.mentor2.phone : "");
+  const [originalComplexes] = useState(props?.row?.complexes? sortComplexes(props.row.complexes) : []);
+  const [originalComplexApartmentLists] = useState(props?.row?.complexes? organizeComplexApartments(props.row.complexes) : []);
+  const [iTeamNumber, setITeamNumber] = useState(props?.row?.iTeamNumber? props.row.iTeamNumber.toString() : "");
+  const [mentor1Name, setMentor1Name] = useState(props?.row?.mentor1?.name? props.row.mentor1.name : "");
+  const [mentor1Phone, setMentor1Phone] = useState(props?.row?.mentor1?.phone? props.row.mentor1.phone : "");
+  const [mentor2Name, setMentor2Name] = useState(props?.row?.mentor2?.name? props.row.mentor2.name : "");
+  const [mentor2Phone, setMentor2Phone] = useState(props?.row?.mentor2?.phone? props.row.mentor2.phone : "");
+  const [complexes, setComplexes] = useState(props?.row?.complexes? sortComplexes(props.row.complexes) : []);
   const [newComplexName, setNewComplexName] = useState("");
   const [newComplexAddress, setNewComplexAddress] = useState("");
   const [newApartment, setNewApartment] = useState("");
@@ -66,14 +74,14 @@ const ITeamExpand = (props) => {
   const [existingApartmentError, setExistingApartmentError] = useState(false);
 
   useEffect(() => {
-    var hasBeenAltered = props?.iTeamNumber? iTeamNumber !== props.iTeamNumber.toString() : true;
-    hasBeenAltered = (!hasBeenAltered && props?.mentor1?.name? mentor1Name !== props.mentor1.name : true);
-    hasBeenAltered = (!hasBeenAltered && props?.mentor1?.phone? mentor1Phone !== props.mentor1.phone : true);
-    hasBeenAltered = (!hasBeenAltered && props?.mentor2?.name? mentor2Name !== props.mentor2.name : true);
-    hasBeenAltered = (!hasBeenAltered && props?.mentor2?.phone? mentor2Phone !== props.mentor2.phone : true);
+    var hasBeenAltered = iTeamNumber !== originalITeamNumber;
+    hasBeenAltered = (!hasBeenAltered? mentor1Name !== originalMentor1Name : true);
+    hasBeenAltered = (!hasBeenAltered? mentor1Phone !== originalMentor1Phone : true);
+    hasBeenAltered = (!hasBeenAltered? mentor2Name !== originalMentor2Name : true);
+    hasBeenAltered = (!hasBeenAltered? mentor2Phone !== originalMentor2Phone : true);
 
-    if (!hasBeenAltered && props?.complexes? true : false) {
-      var sortedOriginalComplexes = sortComplexes(props.complexes);
+    if (!hasBeenAltered) {
+      var sortedOriginalComplexes = sortComplexes(originalComplexes);
       var sortedCurrentComplexes = sortComplexes(complexes);
 
       hasBeenAltered = !(sortedOriginalComplexes.length === sortedCurrentComplexes.length && sortedOriginalComplexes.every(function(complex, complexIndex) {
@@ -82,7 +90,7 @@ const ITeamExpand = (props) => {
 
         if (!hasBeenAltered) {
           const nameAddress = calculateNameAddress(complex);
-          var complexApartmentList = complexApartmentLists.filter(list => list[0] === nameAddress)[0].slice(1);
+          var complexApartmentList = originalComplexApartmentLists.filter(list => list[0] === nameAddress)[0].slice(1);
           var sortedCurrentComplexApartments = sortedCurrentComplexes[complexIndex].apartments.sort();
 
           hasBeenAltered = !(complexApartmentList.length === sortedCurrentComplexApartments.length && complexApartmentList.every(function(apartment, apartmentIndex) {
@@ -97,19 +105,19 @@ const ITeamExpand = (props) => {
 
     setIsAltered(hasBeenAltered);
   }, [
-    props.iTeamNumber,
+    originalITeamNumber,
+    originalMentor1Name,
+    originalMentor1Phone,
+    originalMentor2Name,
+    originalMentor2Phone,
+    originalComplexes,
+    originalComplexApartmentLists,
     iTeamNumber,
-    props.mentor1.name,
     mentor1Name,
-    props.mentor1.phone,
     mentor1Phone,
-    props.mentor2.name,
     mentor2Name,
-    props.mentor2.phone,
     mentor2Phone,
-    props.complexes,
-    complexes,
-    complexApartmentLists
+    complexes
   ]);
 
   const addNewComplex = useCallback((complexName, complexAddress) => {
@@ -175,6 +183,49 @@ const ITeamExpand = (props) => {
       setComplexApartments(complex, complex.apartments.concat([apartment]).sort());
     }
   }, [setComplexApartments]);
+
+  const resetForm = useCallback(() => {
+    setITeamNumber(originalITeamNumber);
+    setMentor1Name(originalMentor1Name);
+    setMentor1Phone(originalMentor1Phone);
+    setMentor2Name(originalMentor2Name);
+    setMentor2Phone(originalMentor2Phone);
+    var complexes = originalComplexes;
+    complexes.forEach(complex => {
+      const nameAddress = calculateNameAddress(complex);
+      complex.apartments = originalComplexApartmentLists.filter(list => list[0] === nameAddress)[0].slice(1);
+    });
+    setComplexes(complexes);
+    setNewComplexName("");
+    setNewComplexAddress("");
+    setNewApartment("");
+    setITeamNumberError(false);
+    setComplexNameAddressError(false);
+    setExistingComplexError(false);
+    setEmptyApartmentError(false);
+    setExistingApartmentError(false);
+  }, [
+    originalITeamNumber,
+    originalMentor1Name,
+    originalMentor1Phone,
+    originalMentor2Name,
+    originalMentor2Phone,
+    originalComplexes,
+    originalComplexApartmentLists
+  ]);
+
+  const createITeam = useCallback(() => {
+    var hasErrors = false;
+    if (iTeamNumber === "") {
+      setITeamNumberError(true);
+      hasErrors = true;
+    }
+
+    if (!hasErrors && isAltered) {
+      //Call server to update I-Team
+      console.log("Create I-Team.");
+    }
+  }, [iTeamNumber, isAltered]);
 
   const updateITeam = useCallback(() => {
     var hasErrors = false;
@@ -340,6 +391,7 @@ const ITeamExpand = (props) => {
                         aria-expanded="false"
                         aria-controls={iTeamId + "-complex" + index}
                         onClick={() => {
+                          setNewApartment("");
                           if (emptyApartmentError) {
                             setEmptyApartmentError(false);
                           }
@@ -365,11 +417,14 @@ const ITeamExpand = (props) => {
                       <div className="card-body">
                         <div className="input-group form-group">
                           <input
+                            // id={iTeamId + "-complex" + index}
                             type="text"
                             className={(emptyApartmentError || existingApartmentError) ? "form-control is-invalid" : "form-control"}
                             placeholder="Add an apartment"
                             onChange={e => {
                               setNewApartment(e.target.value);
+                              // TODO: There is a disconnect between the state and the multiple apartment inputs. Clear each input when possible.
+                              // resetApartmentInput(e.target.id + "-apartmentInput");
                               if (emptyApartmentError) {
                                 setEmptyApartmentError(false);
                               }
@@ -380,6 +435,7 @@ const ITeamExpand = (props) => {
                           </input>
                           <div className="input-group-append">
                             <button
+                              // id={iTeamId + "-complex" + index + "-apartmentInput"}
                               className="btn btn-outline-secondary align-middle"
                               type="button"
                               onClick={() => {
@@ -438,10 +494,30 @@ const ITeamExpand = (props) => {
         </div>
       </div>
       <div className="row">
-        <div className="col">
-          <button type="button" className="btn btn-primary" disabled={!isAltered} onClick={() => updateITeam()}>Save/Update</button>
-          <button type="button" className="btn btn-danger float-right" onClick={() => deleteITeam()}>Delete</button>
-        </div>
+        { createMode === true
+          ?
+          <div className="col">
+            <button type="button" className="btn btn-primary" disabled={!isAltered} onClick={() => createITeam()}>Create I-Team</button>
+            <button type="reset" className="btn btn-warning admin-btn" disabled={!isAltered} onClick={() => resetForm()}>Reset</button>
+            { cancelTarget !== ""?
+              <button
+                type="button"
+                className="btn btn-danger float-right"
+                data-toggle="collapse"
+                data-target={"#" + cancelTarget}
+                aria-controls={cancelTarget}
+              >Cancel</button>
+              :
+              null
+            }
+          </div>
+          :
+          <div className="col">
+            <button type="button" className="btn btn-primary" disabled={!isAltered} onClick={() => updateITeam()}>Save/Update</button>
+            <button type="reset" className="btn btn-warning admin-btn" disabled={!isAltered} onClick={() => resetForm()}>Reset</button>
+            <button type="button" className="btn btn-danger float-right" onClick={() => deleteITeam()}>Delete</button>
+          </div>
+        }
       </div>
     </form>
     </>

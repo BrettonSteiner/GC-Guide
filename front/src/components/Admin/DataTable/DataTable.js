@@ -1,5 +1,5 @@
-import React, {Fragment} from 'react'
-// import styled from 'styled-components'
+import React, {Fragment} from 'react';
+import "./DataTable.css";
 import {
   useTable,
   usePagination,
@@ -8,7 +8,7 @@ import {
   useGroupBy,
   useExpanded,
   // useRowSelect,
-} from 'react-table'
+} from 'react-table';
 // import matchSorter from 'match-sorter'
 
 // import makeData from './makeData'
@@ -91,7 +91,7 @@ import {
 function DefaultColumnFilter({
   column: { filterValue, preFilteredRows, setFilter },
 }) {
-  const count = preFilteredRows.length
+  // const count = preFilteredRows.length
 
   return (
     <input
@@ -278,22 +278,22 @@ function Table({ columns, data, customFilters, SubComponent }) {
     // which has only the rows for the active page
 
     // The rest of these things are super handy, too ;)
-    // canPreviousPage,
-    // canNextPage,
+    canPreviousPage,
+    canNextPage,
     // pageOptions,
-    // pageCount,
-    // gotoPage,
-    // nextPage,
-    // previousPage,
-    // setPageSize,
+    pageCount,
+    gotoPage,
+    nextPage,
+    previousPage,
+    setPageSize,
     visibleColumns,
     state: {
-      // pageIndex,
-      // pageSize,
+      pageIndex,
+      pageSize,
       // sortBy,
       // groupBy,
-      expanded,
-      filters,
+      // expanded,
+      // filters,
       // selectedRowIds,
     },
   } = useTable(
@@ -379,10 +379,10 @@ function Table({ columns, data, customFilters, SubComponent }) {
         </thead>
         <tbody {...getTableBodyProps()}>
           {page.map((row, index) => {
-            prepareRow(row)
+            prepareRow(row);
             return (
               <Fragment key={index}>
-                <tr {...row.getRowProps()} {...row.getToggleRowExpandedProps()}>
+                <tr className={row.isExpanded ? "table-active" : (index % 2 === 0 ? "striped" : "")} {...row.getRowProps()} {...row.getToggleRowExpandedProps()}>
                   {row.cells.map(cell => {
                     return (
                       <td {...cell.getCellProps()} className="align-middle">
@@ -408,16 +408,16 @@ function Table({ columns, data, customFilters, SubComponent }) {
       */}
       {/* <div className="pagination">
         <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
+          {'<< first'}
         </button>{' '}
         <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          {'<'}
+          {'< previous'}
         </button>{' '}
         <button onClick={() => nextPage()} disabled={!canNextPage}>
-          {'>'}
+          {'next >'}
         </button>{' '}
         <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
+          {'last >>'}
         </button>{' '}
         <span>
           Page{' '}
@@ -450,6 +450,51 @@ function Table({ columns, data, customFilters, SubComponent }) {
           ))}
         </select>
       </div> */}
+      <div className="row">
+        <div className="col-9">
+          <ul className="pagination">
+            <li className={canPreviousPage? "page-item" : "page-item disabled"}>
+              <span className="page-link" onClick={() => previousPage()} aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+                <span className="sr-only">Previous</span>
+              </span>
+            </li>
+            {
+              Array.from({length: pageCount}, (_, index) => index + 1).map(index => (
+                <Fragment key={"paginationPage" + index}>
+                  <li className={pageIndex + 1 === index? "page-item active" : "page-item"}>
+                    <span className="page-link" onClick={pageIndex + 1 !== index? (() => gotoPage(index - 1)) : null}>
+                      {index}
+                      {pageIndex + 1 === index? <span className="sr-only">(current)</span> : null}
+                    </span>
+                  </li>
+                </Fragment>
+              ))
+            }
+            <li className={canNextPage? "page-item" : "page-item disabled"}>
+              <span className="page-link" onClick={() => nextPage()} aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+                <span className="sr-only">Next</span>
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div className="col">
+          <div className="btn-group float-right">
+            {[10, 25, 50, 100].map((size, index) => (
+              <Fragment key={"perPageButton" + index}>
+                <button
+                  type="button"
+                  className={pageSize === size? "btn btn-outline-secondary active" : "btn btn-outline-secondary"}
+                  onClick={() => setPageSize(Number(size))}
+                >
+                  {size}
+                </button>
+              </Fragment>
+            ))}
+          </div>
+        </div>
+      </div>
     </>
   )
 }

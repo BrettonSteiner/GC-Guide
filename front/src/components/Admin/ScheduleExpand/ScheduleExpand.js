@@ -20,18 +20,31 @@ const calculateMeridiem = time => {
 }
 
 const ScheduleExpand = (props) => {
-  const [eventId] = useState("0");
-  const [eventName, setEventName] = useState(props?.name? props.name : "");
-  const [date, setdate] = useState(props?.date? new Date(props.date) : new Date());
-  const [startHour, setStartHour] = useState(props?.startTime? calculateHour(props.startTime) : "-- Select --");
-  const [startMinute, setStartMinute] = useState(props?.startTime? calculateMinute(props.startTime) : "-- Select --");
-  const [startMeridiem, setStartMeridiem] = useState(props?.startTime? calculateMeridiem(props.startTime) : "-- Select --");
-  const [endHour, setEndHour] = useState(props?.endTime? calculateHour(props.endTime) : "-- Select --");
-  const [endMinute, setEndMinute] = useState(props?.endTime? calculateMinute(props.endTime) : "-- Select --");
-  const [endMeridiem, setEndMeridiem] = useState(props?.endTime? calculateMeridiem(props.endTime): "-- Select --");
-  const [location, setLocation] = useState(props?.location? props.location : "");
-  const [description, setDescription] = useState(props?.description? props.description : "");
-  const [mapSpots, setMapSpots] = useState(props?.mapSpots? props.mapSpots : []);
+  const [createMode] = useState(props?.row?.createMode? props.row.createMode : false);
+  const [cancelTarget] = useState(props?.row?.cancelTarget? props.row.cancelTarget : "");
+  const [eventId] = useState(props?.row?.eventId? props.row.eventId : "0");
+  const [originalEventName] = useState(props?.row?.name? props.row.name : "");
+  const [originalDate] = useState(props?.row?.date? new Date(props.row.date) : new Date());
+  const [originalStartHour] = useState(props?.row?.startTime? calculateHour(props.row.startTime) : "-- Select --");
+  const [originalStartMinute] = useState(props?.row?.startTime? calculateMinute(props.row.startTime) : "-- Select --");
+  const [originalStartMeridiem] = useState(props?.row?.startTime? calculateMeridiem(props.row.startTime) : "-- Select --");
+  const [originalEndHour] = useState(props?.row?.endTime? calculateHour(props.row.endTime) : "-- Select --");
+  const [originalEndMinute] = useState(props?.row?.endTime? calculateMinute(props.row.endTime) : "-- Select --");
+  const [originalEndMeridiem] = useState(props?.row?.endTime? calculateMeridiem(props.row.endTime): "-- Select --");
+  const [originalLocation] = useState(props?.row?.location? props.row.location : "");
+  const [originalDescription] = useState(props?.row?.description? props.row.description : "");
+  const [originalMapSpots] = useState(props?.row?.mapSpots? props.row.mapSpots : []);
+  const [eventName, setEventName] = useState(props?.row?.name? props.row.name : "");
+  const [date, setDate] = useState(props?.row?.date? new Date(props.row.date) : new Date());
+  const [startHour, setStartHour] = useState(props?.row?.startTime? calculateHour(props.row.startTime) : "-- Select --");
+  const [startMinute, setStartMinute] = useState(props?.row?.startTime? calculateMinute(props.row.startTime) : "-- Select --");
+  const [startMeridiem, setStartMeridiem] = useState(props?.row?.startTime? calculateMeridiem(props.row.startTime) : "-- Select --");
+  const [endHour, setEndHour] = useState(props?.row?.endTime? calculateHour(props.row.endTime) : "-- Select --");
+  const [endMinute, setEndMinute] = useState(props?.row?.endTime? calculateMinute(props.row.endTime) : "-- Select --");
+  const [endMeridiem, setEndMeridiem] = useState(props?.row?.endTime? calculateMeridiem(props.row.endTime): "-- Select --");
+  const [location, setLocation] = useState(props?.row?.location? props.row.location : "");
+  const [description, setDescription] = useState(props?.row?.description? props.row.description : "");
+  const [mapSpots, setMapSpots] = useState(props?.row?.mapSpots? props.row.mapSpots : []);
   const [selectedMapSpot, setSelectedMapSpot] = useState(-1);
   const [isAltered, setIsAltered] = useState(false);
   const [eventNameError, setEventNameError] = useState(false);
@@ -40,19 +53,19 @@ const ScheduleExpand = (props) => {
   const [endTimeError, setEndTimeError] = useState(false);
 
   useEffect(() => {
-    var hasBeenAltered = props?.name? eventName !== props.name : true;
-    hasBeenAltered = (!hasBeenAltered && props?.date? (date? date.getTime() : null) !== new Date(props.date).getTime() : true);
-    hasBeenAltered = (!hasBeenAltered && props?.startTime? startHour !== calculateHour(props.startTime) : true);
-    hasBeenAltered = (!hasBeenAltered && props?.startTime? startMinute !== calculateMinute(props.startTime) : true);
-    hasBeenAltered = (!hasBeenAltered && props?.startTime? startMeridiem !== calculateMeridiem(props.startTime) : true);
-    hasBeenAltered = (!hasBeenAltered && props?.endTime? endHour !== calculateHour(props.endTime) : true);
-    hasBeenAltered = (!hasBeenAltered && props?.endTime? endMinute !== calculateMinute(props.endTime) : true);
-    hasBeenAltered = (!hasBeenAltered && props?.endTime? endMeridiem !== calculateMeridiem(props.endTime) : true);
-    hasBeenAltered = (!hasBeenAltered && props?.location? location !== props.location : true);
-    hasBeenAltered = (!hasBeenAltered && props?.description? description !== props.description : true);
+    var hasBeenAltered = eventName !== originalEventName;
+    hasBeenAltered = (!hasBeenAltered? (date? date.getTime() : null) !== originalDate.getTime() : true);
+    hasBeenAltered = (!hasBeenAltered? startHour !== originalStartHour : true);
+    hasBeenAltered = (!hasBeenAltered? startMinute !== originalStartMinute : true);
+    hasBeenAltered = (!hasBeenAltered? startMeridiem !== originalStartMeridiem : true);
+    hasBeenAltered = (!hasBeenAltered? endHour !== originalEndHour : true);
+    hasBeenAltered = (!hasBeenAltered? endMinute !== originalEndMinute : true);
+    hasBeenAltered = (!hasBeenAltered? endMeridiem !== originalEndMeridiem : true);
+    hasBeenAltered = (!hasBeenAltered? location !== originalLocation : true);
+    hasBeenAltered = (!hasBeenAltered? description !== originalDescription : true);
 
-    if (!hasBeenAltered && props?.mapSpots? true : false) {
-      var sortedOriginalMapSpots = props.mapSpots.slice().sort();
+    if (!hasBeenAltered) {
+      var sortedOriginalMapSpots = originalMapSpots.slice().sort();
       var sortedCurrentMapSpots = mapSpots.slice().sort();
 
       hasBeenAltered = !(sortedOriginalMapSpots.length === sortedCurrentMapSpots.length && sortedOriginalMapSpots.every(function(value, index) {
@@ -62,41 +75,90 @@ const ScheduleExpand = (props) => {
 
     setIsAltered(hasBeenAltered);
   }, [
-    props.name,
+    originalEventName,
+    originalDate,
+    originalStartHour,
+    originalStartMinute,
+    originalStartMeridiem,
+    originalEndHour,
+    originalEndMinute,
+    originalEndMeridiem,
+    originalLocation,
+    originalDescription,
+    originalMapSpots,
     eventName,
-    props.date,
     date,
-    props.startTime,
     startHour,
     startMinute,
     startMeridiem,
-    props.endTime,
     endHour,
     endMinute,
     endMeridiem,
-    props.location,
     location,
-    props.description,
     description,
-    props.mapSpots,
     mapSpots
   ]);
 
-  useEffect(() => {
-    if (props?.startTime) {
-      setStartHour(calculateHour(props.startTime));
-      setStartMinute(calculateMinute(props.startTime));
-      setStartMeridiem(calculateMeridiem(props.startTime));
-    }
-  }, [props.startTime]);
+  const resetForm = useCallback(() => {
+    setEventName(originalEventName);
+    setDate(originalDate);
+    setStartHour(originalStartHour);
+    setStartMinute(originalStartMinute);
+    setStartMeridiem(originalStartMeridiem);
+    setEndHour(originalEndHour);
+    setEndMinute(originalEndMinute);
+    setEndMeridiem(originalEndMeridiem);
+    setLocation(originalLocation);
+    setDescription(originalDescription);
+    setMapSpots(originalMapSpots);
+    setSelectedMapSpot(-1);
+    setEventNameError(false);
+    setDateError(false);
+    setStartTimeError(false);
+    setEndTimeError(false);
+  }, [
+    originalEventName,
+    originalDate,
+    originalStartHour,
+    originalStartMinute,
+    originalStartMeridiem,
+    originalEndHour,
+    originalEndMinute,
+    originalEndMeridiem,
+    originalLocation,
+    originalDescription,
+    originalMapSpots
+  ]);
 
-  useEffect(() => {
-    if (props?.endTime) {
-      setEndHour(calculateHour(props.endTime));
-      setEndMinute(calculateMinute(props.endTime));
-      setEndMeridiem(calculateMeridiem(props.endTime));
+  const createEvent = useCallback(() => {
+    var hasErrors = false;
+    if (eventName === "") {
+      setEventNameError(true);
+      hasErrors = true;
     }
-  }, [props.endTime]);
+
+    if (date === null) {
+      setDateError(true);
+      hasErrors = true;
+    }
+
+    if (!((startHour === "-- Select --" && startMinute === "-- Select --" && startMeridiem === "-- Select --")
+       || (startHour !== "-- Select --" && startMinute !== "-- Select --" && startMeridiem !== "-- Select --"))) {
+      setStartTimeError(true);
+      hasErrors = true;
+    }
+
+    if (!((endHour === "-- Select --" && endMinute === "-- Select --" && endMeridiem === "-- Select --")
+       || (endHour !== "-- Select --" && endMinute !== "-- Select --" && endMeridiem !== "-- Select --"))) {
+      setEndTimeError(true);
+      hasErrors = true;
+    }
+
+    if (!hasErrors && isAltered) {
+      //Call server to create event
+      console.log("Create event.");
+    }
+  }, [eventName, date, startHour, startMinute, startMeridiem, endHour, endMinute, endMeridiem, isAltered]);
 
   const updateEvent = useCallback(() => {
     var hasErrors = false;
@@ -143,9 +205,8 @@ const ScheduleExpand = (props) => {
             <input
               type="text"
               className={eventNameError ? "form-control is-invalid" : "form-control"}
-              id="eventName"
               placeholder="Event Name"
-              defaultValue={eventName}
+              defaultValue={originalEventName}
               onChange={e => {
                 setEventName(e.target.value);
                 if (eventNameError) {
@@ -161,9 +222,10 @@ const ScheduleExpand = (props) => {
             <label htmlFor="date">Date</label><br/>
             <DatePicker
               className={dateError ? "form-control date is-invalid" : "form-control date"}
+              defaultValue={originalDate}
               selected={date}
               onChange={date => {
-                setdate(date);
+                setDate(date);
                 if (dateError) {
                   setDateError(false);
                 }
@@ -178,8 +240,7 @@ const ScheduleExpand = (props) => {
             <div className="input-group">
               <select
                 className={startTimeError ? "form-control is-invalid" : "form-control"}
-                id="startHour"
-                defaultValue={startHour}
+                defaultValue={originalStartHour}
                 onChange={e => {
                   setStartHour(e.target.value);
                   if (startTimeError) {
@@ -202,8 +263,7 @@ const ScheduleExpand = (props) => {
               </select>
               <select
                 className={startTimeError ? "form-control is-invalid" : "form-control"}
-                id="startMinute"
-                defaultValue={startMinute}
+                defaultValue={originalStartMinute}
                 onChange={e => {
                   setStartMinute(e.target.value);
                   if (startTimeError) {
@@ -226,8 +286,7 @@ const ScheduleExpand = (props) => {
               </select>
               <select
                 className={startTimeError ? "form-control is-invalid" : "form-control"}
-                id="startMeridiem"
-                defaultValue={startMeridiem}
+                defaultValue={originalStartMeridiem}
                 onChange={e => {
                   setStartMeridiem(e.target.value);
                   if (startTimeError) {
@@ -248,8 +307,7 @@ const ScheduleExpand = (props) => {
             <div className="input-group">
               <select
                 className={endTimeError ? "form-control is-invalid" : "form-control"}
-                id="endHour"
-                defaultValue={endHour}
+                defaultValue={originalEndHour}
                 onChange={e => {
                   setEndHour(e.target.value);
                   if (endTimeError) {
@@ -272,8 +330,7 @@ const ScheduleExpand = (props) => {
               </select>
               <select
                 className={endTimeError ? "form-control is-invalid" : "form-control"}
-                id="endMinute"
-                defaultValue={endMinute}
+                defaultValue={originalEndMinute}
                 onChange={e => {
                   setEndMinute(e.target.value);
                   if (endTimeError) {
@@ -296,8 +353,7 @@ const ScheduleExpand = (props) => {
               </select>
               <select
                 className={endTimeError ? "form-control is-invalid" : "form-control"}
-                id="endMeridiem"
-                defaultValue={endMeridiem}
+                defaultValue={originalEndMeridiem}
                 onChange={e => {
                   setEndMeridiem(e.target.value);
                   if (endTimeError) {
@@ -318,9 +374,8 @@ const ScheduleExpand = (props) => {
             <input
               type="text"
               className="form-control"
-              id="location"
               placeholder="Location"
-              defaultValue={location}
+              defaultValue={originalLocation}
               onChange={e => {
                 setLocation(e.target.value);
               }}>
@@ -331,10 +386,9 @@ const ScheduleExpand = (props) => {
             <textarea
               type="text"
               className="form-control"
-              id="description"
               placeholder="Description"
               rows="4"
-              defaultValue={description}
+              defaultValue={originalDescription}
               onChange={e => {
                 setDescription(e.target.value);
               }}>
@@ -410,10 +464,30 @@ const ScheduleExpand = (props) => {
         </div>
       </div>
       <div className="row">
-        <div className="col">
-          <button type="button" className="btn btn-primary" disabled={!isAltered} onClick={() => updateEvent()}>Save/Update</button>
-          <button type="button" className="btn btn-danger float-right" onClick={() => deleteEvent()}>Delete</button>
-        </div>
+        { createMode === true
+          ?
+          <div className="col">
+            <button type="button" className="btn btn-primary" disabled={!isAltered} onClick={() => createEvent()}>Create I-Team</button>
+            <button type="reset" className="btn btn-warning admin-btn" disabled={!isAltered} onClick={() => resetForm()}>Reset</button>
+            { cancelTarget !== ""?
+              <button
+                type="button"
+                className="btn btn-danger float-right"
+                data-toggle="collapse"
+                data-target={"#" + cancelTarget}
+                aria-controls={cancelTarget}
+              >Cancel</button>
+              :
+              null
+            }
+          </div>
+          :
+          <div className="col">
+            <button type="button" className="btn btn-primary" disabled={!isAltered} onClick={() => updateEvent()}>Save/Update</button>
+            <button type="reset" className="btn btn-warning admin-btn" disabled={!isAltered} onClick={() => resetForm()}>Reset</button>
+            <button type="button" className="btn btn-danger float-right" onClick={() => deleteEvent()}>Delete</button>
+          </div>
+        }
       </div>
     </form>
     </>
