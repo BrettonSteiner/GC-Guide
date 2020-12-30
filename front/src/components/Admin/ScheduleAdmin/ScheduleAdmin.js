@@ -119,7 +119,9 @@ const ScheduleAdmin = (props) => {
     <>
     <div id="scheduleTab" className="card">
       <div className="card-header d-flex justify-content-between">
-        <h5 className="mb-0 align-self-center">Events</h5>
+        <h5 className="mb-0 align-self-center">
+          Schedule <span class="badge badge-secondary">{schedule.length} Events</span>
+        </h5>
         <div className="d-flex flex-row-reverse">
           <input type="button" value="Import Data From File" className="btn btn-info admin-btn "/>
           <input
@@ -139,7 +141,6 @@ const ScheduleAdmin = (props) => {
         </div>
       </div>
       <div className="card-body">
-        <p>There are {schedule.length} Events in this semester</p>
         <DataTable columns={columns} 
           data={schedule.map(row => {
             let newRow= {...row};

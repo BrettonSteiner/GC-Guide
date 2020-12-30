@@ -65,13 +65,13 @@ const Admin = (props) => {
       </div>
       <div className="admin-container">
         <Tabs>
-          <div label="I-Teams">
+          <div label="I-Teams" recordCount={selectedSemester.iteams?.length}>
             <ITeamAdmin iteams={selectedSemester.iteams}/>
           </div>
-          <div label="Academic Connections">
+          <div label="Academic Connections" recordCount={selectedSemester.colleges?.length}>
             <MajorCollegeAdmin colleges={selectedSemester.colleges}/>
           </div>
-          <div label="Schedule">
+          <div label="Schedule" recordCount={selectedSemester.events?.length}>
             <ScheduleAdmin events={selectedSemester.events}/>
           </div>
         </Tabs>

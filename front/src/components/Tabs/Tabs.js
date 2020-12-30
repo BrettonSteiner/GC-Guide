@@ -14,13 +14,14 @@ const Tabs = (props) => {
       <div className="tabs">
         <ul className="tab-list">
           {props.children.map((child) => {
-            const { label } = child.props;
+            const { label, recordCount } = child.props;
 
             return (
               <Tab
                 activeTab={activeTab}
                 key={label}
                 label={label}
+                recordCount={recordCount}
                 onClick={onClickTabItem}
               />
             );

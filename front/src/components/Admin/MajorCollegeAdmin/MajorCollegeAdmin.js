@@ -127,7 +127,9 @@ const MajorCollegeAdmin = (props) => {
     <>
     <div id="collegeTab" className="card">
       <div className="card-header d-flex justify-content-between">
-        <h5 className="mb-0 align-self-center">Academic Connections</h5>
+        <h5 className="mb-0 align-self-center">
+          Academic Connections <span class="badge badge-secondary">{colleges.length} Colleges</span>
+        </h5>
         <div className="d-flex flex-row-reverse">
           <input type="button" value="Import Data From File" className="btn btn-info admin-btn "/>
           <input
@@ -147,7 +149,6 @@ const MajorCollegeAdmin = (props) => {
         </div>
       </div>
       <div className="card-body">
-        <p>There are {colleges.length} Colleges in this semester</p>
         <DataTable columns={columns} 
           data={colleges.map(row => {
             let newRow= {...row};

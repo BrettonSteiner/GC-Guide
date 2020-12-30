@@ -226,7 +226,9 @@ const ITeamAdmin = (props) => {
     <>
     <div id="iTeamTab" className="card">
       <div className="card-header d-flex justify-content-between">
-        <h5 className="mb-0 align-self-center">I-Teams</h5>
+        <h5 className="mb-0 align-self-center">
+          I-Teams <span class="badge badge-secondary">{iteams.length} I-Teams</span>
+        </h5>
         <div className="d-flex flex-row-reverse">
           <input type="button" value="Import Data From File" className="btn btn-info admin-btn"/>
           <input
@@ -246,7 +248,6 @@ const ITeamAdmin = (props) => {
         </div>
       </div>
       <div className="card-body">
-        <p>There are {iteams.length} I-Teams in this semester</p>
         <DataTable columns={columns} 
           data={iteams.map(row => {
             let newRow= {...row};
