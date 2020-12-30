@@ -1,62 +1,13 @@
-import React, { useState, useMemo, /*useEffect*/ } from 'react';
+import React, { useState, useMemo, useEffect, } from 'react';
 import DataTable from '../DataTable/DataTable';
 import ScheduleExpand from "../ScheduleExpand/ScheduleExpand.js";
 
-const dummyExpandData = [{
-  "eventId": "dummyId1",
-  "date": "09/13/2019",
-  "startTime": "3:00 pm",
-  "endTime": "3:40 pm",
-  "name": "Meet Your I-Team",
-  "location": "BYU-Idaho Stadium",
-  "description": "At 3:00 p.m. on September 13 students will meet their New Student Mentor at the Meet Your I-Team gathering. Here, students will make new friends and get acquainted with other new students at BYU-Idaho. Meet Your I-Team will take place at the BYU-Idaho Stadium adjacent to the Hart Building.",
-  "mapSpots": [{ "lat": 43.821020, "lng": -111.785403}]
-}, {
-  "eventId": "dummyId2",
-  "date": "09/13/2019",
-  "startTime": "9:00 am",
-  "endTime": "5:00 pm",
-  "name": "Registration",
-  "location": "Get Connected Tent",
-  "description": "New students can register for Get Connected activities here. Registration grants access to the New Student Talent Show, a free lunch, and I-Night!",
-  "mapSpots": [{ "lat": 43.81792, "lng": -111.783822}]
-}, {
-  "eventId": "dummyId3",
-  "name": "Registration",
-}, {
-  "eventId": "dummyId4",
-  "date": "09/13/2019",
-}, {
-  "eventId": "dummyId5",
-  "startTime": "9:00 am",
-  "endTime": "5:00 pm",
-}, {
-  "eventId": "dummyId6",
-  "startTime": "9:00 am",
-}, {
-  "eventId": "dummyId7",
-  "endTime": "5:00 pm",
-}, {
-  "eventId": "dummyId8",
-  "location": "Get Connected Tent",
-}, {
-  "eventId": "dummyId9",
-  "description": "New students can register for Get Connected activities here. Registration grants access to the New Student Talent Show, a free lunch, and I-Night!",
-}, {
-  "eventId": "dummyId10",
-  "mapSpots": [{ "lat": 43.81792, "lng": -111.783822}]
-}, {
-  "eventId": "dummyId11",
-  "date": "09/13/2019",
-  "startTime": "9:00 am",
-  "endTime": "5:00 pm",
-  "name": "Registration",
-  "location": "Get Connected Tent",
-}];
-
 const ScheduleAdmin = (props) => {
-  // const [selectedEventId, setSelectedEventId] = useState("");
-  const [schedule, setSchedule] = useState(dummyExpandData);
+  const [events, setEvents] = useState(props?.events? props.events : []);
+
+  useEffect(() => {
+    setEvents(props?.events);
+  }, [props?.events]);
 
   const columns = useMemo(() => {
     return [
@@ -120,7 +71,7 @@ const ScheduleAdmin = (props) => {
     <div id="scheduleTab" className="card">
       <div className="card-header d-flex justify-content-between">
         <h5 className="mb-0 align-self-center">
-          Schedule <span class="badge badge-secondary">{schedule.length} Events</span>
+          Schedule <span class="badge badge-secondary">{events.length} Events</span>
         </h5>
         <div className="d-flex flex-row-reverse">
           <input type="button" value="Import Data From File" className="btn btn-info admin-btn "/>
@@ -142,7 +93,7 @@ const ScheduleAdmin = (props) => {
       </div>
       <div className="card-body">
         <DataTable columns={columns} 
-          data={schedule.map(row => {
+          data={events.map(row => {
             let newRow= {...row};
             newRow.displayTimes = <><div>{newRow.startTime? newRow.startTime : null}{newRow.endTime? " - " + newRow.endTime : null}</div></>;
             return newRow;
@@ -155,4 +106,4 @@ const ScheduleAdmin = (props) => {
   )
 }
 
-export default ScheduleAdmin
+export default ScheduleAdmin;

@@ -1,153 +1,13 @@
-import React, { useState, useMemo, /*useEffect,*/} from 'react';
+import React, { useState, useMemo, useEffect,} from 'react';
 import DataTable from '../DataTable/DataTable';
 import ITeamExpand from '../ITeamExpand/ITeamExpand';
 
-const dummyData = [{
-  iTeamId: "dummyId1",
-  iTeamNumber: 1,
-  mentor1: {name: "Braden Steiner", phone: "801-123-4567" },
-  mentor2: {name: "Rachel Steiner", phone: "801-987-6543" },
-  complexes: [{
-    name: "Somerset",
-    address: "123 E. 450 S. Rexburg ID",
-    apartments: ["101", "102", "103"],
-  }, {
-    name: "Ridge",
-    address: "here",
-    apartments: ["200", "201", "202"],
-  }]
-}, {
-  iTeamId: "dummyId2",
-  iTeamNumber: 2,
-  mentor1: {
-    name: "Simba",
-    phone: "208-555-1234"
-  },
-  mentor2: {
-    name: "Nala",
-    phone: "208-555-5678"
-  },
-  complexes: [{
-    name: "Pride Rock",
-    address: "100 Somewhere Sunrise, Africa",
-    apartments: [
-      "101",
-      "102",
-      "103",
-      "104",
-      "105"
-    ]
-  },
-  {
-    name: "Pride Lands",
-    address: "450 Everywhere Sunrise, Africa",
-    apartments: [
-      "2101",
-      "2102",
-      "2103",
-      "2104",
-      "2105"
-    ]
-  }]
-}, {
-  iTeamId: "dummyId3",
-  iTeamNumber: 3
-}, {
-  iTeamId: "dummyId4",
-  iTeamNumber: 4,
-  mentor1: {
-    name: "Only Mentor1",
-    phone: "111-111-1111"
-  }
-}, {
-  iTeamId: "dummyId5",
-  iTeamNumber: 5,
-  mentor2: {
-    name: "Only Mentor2",
-    phone: "222-222-2222"
-  }
-}, {
-  iTeamId: "dummyId6",
-  iTeamNumber: 6,
-  mentor1: {
-    name: "Only Name1"
-  },
-  mentor2: {
-    name: "Only Name2"
-  },
-}, {
-  iTeamId: "dummyId7",
-  iTeamNumber: 7,
-  mentor1: {
-    phone: "Only Phone1"
-  },
-  mentor2: {
-    phone: "Only Phone2"
-  },
-}, {
-  iTeamId: "dummyId8",
-  iTeamNumber: 8,
-  mentor1: {
-    name: "Only Name1"
-  },
-  mentor2: {
-    phone: "Only Phone2"
-  },
-}, {
-  iTeamId: "dummyId9",
-  iTeamNumber: 9,
-  complexes: [{
-    name: "Only",
-    address: "Complexes",
-    apartments: [
-      "101",
-      "102",
-      "103",
-      "104",
-      "105"
-    ]
-  }, {
-    name: "Only2",
-    address: "Complexes2",
-    apartments: [
-      "2101",
-      "2102",
-      "2103",
-      "2104",
-      "2105"
-    ]
-  }]
-}, {
-  iTeamId: "dummyId10",
-  iTeamNumber: 10,
-  complexes: [{
-    name: "Name only",
-    apartments: [
-      "2101",
-      "2102",
-      "2103",
-      "2104",
-      "2105"
-    ]
-  }]
-}, {
-  iTeamId: "dummyId11",
-  iTeamNumber: 11,
-  complexes: [{
-    address: "Address only",
-    apartments: [
-      "2101",
-      "2102",
-      "2103",
-      "2104",
-      "2105"
-    ]
-  }]
-}]
-
 const ITeamAdmin = (props) => {
-  // const [selectedITeamId, setSelectedITeamId] = useState("");
-  const [iteams, setIteams] = useState(dummyData);
+  const [iTeams, setITeams] = useState(props?.iTeams? props.iTeams : []);
+
+  useEffect(() => {
+    setITeams(props?.iTeams);
+  }, [props?.iTeams]);
 
   // let [expanded, setExpanded] = useState([])
   // let [allExpanded, setAllExpanded] = useState(true)
@@ -227,7 +87,7 @@ const ITeamAdmin = (props) => {
     <div id="iTeamTab" className="card">
       <div className="card-header d-flex justify-content-between">
         <h5 className="mb-0 align-self-center">
-          I-Teams <span class="badge badge-secondary">{iteams.length} I-Teams</span>
+          I-Teams <span class="badge badge-secondary">{iTeams.length} I-Teams</span>
         </h5>
         <div className="d-flex flex-row-reverse">
           <input type="button" value="Import Data From File" className="btn btn-info admin-btn"/>
@@ -249,7 +109,7 @@ const ITeamAdmin = (props) => {
       </div>
       <div className="card-body">
         <DataTable columns={columns} 
-          data={iteams.map(row => {
+          data={iTeams.map(row => {
             let newRow= {...row};
             newRow.displayMentors = <><div>{newRow.mentor1?.name? newRow.mentor1.name : null}</div><div>{newRow.mentor2?.name? newRow.mentor2.name : null}</div></>;
             newRow.displayNumbers = <><div>{newRow.mentor1?.phone? newRow.mentor1.phone : null}</div><div>{newRow.mentor2?.phone? newRow.mentor2.phone : null}</div></>;
@@ -265,4 +125,4 @@ const ITeamAdmin = (props) => {
   )
 }
 
-export default ITeamAdmin
+export default ITeamAdmin;

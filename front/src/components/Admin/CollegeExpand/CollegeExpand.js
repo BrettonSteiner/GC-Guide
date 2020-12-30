@@ -3,7 +3,7 @@ import React, { useState, useEffect, useCallback, Fragment } from 'react';
 const CollegeExpand = (props) => {
   const [createMode] = useState(props?.row?.createMode? props.row.createMode : false);
   const [cancelTarget] = useState(props?.row?.cancelTarget? props.row.cancelTarget : "");
-  const [collegeId] = useState(props?.row?.collegeId? props.row.collegeId : "0");
+  const [collegeId] = useState(props?.row?._id? props.row._id : "0");
   const [originalCollegeName] = useState(props?.row?.name? props.row.name : "");
   const [originalFlagColor] = useState(props?.row?.flagColor? props.row.flagColor : "-- Select --");
   const [originalMajors] = useState(props?.row?.majors? props.row.majors.slice().sort() : []);

@@ -22,7 +22,7 @@ const calculateMeridiem = time => {
 const ScheduleExpand = (props) => {
   const [createMode] = useState(props?.row?.createMode? props.row.createMode : false);
   const [cancelTarget] = useState(props?.row?.cancelTarget? props.row.cancelTarget : "");
-  const [eventId] = useState(props?.row?.eventId? props.row.eventId : "0");
+  const [eventId] = useState(props?.row?._id? props.row._id : "0");
   const [originalEventName] = useState(props?.row?.name? props.row.name : "");
   const [originalDate] = useState(props?.row?.date? new Date(props.row.date) : new Date());
   const [originalStartHour] = useState(props?.row?.startTime? calculateHour(props.row.startTime) : "-- Select --");
@@ -443,6 +443,9 @@ const ScheduleExpand = (props) => {
                               setMapSpots(mapSpots.filter(row => !(row.lat === mapSpot.lat && row.lng === mapSpot.lng)));
                               if (selectedMapSpot === index) {
                                 setSelectedMapSpot(-1);
+                              }
+                              else if (selectedMapSpot > index) {
+                                setSelectedMapSpot(selectedMapSpot - 1);
                               }
                             }}>
                             <i className="fas fa-trash"></i>

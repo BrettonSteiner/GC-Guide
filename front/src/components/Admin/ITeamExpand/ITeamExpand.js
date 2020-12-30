@@ -49,7 +49,7 @@ const organizeComplexApartments = complexes => {
 const ITeamExpand = (props) => {
   const [createMode] = useState(props?.row?.createMode? props.row.createMode : false);
   const [cancelTarget] = useState(props?.row?.cancelTarget? props.row.cancelTarget : "");
-  const [iTeamId] = useState(props?.row?.iTeamId? props.row.iTeamId : "0")
+  const [iTeamId] = useState(props?.row?._id? props.row._id : "0")
   const [originalITeamNumber] = useState(props?.row?.iTeamNumber? props.row.iTeamNumber.toString() : "");
   const [originalMentor1Name] = useState(props?.row?.mentor1?.name? props.row.mentor1.name : "");
   const [originalMentor1Phone] = useState(props?.row?.mentor1?.phone? props.row.mentor1.phone : "");

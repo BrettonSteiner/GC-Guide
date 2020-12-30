@@ -4,16 +4,10 @@ import './Admin.css';
 import ITeamAdmin from './ITeamAdmin/ITeamAdmin.js';
 import MajorCollegeAdmin from './MajorCollegeAdmin/MajorCollegeAdmin.js';
 import ScheduleAdmin from './ScheduleAdmin/ScheduleAdmin.js';
-
-const testSemesters = [
-  {name: "Winter 2020", activeFlag: false, colleges: [{collegeName: "Science and Engineering"}, {collegeName: "Arts"}], iteams: [], events: []},
-  {name: "Spring 2020", activeFlag: false, colleges: [], iteams: [{ITeamNumber: 1}], events: []},
-  {name: "Fall 2020", activeFlag: true, colleges: [], iteams: [], events: [{name: "Academic Connections"}]},
-  {name: "Winter 2021", activeFlag: false, colleges: [], iteams: [], events: []},
-]
+import dummyData from './dummy.json';
 
 const Admin = (props) => {
-  const [semesters, setSemesters] = useState(testSemesters);
+  const [semesters, setSemesters] = useState(dummyData);
   const [selectedSemesterName, setSelectedSemesterName] = useState(semesters[0]?.name);
   let selectedSemester = semesters.find(sem => sem.name === selectedSemesterName);
 
@@ -65,8 +59,8 @@ const Admin = (props) => {
       </div>
       <div className="admin-container">
         <Tabs>
-          <div label="I-Teams" recordCount={selectedSemester.iteams?.length}>
-            <ITeamAdmin iteams={selectedSemester.iteams}/>
+          <div label="I-Teams" recordCount={selectedSemester.iTeams?.length}>
+            <ITeamAdmin iTeams={selectedSemester.iTeams}/>
           </div>
           <div label="Academic Connections" recordCount={selectedSemester.colleges?.length}>
             <MajorCollegeAdmin colleges={selectedSemester.colleges}/>

@@ -1,76 +1,13 @@
-import React, { useState, useMemo, /*useEffect*/ } from 'react';
+import React, { useState, useMemo, useEffect, } from 'react';
 import DataTable from '../DataTable/DataTable';
 import CollegeExpand from '../CollegeExpand/CollegeExpand';
 
-const dummyExpandData = [{
-  "collegeId": "dummyId1",
-  "name": "College of Physical Sciences and Engineering",
-  "flagColor": "Orange",
-  "majors": [
-    "Computer Science",
-    "Software Engineering",
-    "Mechanical Engineering",
-    "Electrical Engineering"
-  ]
-}, {
-  "collegeId": "dummyId2",
-  "name": "College of Agriculture",
-  "flagColor": "Purple",
-  "majors": [
-    "Agriculture Science"
-  ]
-}, {
-  "collegeId": "dummyId3",
-  "name": "College of Language and Letters",
-  "majors": [
-    "English",
-    "Spanish"
-  ]
-}, {
-  "collegeId": "dummyId4",
-  "name": "College of General Studies",
-  "flagColor": "Grey",
-}, {
-  "collegeId": "dummyId5",
-  "flagColor": "Red",
-  "majors": [
-    "Accounting",
-  ]
-}, {
-  "collegeId": "dummyId6",
-  "name": "College of Literally Nothing But A Name",
-}, {
-  "collegeId": "dummyId7",
-  "flagColor": "Yellow",
-}, {
-  "collegeId": "dummyId8",
-  "majors": [
-    "Random Extra Major",
-    "Maybe Actually A Minor"
-  ]
-}, {
-  "collegeId": "dummyId9",
-  "flagColor": "Red",
-  "majors": [
-    "Accounting",
-  ]
-}, {
-  "collegeId": "dummyId10",
-  "flagColor": "Red",
-  "majors": [
-    "Accounting",
-  ]
-}, {
-  "collegeId": "dummyId11",
-  "flagColor": "Red",
-  "majors": [
-    "Accounting",
-  ]
-}];
-
 const MajorCollegeAdmin = (props) => {
-  // const [selectedCollegeId, setSelectedCollegeId] = useState("");
-  const [colleges, setColleges] = useState(dummyExpandData);
+  const [colleges, setColleges] = useState(props?.colleges? props.colleges : []);
+
+  useEffect(() => {
+    setColleges(props?.colleges);
+  }, [props?.colleges]);
 
   const columns = useMemo(() => {
     return [

@@ -19,19 +19,19 @@ const Map = (props) => {
 
   useEffect(() => {
     setHeight(props?.height? props.height : '300px');
-  }, [props.height]);
+  }, [props?.height]);
 
   useEffect(() => {
     setZoom(props?.zoom? props.zoom : 17);
-  }, [props.zoom]);
+  }, [props?.zoom]);
 
   useEffect(() => {
     setCenter(props?.center? props.center : {lat: 43.818256, lng: -111.783633});
-  }, [props.center]);
+  }, [props?.center]);
 
   useEffect(() => {
     setMarkers(props?.mapSpots? props.mapSpots : []);
-  }, [props.mapSpots]);
+  }, [props?.mapSpots]);
 
   useEffect(() => {
     setSelectedMarker(props?.selectedMapSpot? props.selectedMapSpot : 0);
@@ -39,16 +39,16 @@ const Map = (props) => {
       var latLng = new window.google.maps.LatLng(markers[selectedMarker].lat, markers[selectedMarker].lng);
       mapRef.panTo(latLng);
     }
-  }, [props.selectedMapSpot, mapRef, markers, selectedMarker]);
+  }, [props?.selectedMapSpot, mapRef, markers, selectedMarker]);
 
-  const calculateMarkerColor = useCallback((index) => {
-    var markerIcon = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
-    if (selectedMarker === index) {
-      markerIcon = "http://maps.google.com/mapfiles/ms/icons/orange-dot.png";
-    }
+  // const calculateMarkerColor = useCallback((index) => {
+  //   var markerIcon = "http://maps.google.com/mapfiles/ms/icons/blue-dot.png";
+  //   if (selectedMarker === index) {
+  //     markerIcon = "http://maps.google.com/mapfiles/ms/icons/orange-dot.png";
+  //   }
 
-    return markerIcon;
-  }, [selectedMarker]);
+  //   return markerIcon;
+  // }, [selectedMarker]);
 
   const calculateMarkerAnimation = useCallback((index) => {
     var animation = null;
@@ -90,7 +90,7 @@ const Map = (props) => {
         <Marker
           key={"marker" + index}
           position={{ lat: marker.lat, lng: marker.lng }}
-          icon={calculateMarkerColor(index)}
+          // icon={calculateMarkerColor(index)}
           animation={calculateMarkerAnimation(index)}
         />
       ))}
