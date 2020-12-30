@@ -65,7 +65,7 @@ const ITeamExpand = (props) => {
   const [complexes, setComplexes] = useState(props?.row?.complexes? sortComplexes(props.row.complexes) : []);
   const [newComplexName, setNewComplexName] = useState("");
   const [newComplexAddress, setNewComplexAddress] = useState("");
-  const [newApartment, setNewApartment] = useState("");
+  const [newApartments, setNewApartments] = useState([]);
   const [isAltered, setIsAltered] = useState(false);
   const [iTeamNumberError, setITeamNumberError] = useState(false);
   const [complexNameAddressError, setComplexNameAddressError] = useState(false);
@@ -169,12 +169,12 @@ const ITeamExpand = (props) => {
 
   const addNewApartment = useCallback((complex, apartment) => {
     var hasErrors = false;
-    if (apartment === "") {
+    if (apartment === undefined || apartment === null || apartment === "") {
       setEmptyApartmentError(true);
       hasErrors = true;
     }
 
-    if (complex.apartments.includes(apartment)) {
+    if (apartment !== undefined && apartment !== null && complex.apartments.includes(apartment)) {
       setExistingApartmentError(true);
       hasErrors = true;
     }
@@ -198,7 +198,7 @@ const ITeamExpand = (props) => {
     setComplexes(complexes);
     setNewComplexName("");
     setNewComplexAddress("");
-    setNewApartment("");
+    setNewApartments([]);
     setITeamNumberError(false);
     setComplexNameAddressError(false);
     setExistingComplexError(false);
@@ -391,7 +391,6 @@ const ITeamExpand = (props) => {
                         aria-expanded="false"
                         aria-controls={iTeamId + "-complex" + index}
                         onClick={() => {
-                          setNewApartment("");
                           if (emptyApartmentError) {
                             setEmptyApartmentError(false);
                           }
@@ -417,14 +416,13 @@ const ITeamExpand = (props) => {
                       <div className="card-body">
                         <div className="input-group form-group">
                           <input
-                            // id={iTeamId + "-complex" + index}
                             type="text"
                             className={(emptyApartmentError || existingApartmentError) ? "form-control is-invalid" : "form-control"}
                             placeholder="Add an apartment"
                             onChange={e => {
-                              setNewApartment(e.target.value);
-                              // TODO: There is a disconnect between the state and the multiple apartment inputs. Clear each input when possible.
-                              // resetApartmentInput(e.target.id + "-apartmentInput");
+                              var updatedNewApartments = newApartments.slice();
+                              updatedNewApartments[index] = e.target.value;
+                              setNewApartments(updatedNewApartments);
                               if (emptyApartmentError) {
                                 setEmptyApartmentError(false);
                               }
@@ -435,11 +433,10 @@ const ITeamExpand = (props) => {
                           </input>
                           <div className="input-group-append">
                             <button
-                              // id={iTeamId + "-complex" + index + "-apartmentInput"}
                               className="btn btn-outline-secondary align-middle"
                               type="button"
                               onClick={() => {
-                                addNewApartment(complex, newApartment);
+                                addNewApartment(complex, newApartments[index]);
                               }}>
                               <i className="fas fa-plus"></i>
                             </button>

@@ -3,6 +3,7 @@ import DataTable from '../DataTable/DataTable';
 import ITeamExpand from '../ITeamExpand/ITeamExpand';
 
 const dummyData = [{
+  iTeamId: "dummyId1",
   iTeamNumber: 1,
   mentor1: {name: "Braden Steiner", phone: "801-123-4567" },
   mentor2: {name: "Rachel Steiner", phone: "801-987-6543" },
@@ -16,6 +17,7 @@ const dummyData = [{
     apartments: ["200", "201", "202"],
   }]
 }, {
+  iTeamId: "dummyId2",
   iTeamNumber: 2,
   mentor1: {
     name: "Simba",
@@ -48,20 +50,24 @@ const dummyData = [{
     ]
   }]
 }, {
+  iTeamId: "dummyId3",
   iTeamNumber: 3
 }, {
+  iTeamId: "dummyId4",
   iTeamNumber: 4,
   mentor1: {
     name: "Only Mentor1",
     phone: "111-111-1111"
   }
 }, {
+  iTeamId: "dummyId5",
   iTeamNumber: 5,
   mentor2: {
     name: "Only Mentor2",
     phone: "222-222-2222"
   }
 }, {
+  iTeamId: "dummyId6",
   iTeamNumber: 6,
   mentor1: {
     name: "Only Name1"
@@ -70,6 +76,7 @@ const dummyData = [{
     name: "Only Name2"
   },
 }, {
+  iTeamId: "dummyId7",
   iTeamNumber: 7,
   mentor1: {
     phone: "Only Phone1"
@@ -78,6 +85,7 @@ const dummyData = [{
     phone: "Only Phone2"
   },
 }, {
+  iTeamId: "dummyId8",
   iTeamNumber: 8,
   mentor1: {
     name: "Only Name1"
@@ -86,6 +94,7 @@ const dummyData = [{
     phone: "Only Phone2"
   },
 }, {
+  iTeamId: "dummyId9",
   iTeamNumber: 9,
   complexes: [{
     name: "Only",
@@ -109,6 +118,7 @@ const dummyData = [{
     ]
   }]
 }, {
+  iTeamId: "dummyId10",
   iTeamNumber: 10,
   complexes: [{
     name: "Name only",
@@ -121,6 +131,7 @@ const dummyData = [{
     ]
   }]
 }, {
+  iTeamId: "dummyId11",
   iTeamNumber: 11,
   complexes: [{
     address: "Address only",
@@ -136,7 +147,7 @@ const dummyData = [{
 
 const ITeamAdmin = (props) => {
   // const [selectedITeamId, setSelectedITeamId] = useState("");
-  let [iteams, setIteams] = useState(dummyData);
+  const [iteams, setIteams] = useState(dummyData);
 
   // let [expanded, setExpanded] = useState([])
   // let [allExpanded, setAllExpanded] = useState(true)
@@ -175,7 +186,7 @@ const ITeamAdmin = (props) => {
           (<i className={row.isExpanded ? "fas fa-chevron-down fa-vc" : "fas fa-chevron-up fa-vc"}></i>),
       },
     ] 
-  })
+  });
 
   const filterMentors = (rows, id, filterValue) => {
     return rows.filter(row => {
@@ -215,7 +226,7 @@ const ITeamAdmin = (props) => {
     <>
     <div id="iTeamTab" className="card">
       <div className="card-header d-flex justify-content-between">
-        <h5 className="align-middle">I-Teams</h5>
+        <h5 className="mb-0 align-self-center">I-Teams</h5>
         <div className="d-flex flex-row-reverse">
           <input type="button" value="Import Data From File" className="btn btn-info admin-btn"/>
           <input
@@ -235,8 +246,7 @@ const ITeamAdmin = (props) => {
         </div>
       </div>
       <div className="card-body">
-        {/* ADD ADMIN STUFF HERE */}
-        <p>There are {props.iteams.length} I-Teams in this semester</p>
+        <p>There are {iteams.length} I-Teams in this semester</p>
         <DataTable columns={columns} 
           data={iteams.map(row => {
             let newRow= {...row};

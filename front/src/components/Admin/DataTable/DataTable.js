@@ -353,7 +353,7 @@ function Table({ columns, data, customFilters, SubComponent }) {
   // Render the UI for your table
   return (
     <>
-      <table {...getTableProps()} className="table table-hover">
+      <table {...getTableProps()} className="table table-hover table-bordered">
         <thead>
           {headerGroups.map(headerGroup => (
             <tr {...headerGroup.getHeaderGroupProps()}>
