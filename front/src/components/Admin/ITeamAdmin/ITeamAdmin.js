@@ -87,7 +87,7 @@ const ITeamAdmin = (props) => {
     <div id="iTeamTab" className="card">
       <div className="card-header d-flex justify-content-between">
         <h5 className="mb-0 align-self-center">
-          I-Teams <span class="badge badge-secondary">{iTeams.length} I-Teams</span>
+          I-Teams <span className="badge badge-secondary">{iTeams.length} I-Teams</span>
         </h5>
         <div className="d-flex flex-row-reverse">
           <input type="button" value="Import Data From File" className="btn btn-info admin-btn"/>
@@ -102,7 +102,7 @@ const ITeamAdmin = (props) => {
           />
         </div>
       </div>
-      <div id="createITeamCollapse" className="collapse" aria-labelledby="addITeamButton" data-parent="#iTeamTab">
+      <div id="createITeamCollapse" className="collapse border-bottom" aria-labelledby="addITeamButton" data-parent="#iTeamTab">
         <div className="card-body">
           <ITeamExpand row={{createMode:true, cancelTarget:"createITeamCollapse"}}/>
         </div>

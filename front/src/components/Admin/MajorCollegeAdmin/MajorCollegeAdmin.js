@@ -65,7 +65,7 @@ const MajorCollegeAdmin = (props) => {
     <div id="collegeTab" className="card">
       <div className="card-header d-flex justify-content-between">
         <h5 className="mb-0 align-self-center">
-          Academic Connections <span class="badge badge-secondary">{colleges.length} Colleges</span>
+          Academic Connections <span className="badge badge-secondary">{colleges.length} Colleges</span>
         </h5>
         <div className="d-flex flex-row-reverse">
           <input type="button" value="Import Data From File" className="btn btn-info admin-btn "/>
@@ -80,7 +80,7 @@ const MajorCollegeAdmin = (props) => {
           />
         </div>
       </div>
-      <div id="createCollegeCollapse" className="collapse" aria-labelledby="addCollegeButton" data-parent="#collegeTab">
+      <div id="createCollegeCollapse" className="collapse border-bottom" aria-labelledby="addCollegeButton" data-parent="#collegeTab">
         <div className="card-body">
           <CollegeExpand row={{createMode:true, cancelTarget:"createCollegeCollapse"}}/>
         </div>

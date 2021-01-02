@@ -71,7 +71,7 @@ const ScheduleAdmin = (props) => {
     <div id="scheduleTab" className="card">
       <div className="card-header d-flex justify-content-between">
         <h5 className="mb-0 align-self-center">
-          Schedule <span class="badge badge-secondary">{events.length} Events</span>
+          Schedule <span className="badge badge-secondary">{events.length} Events</span>
         </h5>
         <div className="d-flex flex-row-reverse">
           <input type="button" value="Import Data From File" className="btn btn-info admin-btn "/>
@@ -86,7 +86,7 @@ const ScheduleAdmin = (props) => {
           />
         </div>
       </div>
-      <div id="createEventCollapse" className="collapse" aria-labelledby="addEventButton" data-parent="#scheduleTab">
+      <div id="createEventCollapse" className="collapse border-bottom" aria-labelledby="addEventButton" data-parent="#scheduleTab">
         <div className="card-body">
           <ScheduleExpand row={{createMode:true, cancelTarget:"createEventCollapse"}}/>
         </div>
