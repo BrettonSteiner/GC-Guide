@@ -1,4 +1,4 @@
-import React, {useState, useCallback} from 'react';
+import React, {useState} from 'react';
 import Tabs from '../Tabs/Tabs.js';
 import './Admin.css';
 import ITeamAdmin from './ITeamAdmin/ITeamAdmin.js';
@@ -7,12 +7,12 @@ import ScheduleAdmin from './ScheduleAdmin/ScheduleAdmin.js';
 import dummyData from './dummy.json';
 
 const Admin = (props) => {
-  const [semesters, setSemesters] = useState(dummyData);
+  const [semesters, setSemesters] = useState(dummyData? dummyData : []);
   const [selectedSemesterName, setSelectedSemesterName] = useState(semesters[0]?.name);
   const [deleteSemesterConfirmation, setDeleteSemesterConfirmation] = useState(false);
   const [newSemester, setNewSemester] = useState(null);
   const [newSemesterError, setNewSemesterError] = useState(false);
-  let selectedSemester = semesters.find(sem => sem.name === selectedSemesterName);
+  let selectedSemester = (semesters.length > 0 && selectedSemesterName)? semesters.find(sem => sem.name === selectedSemesterName) : null;
 
   let changeSemester = (e) => {
     setSelectedSemesterName(e.target.value);
@@ -45,6 +45,7 @@ const Admin = (props) => {
 
   let deleteSemester = () => {
     // call backend to delete
+    console.log("Delete semester.");
     setSemesters(currSemesters => {
       var newSemesterList = currSemesters.filter(semester => {
         return semester.name !== selectedSemesterName;
@@ -55,7 +56,7 @@ const Admin = (props) => {
     setDeleteSemesterConfirmation(false);
   };
 
-  const createSemester = useCallback(() => {
+  let createSemester = () => {
     var hasErrors = false;
     if (newSemester === null || newSemester === "") {
       setNewSemesterError(true);
@@ -67,6 +68,7 @@ const Admin = (props) => {
       console.log("Create semester.");
       // Should use the result from the server to do this, but for now here is a dummy version.
       var newSemesterObject = {
+        "_id": "dummySemesterId0",
         "name": newSemester,
         "activeFlag": false,
         "iTeams": [],
@@ -75,13 +77,13 @@ const Admin = (props) => {
       }
       setSemesters(currSemesters => {
         currSemesters.unshift(newSemesterObject);
+        setSelectedSemesterName(currSemesters[0]?.name);
         return currSemesters;
       });
       setNewSemester(null);
-      setSelectedSemesterName(semesters[0]?.name);
       setDeleteSemesterConfirmation(false);
     }
-  }, [newSemester, semesters]);
+  };
 
   return(
     <>
@@ -93,62 +95,90 @@ const Admin = (props) => {
       </div>
       <div className="admin-subheader" id="subheader">
         <div className="semester-div">
-          <select
-            className="form-control semester-select"
-            id="semester-select"
-            value={selectedSemester?.name}
-            onChange={changeSemester}>
-              {semesters.map(semester => {
-                return (<option key={semester.name} value={semester.name}>{semester.name}{semester.activeFlag ? " (Active)" : ""}</option>)
-              })}
-          </select>
-          {selectedSemester?.activeFlag
-          ? <input type="button" value="Deactivate Semester" className="btn btn-warning admin-btn" onClick={deactivateSemester}/>
-          : <input type="button" value="Set As Active Semester" className="btn btn-info admin-btn" onClick={activateSemester}/>}
-          {deleteSemesterConfirmation === false
-          ? <input type="button" value="Delete Semester" className="btn btn-danger admin-btn" onClick={() => setDeleteSemesterConfirmation(true)}/>
-          : <input type="button" value="Are You Sure You Want To Delete This Semester?" className="btn btn-danger admin-btn" onClick={deleteSemester}/>
-          }
-          <div className="d-flex justify-content-end" style={{width: "100%"}}>
-            {newSemester === null
-            ? <input type="button" value="Create New Semester" className="btn btn-info admin-btn flex-row-reverse" onClick={() => {setNewSemester(""); setDeleteSemesterConfirmation(false);}}/>
-            : <div className="input-group semester-select admin-btn">
-                <input
-                  type="text"
-                  className={newSemesterError ? "form-control is-invalid" : "form-control"}
-                  placeholder="Create new semester"
-                  onChange={e => {
-                    setNewSemester(e.target.value);
-                    if (newSemesterError) {
-                      setNewSemesterError(false);
-                    }
-                  }}>
-                </input>
-                <div className="input-group-append">
-                  <button 
-                    className="btn btn-outline-secondary align-middle"
-                    type="button"
-                    onClick={() => {
-                      createSemester();
-                    }}>
-                    <i className="fas fa-plus"></i>
-                  </button>
-                </div>
-              </div>
+          {selectedSemester
+          ? <><select
+              className="form-control semester-select"
+              id="semester-select"
+              value={selectedSemester?.name}
+              onChange={changeSemester}>
+                {semesters.length > 0
+                ? semesters.map(semester => {
+                  return (<option key={semester.name} value={semester.name}>{semester.name}{semester.activeFlag ? " (Active)" : ""}</option>)
+                })
+                : <option key="noSemestersFound" value="" disabled>No semesters found.</option>
+                }
+            </select>
+            {selectedSemester.activeFlag
+            ? <input type="button" value="Deactivate Semester" className="btn btn-warning admin-btn" onClick={deactivateSemester}/>
+            : <input type="button" value="Set As Active Semester" className="btn btn-info admin-btn" onClick={activateSemester}/>}
+            {deleteSemesterConfirmation === false
+            ? <input type="button" value="Delete Semester" className="btn btn-danger admin-btn" onClick={() => setDeleteSemesterConfirmation(true)}/>
+            : <input type="button" value="Are You Sure You Want To Delete This Semester?" className="btn btn-danger admin-btn" onClick={deleteSemester}/>
             }
-          </div>
+            <div className="d-flex justify-content-end" style={{width: "100%"}}>
+              {newSemester === null
+              ? <input type="button" value="Create New Semester" className="btn btn-info admin-btn flex-row-reverse" onClick={() => {setNewSemester(""); setDeleteSemesterConfirmation(false);}}/>
+              : <div className="input-group semester-select admin-btn">
+                  <input
+                    type="text"
+                    className={newSemesterError ? "form-control is-invalid" : "form-control"}
+                    placeholder="Create new semester"
+                    onChange={e => {
+                      setNewSemester(e.target.value);
+                      if (newSemesterError) {
+                        setNewSemesterError(false);
+                      }
+                    }}>
+                  </input>
+                  <div className="input-group-append">
+                    <button 
+                      className="btn btn-outline-secondary align-middle"
+                      type="button"
+                      onClick={() => {
+                        createSemester();
+                      }}>
+                      <i className="fas fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div></>
+          : <div className="input-group semester-select admin-btn">
+              <input
+                type="text"
+                className={newSemesterError ? "form-control is-invalid" : "form-control"}
+                placeholder="Create new semester"
+                onChange={e => {
+                  setNewSemester(e.target.value);
+                  if (newSemesterError) {
+                    setNewSemesterError(false);
+                  }
+                }}>
+              </input>
+              <div className="input-group-append">
+                <button 
+                  className="btn btn-outline-secondary align-middle"
+                  type="button"
+                  onClick={() => {
+                    createSemester();
+                  }}>
+                  <i className="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          }
         </div>
       </div>
       <div className="admin-container">
         <Tabs>
-          <div label="I-Teams" recordCount={selectedSemester.iTeams?.length}>
-            <ITeamAdmin iTeams={selectedSemester.iTeams}/>
+          <div label="I-Teams" recordCount={selectedSemester?.iTeams?.length}>
+            <ITeamAdmin semester={selectedSemester}/>
           </div>
-          <div label="Academic Connections" recordCount={selectedSemester.colleges?.length}>
-            <MajorCollegeAdmin colleges={selectedSemester.colleges}/>
+          <div label="Academic Connections" recordCount={selectedSemester?.colleges?.length}>
+            <MajorCollegeAdmin semester={selectedSemester}/>
           </div>
-          <div label="Schedule" recordCount={selectedSemester.events?.length}>
-            <ScheduleAdmin events={selectedSemester.events}/>
+          <div label="Schedule" recordCount={selectedSemester?.events?.length}>
+            <ScheduleAdmin semester={selectedSemester}/>
           </div>
         </Tabs>
       </div>

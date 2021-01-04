@@ -3,11 +3,13 @@ import DataTable from '../DataTable/DataTable';
 import ScheduleExpand from "../ScheduleExpand/ScheduleExpand.js";
 
 const ScheduleAdmin = (props) => {
-  const [events, setEvents] = useState(props?.events? props.events : []);
+  const [semesterId, setSemesterId] = useState(props?.semester?._id? props.semester._id : null);
+  const [events, setEvents] = useState(props?.semester?.events? props.semester.events : []);
 
   useEffect(() => {
-    setEvents(props?.events);
-  }, [props?.events]);
+    setSemesterId(props?.semester?._id? props.semester._id : null)
+    setEvents(props?.semester?.events? props.semester.events : []);
+  }, [props?.semester]);
 
   const columns = useMemo(() => {
     return [
@@ -69,6 +71,12 @@ const ScheduleAdmin = (props) => {
   return (
     <>
     <div id="scheduleTab" className="card">
+      {!semesterId
+      ? <div className="grayscale">
+          <h5 className="grayscale-text">Create a new semester to begin.</h5>
+        </div>
+      : null
+      }
       <div className="card-header d-flex justify-content-between">
         <h5 className="mb-0 align-self-center">
           Schedule <span className="badge badge-secondary">{events.length} Events</span>

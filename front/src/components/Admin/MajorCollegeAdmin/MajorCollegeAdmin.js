@@ -3,11 +3,13 @@ import DataTable from '../DataTable/DataTable';
 import CollegeExpand from '../CollegeExpand/CollegeExpand';
 
 const MajorCollegeAdmin = (props) => {
-  const [colleges, setColleges] = useState(props?.colleges? props.colleges : []);
+  const [semesterId, setSemesterId] = useState(props?.semester?._id? props.semester._id : null);
+  const [colleges, setColleges] = useState(props?.semester?.colleges? props.semester.colleges : []);
 
   useEffect(() => {
-    setColleges(props?.colleges);
-  }, [props?.colleges]);
+    setSemesterId(props?.semester?._id? props.semester._id : null)
+    setColleges(props?.semester?.colleges? props.semester.colleges : []);
+  }, [props?.semester]);
 
   const columns = useMemo(() => {
     return [
@@ -63,6 +65,12 @@ const MajorCollegeAdmin = (props) => {
   return (
     <>
     <div id="collegeTab" className="card">
+      {!semesterId
+      ? <div className="grayscale">
+          <h5 className="grayscale-text">Create a new semester to begin.</h5>
+        </div>
+      : null
+      }
       <div className="card-header d-flex justify-content-between">
         <h5 className="mb-0 align-self-center">
           Academic Connections <span className="badge badge-secondary">{colleges.length} Colleges</span>

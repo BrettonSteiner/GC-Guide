@@ -3,11 +3,13 @@ import DataTable from '../DataTable/DataTable';
 import ITeamExpand from '../ITeamExpand/ITeamExpand';
 
 const ITeamAdmin = (props) => {
-  const [iTeams, setITeams] = useState(props?.iTeams? props.iTeams : []);
+  const [semesterId, setSemesterId] = useState(props?.semester?._id? props.semester._id : null);
+  const [iTeams, setITeams] = useState(props?.semester?.iTeams? props.semester.iTeams : []);
 
   useEffect(() => {
-    setITeams(props?.iTeams);
-  }, [props?.iTeams]);
+    setSemesterId(props?.semester?._id? props.semester._id : null)
+    setITeams(props?.semester?.iTeams? props.semester.iTeams : []);
+  }, [props?.semester]);
 
   // let [expanded, setExpanded] = useState([])
   // let [allExpanded, setAllExpanded] = useState(true)
@@ -85,6 +87,12 @@ const ITeamAdmin = (props) => {
   return (
     <>
     <div id="iTeamTab" className="card">
+      {!semesterId
+      ? <div className="grayscale">
+          <h5 className="grayscale-text">Create a new semester to begin.</h5>
+        </div>
+      : null
+      }
       <div className="card-header d-flex justify-content-between">
         <h5 className="mb-0 align-self-center">
           I-Teams <span className="badge badge-secondary">{iTeams.length} I-Teams</span>
