@@ -6,9 +6,8 @@ const eventSchema = new Schema({
     type: String,
     required: true,
   },
-  time: [{
-    type: String
-  }],
+  startTime: String,
+  endTime: String,
   name: {
     type: String,
     required: true,

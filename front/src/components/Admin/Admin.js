@@ -1,26 +1,74 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Tabs from '../Tabs/Tabs.js';
 import './Admin.css';
 import ITeamAdmin from './ITeamAdmin/ITeamAdmin.js';
 import MajorCollegeAdmin from './MajorCollegeAdmin/MajorCollegeAdmin.js';
 import ScheduleAdmin from './ScheduleAdmin/ScheduleAdmin.js';
-import dummyData from './dummy.json';
+// import dummyData from './dummy.json';
 
 const Admin = (props) => {
-  const [semesters, setSemesters] = useState(dummyData? dummyData : []);
-  const [selectedSemesterName, setSelectedSemesterName] = useState(semesters[0]?.name);
+  const [semesters, setSemesters] = useState([]);
+  const [selectedSemesterName, setSelectedSemesterName] = useState(null);
   const [deleteSemesterConfirmation, setDeleteSemesterConfirmation] = useState(false);
   const [newSemester, setNewSemester] = useState(null);
   const [newSemesterError, setNewSemesterError] = useState(false);
-  let selectedSemester = (semesters.length > 0 && selectedSemesterName)? semesters.find(sem => sem.name === selectedSemesterName) : null;
+  const [selectedSemester, setSelectedSemester] = useState(null);
+
+  useEffect(() => {
+    //Call database for data
+    fetch('/semesters/all/')
+    .then((response) => response.json())
+    .then((data) => {
+      setSemesters(data.semesters);
+      setSelectedSemesterName(data.semesters[0]?.name? data.semesters[0].name : null);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (semesters.length > 0 && selectedSemesterName) {
+      const semesterId = semesters.find(sem => sem.name === selectedSemesterName)._id;
+      fetch('/semesters', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'semesterId': semesterId}),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        setSelectedSemester(data);
+      });
+    }
+    else {
+      setSelectedSemester(null);
+    }
+  }, [selectedSemesterName, semesters]);
 
   let changeSemester = (e) => {
     setSelectedSemesterName(e.target.value);
     setDeleteSemesterConfirmation(false);
   };
 
+  let updateSemesterFlag = (flagValue) => {
+    const semesterId = semesters.find(sem => sem.name === selectedSemesterName)._id;
+    fetch('/semesters/updateActiveFlag', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({'semesterId': semesterId, "activeFlag": flagValue}),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      return data;
+    });
+  };
+
   let activateSemester = () => {
     // call backend to update
+    var isSuccessful = updateSemesterFlag(true);
+    console.log("isSuccessful:", isSuccessful);
     setSemesters(currSemesters => {
       return currSemesters.map(sem => {
         if (sem.name === selectedSemesterName)
@@ -33,6 +81,8 @@ const Admin = (props) => {
 
   let deactivateSemester = () => {
     // call backend to update
+    var isSuccessful = updateSemesterFlag(false);
+    console.log("isSuccessful:", isSuccessful);
     setSemesters(currSemesters => {
       return currSemesters.map(sem => {
         if (sem.name === selectedSemesterName)

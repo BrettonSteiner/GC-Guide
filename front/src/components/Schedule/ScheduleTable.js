@@ -38,7 +38,7 @@ const ScheduleTable = (props) => {
                 props.changeEvent(row);
                 setMaps(maps.includes(index)? maps : maps.concat(index));
               }}>
-              <td>{row.date}<br/>{row.time}</td>
+              <td>{row.date}<br/>{row.startTime? row.startTime : null}{row.endTime? " - " + row.endTime : null}</td>
               <td>{row.name}</td>
               <td className="align-middle"><i className="fas fa-chevron-down"></i></td>
             </tr>
