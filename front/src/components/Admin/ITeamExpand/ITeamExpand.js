@@ -49,7 +49,8 @@ const organizeComplexApartments = complexes => {
 const ITeamExpand = (props) => {
   const [createMode] = useState(props?.row?.createMode? props.row.createMode : false);
   const [cancelTarget] = useState(props?.row?.cancelTarget? props.row.cancelTarget : "");
-  const [iTeamId] = useState(props?.row?._id? props.row._id : "0")
+  const [semesterId, setSemesterId] = useState(props?.row?.semesterId? props.row.semesterId : null);
+  const [iTeamId] = useState(props?.row?._id? props.row._id : "0");
   const [originalITeamNumber] = useState(props?.row?.iTeamNumber? props.row.iTeamNumber.toString() : "");
   const [originalMentor1Name] = useState(props?.row?.mentor1?.name? props.row.mentor1.name : "");
   const [originalMentor1Phone] = useState(props?.row?.mentor1?.phone? props.row.mentor1.phone : "");
@@ -72,6 +73,7 @@ const ITeamExpand = (props) => {
   const [existingComplexError, setExistingComplexError] = useState(false);
   const [emptyApartmentError, setEmptyApartmentError] = useState(false);
   const [existingApartmentError, setExistingApartmentError] = useState(false);
+  let rerenderSemester = props.rerenderSemester;
 
   useEffect(() => {
     var hasBeenAltered = iTeamNumber !== originalITeamNumber;
@@ -119,6 +121,10 @@ const ITeamExpand = (props) => {
     mentor2Phone,
     complexes
   ]);
+
+  useEffect(() => {
+    setSemesterId(props?.row?.semesterId? props.row.semesterId : null);
+  }, [props?.row?.semesterId]);
 
   const addNewComplex = useCallback((complexName, complexAddress) => {
     var hasErrors = false;
@@ -214,6 +220,55 @@ const ITeamExpand = (props) => {
     originalComplexApartmentLists
   ]);
 
+  let generateITeamJson = useCallback(() => {
+    let iTeamJson;
+    if (createMode) {
+      iTeamJson = {
+        "semesterId": semesterId,
+        "iTeamNumber": iTeamNumber,
+        "mentor1": {
+          "name": mentor1Name,
+          "phone": mentor1Phone
+        },
+        "mentor2": {
+          "name": mentor2Name,
+          "phone": mentor2Phone
+        },
+        "complexes": complexes
+      };
+    }
+    else {
+      iTeamJson = {
+        "semesterId": semesterId,
+        "iTeamId": iTeamId,
+        "iTeamNumber": iTeamNumber,
+        "oldITeamNumber": originalITeamNumber,
+        "mentor1": {
+          "name": mentor1Name,
+          "phone": mentor1Phone
+        },
+        "mentor2": {
+          "name": mentor2Name,
+          "phone": mentor2Phone
+        },
+        "complexes": complexes
+      };
+    }
+
+    return iTeamJson;
+  }, [
+    createMode,
+    semesterId,
+    iTeamId,
+    iTeamNumber,
+    originalITeamNumber,
+    mentor1Name,
+    mentor1Phone,
+    mentor2Name,
+    mentor2Phone,
+    complexes
+  ]);
+
   const createITeam = useCallback(() => {
     var hasErrors = false;
     if (iTeamNumber === "") {
@@ -223,9 +278,23 @@ const ITeamExpand = (props) => {
 
     if (!hasErrors && isAltered) {
       //Call server to update I-Team
-      console.log("Create I-Team.");
+      var iTeamJson = generateITeamJson();
+      // console.log("Create I-Team:");
+      fetch('/iteams/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(iTeamJson),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        rerenderSemester();
+        // console.log(data);
+        resetForm()
+      });
     }
-  }, [iTeamNumber, isAltered]);
+  }, [iTeamNumber, isAltered, generateITeamJson, rerenderSemester, resetForm]);
 
   const updateITeam = useCallback(() => {
     var hasErrors = false;
@@ -236,14 +305,35 @@ const ITeamExpand = (props) => {
 
     if (!hasErrors && isAltered) {
       //Call server to update I-Team
-      console.log("Update I-Team.");
+      var iTeamJson = generateITeamJson();
+      // console.log("Update I-Team:");
+      fetch('/iteams/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(iTeamJson),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        rerenderSemester();
+        // console.log(data);
+      });
     }
-  }, [iTeamNumber, isAltered]);
+  }, [iTeamNumber, isAltered, generateITeamJson, rerenderSemester]);
 
   const deleteITeam = useCallback(() => {
     //Call server to delete I-Team
-    console.log("Delete I-Team.");
-  }, []);
+    // console.log("Delete I-Team.");
+    fetch('/iteams/delete', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({semesterId: semesterId, iTeamId: iTeamId, iTeamNumber: iTeamNumber}),
+    })
+    .then(() => rerenderSemester());
+  }, [semesterId, iTeamId, iTeamNumber, rerenderSemester]);
 
   return (
     <>
@@ -494,7 +584,15 @@ const ITeamExpand = (props) => {
         { createMode === true
           ?
           <div className="col">
-            <button type="button" className="btn btn-primary" disabled={!isAltered} onClick={() => createITeam()}>Create I-Team</button>
+            <button
+              type="button"
+              className="btn btn-primary"
+              disabled={!isAltered}
+              data-toggle="collapse"
+              data-target={"#" + cancelTarget}
+              aria-controls={cancelTarget}
+              onClick={() => createITeam()}
+            >Create I-Team</button>
             <button type="reset" className="btn btn-warning admin-btn" disabled={!isAltered} onClick={() => resetForm()}>Reset</button>
             { cancelTarget !== ""?
               <button

@@ -48,7 +48,7 @@ const ITeamAdmin = (props) => {
           (<i className={row.isExpanded ? "fas fa-chevron-down fa-vc" : "fas fa-chevron-up fa-vc"}></i>),
       },
     ] 
-  });
+  }, []);
 
   const filterMentors = (rows, id, filterValue) => {
     return rows.filter(row => {
@@ -112,20 +112,21 @@ const ITeamAdmin = (props) => {
       </div>
       <div id="createITeamCollapse" className="collapse border-bottom" aria-labelledby="addITeamButton" data-parent="#iTeamTab">
         <div className="card-body">
-          <ITeamExpand row={{createMode:true, cancelTarget:"createITeamCollapse"}}/>
+          <ITeamExpand row={{semesterId:semesterId, createMode:true, cancelTarget:"createITeamCollapse"}} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>
         </div>
       </div>
       <div className="card-body">
         <DataTable columns={columns} 
           data={iTeams.map(row => {
             let newRow= {...row};
+            newRow.semesterId = semesterId;
             newRow.displayMentors = <><div>{newRow.mentor1?.name? newRow.mentor1.name : null}</div><div>{newRow.mentor2?.name? newRow.mentor2.name : null}</div></>;
             newRow.displayNumbers = <><div>{newRow.mentor1?.phone? newRow.mentor1.phone : null}</div><div>{newRow.mentor2?.phone? newRow.mentor2.phone : null}</div></>;
             newRow.displayComplexes = (newRow.complexes && newRow.complexes.length > 0) ? <div>{newRow.complexes[0].name}{(newRow.complexes.length > 1 && newRow.complexes[0].name) ? " ..." : ""}</div> : null;
             newRow.displayAddresses = (newRow.complexes && newRow.complexes.length > 0) ? <div>{newRow.complexes[0].address}{(newRow.complexes.length > 1 && newRow.complexes[0].address) ? " ..." : ""}</div> : null;
             return newRow;
           })}
-          SubComponent={({row}) => { return (<ITeamExpand row={row.original}/>) }}
+          SubComponent={({row}) => { return (<ITeamExpand row={row.original} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>) }}
           customFilters={{filterMentors, filterPhoneNumbers, filterAddresses, filterComplex}}/>
       </div>
     </div>

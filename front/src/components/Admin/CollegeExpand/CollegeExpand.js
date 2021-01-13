@@ -3,6 +3,7 @@ import React, { useState, useEffect, useCallback, Fragment } from 'react';
 const CollegeExpand = (props) => {
   const [createMode] = useState(props?.row?.createMode? props.row.createMode : false);
   const [cancelTarget] = useState(props?.row?.cancelTarget? props.row.cancelTarget : "");
+  const [semesterId, setSemesterId] = useState(props?.row?.semesterId? props.row.semesterId : null);
   const [collegeId] = useState(props?.row?._id? props.row._id : "0");
   const [originalCollegeName] = useState(props?.row?.name? props.row.name : "");
   const [originalFlagColor] = useState(props?.row?.flagColor? props.row.flagColor : "-- Select --");
@@ -16,6 +17,7 @@ const CollegeExpand = (props) => {
   const [flagColorError, setFlagColorError] = useState(false);
   const [emptyMajorNameError, setEmptyMajorNameError] = useState(false);
   const [existingMajorNameError, setExistingMajorNameError] = useState(false);
+  let rerenderSemester = props.rerenderSemester;
 
   useEffect(() => {
     var hasBeenAltered = collegeName !== originalCollegeName;
@@ -39,6 +41,10 @@ const CollegeExpand = (props) => {
     flagColor,
     majors
   ]);
+
+  useEffect(() => {
+    setSemesterId(props?.row?.semesterId? props.row.semesterId : null);
+  }, [props?.row?.semesterId]);
 
   const addNewMajor = useCallback(major => {
     var hasErrors = false;
@@ -72,6 +78,36 @@ const CollegeExpand = (props) => {
     originalMajors,
   ]);
 
+  let generateCollegeJson = useCallback(() => {
+    let collegeJson;
+    if (createMode) {
+      collegeJson = {
+        "semesterId": semesterId,
+        "name": collegeName,
+        "flagColor": flagColor,
+        "majors": majors
+      };
+    }
+    else {
+      collegeJson = {
+        "semesterId": semesterId,
+        "collegeId": collegeId,
+        "name": collegeName,
+        "flagColor": flagColor,
+        "majors": majors
+      };
+    }
+
+    return collegeJson;
+  }, [
+    createMode,
+    semesterId,
+    collegeId,
+    collegeName,
+    flagColor,
+    majors
+  ]);
+
   const createCollege = useCallback(() => {
     var hasErrors = false;
     if (collegeName === "") {
@@ -86,9 +122,23 @@ const CollegeExpand = (props) => {
 
     if (!hasErrors && isAltered) {
       //Call server to create college
+      var collegeJson = generateCollegeJson();
       console.log("Create college.");
+      fetch('/colleges/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(collegeJson),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        rerenderSemester();
+        // console.log(data);
+        resetForm();
+      });
     }
-  }, [collegeName, flagColor, isAltered]);
+  }, [collegeName, flagColor, isAltered, generateCollegeJson, rerenderSemester, resetForm]);
 
   const updateCollege = useCallback(() => {
     var hasErrors = false;
@@ -104,14 +154,35 @@ const CollegeExpand = (props) => {
 
     if (!hasErrors && isAltered) {
       //Call server to update college
-      console.log("Update college.");
+      var collegeJson = generateCollegeJson();
+      // console.log("Update College:");
+      fetch('/colleges/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(collegeJson),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        rerenderSemester();
+        // console.log(data);
+      });
     }
-  }, [collegeName, flagColor, isAltered]);
+  }, [collegeName, flagColor, isAltered, generateCollegeJson, rerenderSemester]);
 
   const deleteCollege = useCallback(() => {
     //Call server to delete college
-    console.log("Delete college.");
-  }, []);
+    // console.log("Delete college.");
+    fetch('/colleges/delete', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({semesterId: semesterId, collegeId: collegeId}),
+    })
+    .then(() => rerenderSemester());
+  }, [semesterId, collegeId, rerenderSemester]);
 
   return (
     <>
@@ -232,7 +303,15 @@ const CollegeExpand = (props) => {
         { createMode === true
           ?
           <div className="col">
-            <button type="button" className="btn btn-primary" disabled={!isAltered} onClick={() => createCollege()}>Create College</button>
+            <button
+              type="button"
+              className="btn btn-primary"
+              disabled={!isAltered}
+              data-toggle="collapse"
+              data-target={"#" + cancelTarget}
+              aria-controls={cancelTarget}
+              onClick={() => createCollege()}
+            >Create College</button>
             <button type="reset" className="btn btn-warning admin-btn" disabled={!isAltered} onClick={() => resetForm()}>Reset</button>
             { cancelTarget !== ""?
               <button

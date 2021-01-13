@@ -42,7 +42,7 @@ const ScheduleAdmin = (props) => {
           (<i className={row.isExpanded ? "fas fa-chevron-down fa-vc" : "fas fa-chevron-up fa-vc"}></i>),
       },
     ] 
-  });
+  }, []);
 
   const filterEventNames = (rows, id, filterValue) => {
     return rows.filter(row => {
@@ -96,17 +96,18 @@ const ScheduleAdmin = (props) => {
       </div>
       <div id="createEventCollapse" className="collapse border-bottom" aria-labelledby="addEventButton" data-parent="#scheduleTab">
         <div className="card-body">
-          <ScheduleExpand row={{createMode:true, cancelTarget:"createEventCollapse"}}/>
+          <ScheduleExpand row={{semesterId:semesterId, createMode:true, cancelTarget:"createEventCollapse"}} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>
         </div>
       </div>
       <div className="card-body">
         <DataTable columns={columns} 
           data={events.map(row => {
             let newRow= {...row};
+            newRow.semesterId = semesterId;
             newRow.displayTimes = <><div>{newRow.startTime? newRow.startTime : null}{newRow.endTime? " - " + newRow.endTime : null}</div></>;
             return newRow;
           })}
-          SubComponent={({row}) => { return (<ScheduleExpand row={row.original}/>) }}
+          SubComponent={({row}) => { return (<ScheduleExpand row={row.original} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>) }}
           customFilters={{filterEventNames, filterDates, filterTimes, filterLocations}}/>
       </div>
     </div>

@@ -19,9 +19,19 @@ const calculateMeridiem = time => {
   return meridiem.split(" ", 2)[1];
 }
 
+const calculateTime = (hour, minute, meridiem) => {
+  if (hour === "-- Select --" || minute === "-- Select --" || meridiem === "-- Select --") {
+    return null;
+  }
+  else {
+    return hour + ":" + minute + " " + meridiem;
+  }
+}
+
 const ScheduleExpand = (props) => {
   const [createMode] = useState(props?.row?.createMode? props.row.createMode : false);
   const [cancelTarget] = useState(props?.row?.cancelTarget? props.row.cancelTarget : "");
+  const [semesterId, setSemesterId] = useState(props?.row?.semesterId? props.row.semesterId : null);
   const [eventId] = useState(props?.row?._id? props.row._id : "0");
   const [originalEventName] = useState(props?.row?.name? props.row.name : "");
   const [originalDate] = useState(props?.row?.date? new Date(props.row.date) : new Date());
@@ -51,6 +61,7 @@ const ScheduleExpand = (props) => {
   const [dateError, setDateError] = useState(false);
   const [startTimeError, setStartTimeError] = useState(false);
   const [endTimeError, setEndTimeError] = useState(false);
+  let rerenderSemester = props.rerenderSemester;
 
   useEffect(() => {
     var hasBeenAltered = eventName !== originalEventName;
@@ -99,6 +110,10 @@ const ScheduleExpand = (props) => {
     mapSpots
   ]);
 
+  useEffect(() => {
+    setSemesterId(props?.row?.semesterId? props.row.semesterId : null);
+  }, [props?.row?.semesterId]);
+
   const resetForm = useCallback(() => {
     setEventName(originalEventName);
     setDate(originalDate);
@@ -130,6 +145,52 @@ const ScheduleExpand = (props) => {
     originalMapSpots
   ]);
 
+  let generateEventJson = useCallback(() => {
+    let eventJson;
+    if (createMode) {
+      eventJson = {
+        "semesterId": semesterId,
+        "date": date? date.toLocaleDateString() : null,
+        "startTime": calculateTime(startHour, startMinute, startMeridiem),
+        "endTime": calculateTime(endHour, endMinute, endMeridiem),
+        "name": eventName,
+        "location": location,
+        "description": description,
+        "mapSpots": mapSpots
+      };
+    }
+    else {
+      eventJson = {
+        "semesterId": semesterId,
+        "eventId": eventId,
+        "date": date? date.toLocaleDateString() : null,
+        "startTime": calculateTime(startHour, startMinute, startMeridiem),
+        "endTime": calculateTime(endHour, endMinute, endMeridiem),
+        "name": eventName,
+        "location": location,
+        "description": description,
+        "mapSpots": mapSpots
+      };
+    }
+
+    return eventJson;
+  }, [
+    createMode,
+    semesterId,
+    eventId,
+    date,
+    startHour,
+    startMinute,
+    startMeridiem,
+    endHour,
+    endMinute,
+    endMeridiem,
+    eventName,
+    location,
+    description,
+    mapSpots
+  ]);
+
   const createEvent = useCallback(() => {
     var hasErrors = false;
     if (eventName === "") {
@@ -156,9 +217,36 @@ const ScheduleExpand = (props) => {
 
     if (!hasErrors && isAltered) {
       //Call server to create event
-      console.log("Create event.");
+      var eventJson = generateEventJson();
+      // console.log("Create event:");
+      fetch('/schedule/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(eventJson),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        rerenderSemester();
+        // console.log(data);
+        resetForm();
+      });
     }
-  }, [eventName, date, startHour, startMinute, startMeridiem, endHour, endMinute, endMeridiem, isAltered]);
+  }, [
+    eventName,
+    date,
+    startHour,
+    startMinute,
+    startMeridiem,
+    endHour,
+    endMinute,
+    endMeridiem,
+    isAltered,
+    generateEventJson,
+    rerenderSemester,
+    resetForm
+  ]);
 
   const updateEvent = useCallback(() => {
     var hasErrors = false;
@@ -186,14 +274,47 @@ const ScheduleExpand = (props) => {
 
     if (!hasErrors && isAltered) {
       //Call server to update event
-      console.log("Update event.");
+      var eventJson = generateEventJson();
+      // console.log("Update Event:");
+      fetch('/schedule/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(eventJson),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        rerenderSemester();
+        // console.log(data);
+      });
     }
-  }, [eventName, date, startHour, startMinute, startMeridiem, endHour, endMinute, endMeridiem, isAltered]);
+  }, [
+    eventName,
+    date,
+    startHour,
+    startMinute,
+    startMeridiem,
+    endHour,
+    endMinute,
+    endMeridiem,
+    isAltered,
+    generateEventJson,
+    rerenderSemester
+  ]);
 
   const deleteEvent = useCallback(() => {
     //Call server to delete event
-    console.log("Delete event.");
-  }, []);
+    // console.log("Delete event.");
+    fetch('/schedule/delete', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({semesterId: semesterId, eventId: eventId}),
+    })
+    .then(() => rerenderSemester());
+  }, [semesterId, eventId, rerenderSemester]);
 
   return (
     <>
@@ -470,7 +591,15 @@ const ScheduleExpand = (props) => {
         { createMode === true
           ?
           <div className="col">
-            <button type="button" className="btn btn-primary" disabled={!isAltered} onClick={() => createEvent()}>Create I-Team</button>
+            <button
+              type="button"
+              className="btn btn-primary"
+              disabled={!isAltered}
+              data-toggle="collapse"
+              data-target={"#" + cancelTarget}
+              aria-controls={cancelTarget}
+              onClick={() => createEvent()}
+            >Create I-Team</button>
             <button type="reset" className="btn btn-warning admin-btn" disabled={!isAltered} onClick={() => resetForm()}>Reset</button>
             { cancelTarget !== ""?
               <button

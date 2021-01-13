@@ -37,7 +37,7 @@ const MajorCollegeAdmin = (props) => {
           (<i className={row.isExpanded ? "fas fa-chevron-down fa-vc" : "fas fa-chevron-up fa-vc"}></i>),
       },
     ] 
-  });
+  }, []);
 
   const filterCollegeNames = (rows, id, filterValue) => {
     return rows.filter(row => {
@@ -90,17 +90,18 @@ const MajorCollegeAdmin = (props) => {
       </div>
       <div id="createCollegeCollapse" className="collapse border-bottom" aria-labelledby="addCollegeButton" data-parent="#collegeTab">
         <div className="card-body">
-          <CollegeExpand row={{createMode:true, cancelTarget:"createCollegeCollapse"}}/>
+          <CollegeExpand row={{semesterId:semesterId, createMode:true, cancelTarget:"createCollegeCollapse"}} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>
         </div>
       </div>
       <div className="card-body">
         <DataTable columns={columns} 
           data={colleges.map(row => {
             let newRow= {...row};
+            newRow.semesterId = semesterId;
             newRow.displayMajors = (newRow.majors && newRow.majors.length > 0) ? <div>{newRow.majors[0]}{(newRow.majors.length > 1 && newRow.majors[0]) ? " ..." : ""}</div> : null;
             return newRow;
           })}
-          SubComponent={({row}) => { return (<CollegeExpand row={row.original}/>) }}
+          SubComponent={({row}) => { return (<CollegeExpand row={row.original} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>) }}
           customFilters={{filterCollegeNames, filterFlagColors, filterMajors}}/>
       </div>
     </div>

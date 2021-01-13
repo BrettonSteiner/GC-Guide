@@ -4,15 +4,16 @@ import './Admin.css';
 import ITeamAdmin from './ITeamAdmin/ITeamAdmin.js';
 import MajorCollegeAdmin from './MajorCollegeAdmin/MajorCollegeAdmin.js';
 import ScheduleAdmin from './ScheduleAdmin/ScheduleAdmin.js';
-// import dummyData from './dummy.json';
+import dummyData from './dummy.json';
 
 const Admin = (props) => {
-  const [semesters, setSemesters] = useState([]);
+  const [semesters, setSemesters] = useState(dummyData);
   const [selectedSemesterName, setSelectedSemesterName] = useState(null);
   const [deleteSemesterConfirmation, setDeleteSemesterConfirmation] = useState(false);
   const [newSemester, setNewSemester] = useState(null);
   const [newSemesterError, setNewSemesterError] = useState(false);
   const [selectedSemester, setSelectedSemester] = useState(null);
+  const [rerenderState, setRerenderState] = useState(false);
 
   useEffect(() => {
     //Call database for data
@@ -41,13 +42,20 @@ const Admin = (props) => {
     }
     else {
       setSelectedSemester(null);
+      if (rerenderState) {
+        rerenderState(!rerenderState);
+      }
     }
-  }, [selectedSemesterName, semesters]);
+  }, [selectedSemesterName, semesters, rerenderState]);
 
   let changeSemester = (e) => {
     setSelectedSemesterName(e.target.value);
     setDeleteSemesterConfirmation(false);
   };
+
+  let rerenderSemester = () => {
+    setRerenderState(!rerenderState);
+  }
 
   let updateSemesterFlag = (flagValue) => {
     const semesterId = semesters.find(sem => sem.name === selectedSemesterName)._id;
@@ -60,15 +68,16 @@ const Admin = (props) => {
     })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
+      // console.log(data);
+      rerenderSemester();
       return data;
     });
   };
 
   let activateSemester = () => {
     // call backend to update
-    var isSuccessful = updateSemesterFlag(true);
-    console.log("isSuccessful:", isSuccessful);
+    updateSemesterFlag(true);
+    // console.log("isSuccessful:", isSuccessful);
     setSemesters(currSemesters => {
       return currSemesters.map(sem => {
         if (sem.name === selectedSemesterName)
@@ -81,8 +90,8 @@ const Admin = (props) => {
 
   let deactivateSemester = () => {
     // call backend to update
-    var isSuccessful = updateSemesterFlag(false);
-    console.log("isSuccessful:", isSuccessful);
+    updateSemesterFlag(false);
+    // console.log("isSuccessful:", isSuccessful);
     setSemesters(currSemesters => {
       return currSemesters.map(sem => {
         if (sem.name === selectedSemesterName)
@@ -95,15 +104,24 @@ const Admin = (props) => {
 
   let deleteSemester = () => {
     // call backend to delete
-    console.log("Delete semester.");
-    setSemesters(currSemesters => {
-      var newSemesterList = currSemesters.filter(semester => {
-        return semester.name !== selectedSemesterName;
+    // console.log("Delete semester.");
+    fetch('/semesters/delete', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({semesterId: selectedSemester?._id? selectedSemester._id : null}),
+    })
+    .then(() => {
+      setSemesters(currSemesters => {
+        var newSemesterList = currSemesters.filter(semester => {
+          return semester.name !== selectedSemesterName;
+        });
+        setSelectedSemesterName(newSemesterList[0]?.name);
+        return newSemesterList;
       });
-      setSelectedSemesterName(newSemesterList[0]?.name);
-      return newSemesterList;
+      setDeleteSemesterConfirmation(false);
     });
-    setDeleteSemesterConfirmation(false);
   };
 
   let createSemester = () => {
@@ -115,23 +133,34 @@ const Admin = (props) => {
 
     if (!hasErrors) {
       // Call server to create semester
-      console.log("Create semester.");
-      // Should use the result from the server to do this, but for now here is a dummy version.
-      var newSemesterObject = {
-        "_id": "dummySemesterId0",
-        "name": newSemester,
-        "activeFlag": false,
-        "iTeams": [],
-        "colleges": [],
-        "events": []
-      }
-      setSemesters(currSemesters => {
-        currSemesters.unshift(newSemesterObject);
-        setSelectedSemesterName(currSemesters[0]?.name);
-        return currSemesters;
+      // console.log("Create semester.");
+      // let newSemesterObject;
+      fetch('/semesters/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({name: newSemester}),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        // newSemesterObject = data;
+        // console.log(data);
+        // setSemesters(currSemesters => {
+        //   currSemesters.unshift(newSemesterObject);
+        //   setSelectedSemesterName(currSemesters[0]?.name);
+        //   return currSemesters;
+        // });
+        // setSelectedSemesterName(newSemester);
+        fetch('/semesters/all/')
+        .then((response) => response.json())
+        .then((data) => {
+          setSemesters(data.semesters);
+          setSelectedSemesterName(newSemester);
+          setNewSemester(null);
+          setDeleteSemesterConfirmation(false);
+        });
       });
-      setNewSemester(null);
-      setDeleteSemesterConfirmation(false);
     }
   };
 
@@ -222,13 +251,13 @@ const Admin = (props) => {
       <div className="admin-container">
         <Tabs>
           <div label="I-Teams" recordCount={selectedSemester?.iTeams?.length}>
-            <ITeamAdmin semester={selectedSemester}/>
+            <ITeamAdmin semester={selectedSemester} rerenderSemester={rerenderSemester}/>
           </div>
           <div label="Academic Connections" recordCount={selectedSemester?.colleges?.length}>
-            <MajorCollegeAdmin semester={selectedSemester}/>
+            <MajorCollegeAdmin semester={selectedSemester} rerenderSemester={rerenderSemester}/>
           </div>
           <div label="Schedule" recordCount={selectedSemester?.events?.length}>
-            <ScheduleAdmin semester={selectedSemester}/>
+            <ScheduleAdmin semester={selectedSemester} rerenderSemester={rerenderSemester}/>
           </div>
         </Tabs>
       </div>
