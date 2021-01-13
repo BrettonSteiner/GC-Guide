@@ -1,0 +1,277 @@
+[{
+  "_id": "dummySemesterId1",
+  "name": "Winter 2021",
+  "activeFlag": false,
+  "iTeams": [],
+  "colleges": [],
+  "events": []
+}, {
+  "_id": "dummySemesterId2",
+  "name": "Fall 2020",
+  "activeFlag": true,
+  "iTeams": [{"_id": "dummyITeamId1", "iTeamNumber": 1}],
+  "colleges": [{"_id": "dummyCollegeId1", "name": "Science and Engineering"}, {"_id": "dummyCollegeId2", "name": "Arts"}],
+  "events": [{"_id": "dummyEventId1", "name": "Academic Connections"}]
+}, {
+  "_id": "dummySemesterId3",
+  "name": "Fall 2019",
+  "activeFlag": false,
+  "iTeams": [{
+    "_id": "dummyITeamId1",
+    "iTeamNumber": 1,
+    "mentor1": {"name": "Braden Steiner", "phone": "801-123-4567" },
+    "mentor2": {"name": "Rachel Steiner", "phone": "801-987-6543" },
+    "complexes": [{
+      "name": "Somerset",
+      "address": "123 E. 450 S. Rexburg ID",
+      "apartments": ["101", "102", "103"]
+    }, {
+      "name": "Ridge",
+      "address": "here",
+      "apartments": ["200", "201", "202"]
+    }]
+  }, {
+    "_id": "dummyITeamId2",
+    "iTeamNumber": 2,
+    "mentor1": {
+      "name": "Simba",
+      "phone": "208-555-1234"
+    },
+    "mentor2": {
+      "name": "Nala",
+      "phone": "208-555-5678"
+    },
+    "complexes": [{
+      "name": "Pride Rock",
+      "address": "100 Somewhere Sunrise, Africa",
+      "apartments": [
+        "101",
+        "102",
+        "103",
+        "104",
+        "105"
+      ]
+    },
+    {
+      "name": "Pride Lands",
+      "address": "450 Everywhere Sunrise, Africa",
+      "apartments": [
+        "2101",
+        "2102",
+        "2103",
+        "2104",
+        "2105"
+      ]
+    }]
+  }, {
+    "_id": "dummyITeamId3",
+    "iTeamNumber": 3
+  }, {
+    "_id": "dummyITeamId4",
+    "iTeamNumber": 4,
+    "mentor1": {
+      "name": "Only Mentor1",
+      "phone": "111-111-1111"
+    }
+  }, {
+    "_id": "dummyITeamId5",
+    "iTeamNumber": 5,
+    "mentor2": {
+      "name": "Only Mentor2",
+      "phone": "222-222-2222"
+    }
+  }, {
+    "_id": "dummyITeamId6",
+    "iTeamNumber": 6,
+    "mentor1": {
+      "name": "Only Name1"
+    },
+    "mentor2": {
+      "name": "Only Name2"
+    }
+  }, {
+    "_id": "dummyITeamId7",
+    "iTeamNumber": 7,
+    "mentor1": {
+      "phone": "Only Phone1"
+    },
+    "mentor2": {
+      "phone": "Only Phone2"
+    }
+  }, {
+    "_id": "dummyITeamId8",
+    "iTeamNumber": 8,
+    "mentor1": {
+      "name": "Only Name1"
+    },
+    "mentor2": {
+      "phone": "Only Phone2"
+    }
+  }, {
+    "_id": "dummyITeamId9",
+    "iTeamNumber": 9,
+    "complexes": [{
+      "name": "Only",
+      "address": "Complexes",
+      "apartments": [
+        "101",
+        "102",
+        "103",
+        "104",
+        "105"
+      ]
+    }, {
+      "name": "Only2",
+      "address": "Complexes2",
+      "apartments": [
+        "2101",
+        "2102",
+        "2103",
+        "2104",
+        "2105"
+      ]
+    }]
+  }, {
+    "_id": "dummyITeamId10",
+    "iTeamNumber": 10,
+    "complexes": [{
+      "name": "Name only",
+      "apartments": [
+        "2101",
+        "2102",
+        "2103",
+        "2104",
+        "2105"
+      ]
+    }]
+  }, {
+    "_id": "dummyITeamId11",
+    "iTeamNumber": 11,
+    "complexes": [{
+      "address": "Address only",
+      "apartments": [
+        "2101",
+        "2102",
+        "2103",
+        "2104",
+        "2105"
+      ]
+    }]
+  }],
+  "colleges": [{
+    "_id": "dummyCollegeId1",
+    "name": "College of Physical Sciences and Engineering",
+    "flagColor": "Orange",
+    "majors": [
+      "Computer Science",
+      "Software Engineering",
+      "Mechanical Engineering",
+      "Electrical Engineering"
+    ]
+  }, {
+    "_id": "dummyCollegeId2",
+    "name": "College of Agriculture",
+    "flagColor": "Purple",
+    "majors": [
+      "Agriculture Science"
+    ]
+  }, {
+    "_id": "dummyCollegeId3",
+    "name": "College of Language and Letters",
+    "majors": [
+      "English",
+      "Spanish"
+    ]
+  }, {
+    "_id": "dummyCollegeId4",
+    "name": "College of General Studies",
+    "flagColor": "Grey"
+  }, {
+    "_id": "dummyCollegeId5",
+    "flagColor": "Red",
+    "majors": [
+      "Accounting"
+    ]
+  }, {
+    "_id": "dummyCollegeId6",
+    "name": "College of Literally Nothing But A Name"
+  }, {
+    "_id": "dummyCollegeId7",
+    "flagColor": "Yellow"
+  }, {
+    "_id": "dummyCollegeId8",
+    "majors": [
+      "Random Extra Major",
+      "Maybe Actually A Minor"
+    ]
+  }, {
+    "_id": "dummyCollegeId9",
+    "flagColor": "Red",
+    "majors": [
+      "Accounting"
+    ]
+  }, {
+    "_id": "dummyCollegeId10",
+    "flagColor": "Red",
+    "majors": [
+      "Accounting"
+    ]
+  }, {
+    "_id": "dummyCollegeId11",
+    "flagColor": "Red",
+    "majors": [
+      "Accounting"
+    ]
+  }],
+  "events": [{
+    "_id": "dummyEventId1",
+    "date": "09/13/2019",
+    "startTime": "3:00 pm",
+    "endTime": "3:40 pm",
+    "name": "Meet Your I-Team",
+    "location": "BYU-Idaho Stadium",
+    "description": "At 3:00 p.m. on September 13 students will meet their New Student Mentor at the Meet Your I-Team gathering. Here, students will make new friends and get acquainted with other new students at BYU-Idaho. Meet Your I-Team will take place at the BYU-Idaho Stadium adjacent to the Hart Building.",
+    "mapSpots": [{ "lat": 43.821020, "lng": -111.785403}]
+  }, {
+    "_id": "dummyEventId2",
+    "date": "09/13/2019",
+    "startTime": "9:00 am",
+    "endTime": "5:00 pm",
+    "name": "Registration",
+    "location": "Get Connected Tent",
+    "description": "New students can register for Get Connected activities here. Registration grants access to the New Student Talent Show, a free lunch, and I-Night!",
+    "mapSpots": [{ "lat": 43.81792, "lng": -111.783822}]
+  }, {
+    "_id": "dummyEventId3",
+    "name": "Registration"
+  }, {
+    "_id": "dummyEventId4",
+    "date": "09/13/2019"
+  }, {
+    "_id": "dummyEventId5",
+    "startTime": "9:00 am",
+    "endTime": "5:00 pm"
+  }, {
+    "_id": "dummyEventId6",
+    "startTime": "9:00 am"
+  }, {
+    "_id": "dummyEventId7",
+    "endTime": "5:00 pm"
+  }, {
+    "_id": "dummyEventId8",
+    "location": "Get Connected Tent"
+  }, {
+    "_id": "dummyEventId9",
+    "description": "New students can register for Get Connected activities here. Registration grants access to the New Student Talent Show, a free lunch, and I-Night!"
+  }, {
+    "_id": "dummyEventId10",
+    "mapSpots": [{ "lat": 43.81792, "lng": -111.783822}]
+  }, {
+    "_id": "dummyEventId11",
+    "date": "09/13/2019",
+    "startTime": "9:00 am",
+    "endTime": "5:00 pm",
+    "name": "Registration",
+    "location": "Get Connected Tent"
+  }]
+}]

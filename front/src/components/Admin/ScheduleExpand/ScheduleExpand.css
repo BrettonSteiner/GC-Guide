@@ -1,0 +1,15 @@
+.react-datepicker-wrapper {
+  width: 100%;
+}
+
+.red {
+  color: crimson;
+}
+
+.mapSpot:hover {
+  background-color: lightgrey;
+}
+
+.selectedMapSpot {
+  background-color: lightgrey;
+}

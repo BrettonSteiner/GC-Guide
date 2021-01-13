@@ -15,51 +15,51 @@ const Home = (props) => {
           <h4 className="header-text">Get Connected Guide</h4>
         </div>
       </div>
-      <div className="container accordion" id="accordionExample">
+      <div className="container accordion" id="homeAccordion">
       <StudentContextProvider>
         <div className="card">
-          <button className="btn btn-light btn-block text-left card-header" id="headingOne" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+          <button className="btn btn-light btn-block text-left card-header" id="headingOne" type="button" data-toggle="collapse" data-target="#homeCollapseOne" aria-expanded="true" aria-controls="homeCollapseOne">
             <h5 className="mb-0">
               My I-Team <i className="fas fa-chevron-down fa-vc"></i>
             </h5>
           </button>
-          <div id="collapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div id="homeCollapseOne" className="collapse show" aria-labelledby="headingOne" data-parent="#homeAccordion">
             <div className="card-body">
               <ITeam/>
             </div>
           </div>
         </div>
         <div className="card">
-          <button className="btn btn-light btn-block text-left card-header" id="headingTwo" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-controls="collapseTwo">
+          <button className="btn btn-light btn-block text-left card-header" id="headingTwo" type="button" data-toggle="collapse" data-target="#homeCollapseTwo" aria-controls="homeCollapseTwo">
             <h5 className="mb-0">
               Academic Connections <i className="fas fa-chevron-down fa-vc"></i>
             </h5>
           </button>
-          <div id="collapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+          <div id="homeCollapseTwo" className="collapse" aria-labelledby="headingTwo" data-parent="#homeAccordion">
             <div className="card-body">
               <MajorCollege/> 
             </div>
           </div>
         </div>
         <div className="card">
-          <button className="btn btn-light btn-block text-left card-header" id="headingThree" type="button" data-toggle="collapse" data-target="#collapseThree" aria-controls="collapseThree">
+          <button className="btn btn-light btn-block text-left card-header" id="headingThree" type="button" data-toggle="collapse" data-target="#homeCollapseThree" aria-controls="homeCollapseThree">
             <h5 className="mb-0">
               Get Connected Schedule <i className="fas fa-chevron-down fa-vc"></i>
             </h5>
           </button>
-          <div id="collapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+          <div id="homeCollapseThree" className="collapse" aria-labelledby="headingThree" data-parent="#homeAccordion">
             <div className="card-body">
               <Schedule/>
             </div>
           </div>
         </div>
         <div className="card">
-          <button className="btn btn-light btn-block text-left card-header" id="headingFour" type="button" data-toggle="collapse" data-target="#collapseFour" aria-controls="collapseFour">
+          <button className="btn btn-light btn-block text-left card-header" id="headingFour" type="button" data-toggle="collapse" data-target="#homeCollapseFour" aria-controls="homeCollapseFour">
             <h5 className="mb-0">
               Email Me <i className="fas fa-chevron-down fa-vc"></i>
             </h5>
           </button>
-          <div id="collapseFour" className="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
+          <div id="homeCollapseFour" className="collapse" aria-labelledby="headingFour" data-parent="#homeAccordion">
             <div className="card-body">
               <Email/>
             </div>

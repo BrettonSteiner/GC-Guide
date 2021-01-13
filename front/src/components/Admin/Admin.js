@@ -1,28 +1,83 @@
-import React, {useState, } from 'react';
+import React, {useState, useEffect} from 'react';
 import Tabs from '../Tabs/Tabs.js';
 import './Admin.css';
 import ITeamAdmin from './ITeamAdmin/ITeamAdmin.js';
 import MajorCollegeAdmin from './MajorCollegeAdmin/MajorCollegeAdmin.js';
 import ScheduleAdmin from './ScheduleAdmin/ScheduleAdmin.js';
-
-const testSemesters = [
-  {name: "Winter 2020", activeFlag: false, colleges: [{collegeName: "Science and Engineering"}, {collegeName: "Arts"}], iteams: [], events: []},
-  {name: "Spring 2020", activeFlag: false, colleges: [], iteams: [{ITeamNumber: 1}], events: []},
-  {name: "Fall 2020", activeFlag: true, colleges: [], iteams: [], events: [{name: "Academic Connections"}]},
-  {name: "Winter 2021", activeFlag: false, colleges: [], iteams: [], events: []},
-]
+import dummyData from './dummy.json';
 
 const Admin = (props) => {
-  const [semesters, setSemesters] = useState(testSemesters);
-  const [selectedSemesterName, setSelectedSemesterName] = useState(semesters[0]?.name);
-  let selectedSemester = semesters.find(sem => sem.name === selectedSemesterName);
+  const [semesters, setSemesters] = useState(dummyData);
+  const [selectedSemesterName, setSelectedSemesterName] = useState(null);
+  const [deleteSemesterConfirmation, setDeleteSemesterConfirmation] = useState(false);
+  const [newSemester, setNewSemester] = useState(null);
+  const [newSemesterError, setNewSemesterError] = useState(false);
+  const [selectedSemester, setSelectedSemester] = useState(null);
+  const [rerenderState, setRerenderState] = useState(false);
+
+  useEffect(() => {
+    //Call database for data
+    fetch('/semesters/all/')
+    .then((response) => response.json())
+    .then((data) => {
+      setSemesters(data.semesters);
+      setSelectedSemesterName(data.semesters[0]?.name? data.semesters[0].name : null);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (semesters.length > 0 && selectedSemesterName) {
+      const semesterId = semesters.find(sem => sem.name === selectedSemesterName)._id;
+      fetch('/semesters', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({'semesterId': semesterId}),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        setSelectedSemester(data);
+      });
+    }
+    else {
+      setSelectedSemester(null);
+      if (rerenderState) {
+        rerenderState(!rerenderState);
+      }
+    }
+  }, [selectedSemesterName, semesters, rerenderState]);
 
   let changeSemester = (e) => {
     setSelectedSemesterName(e.target.value);
+    setDeleteSemesterConfirmation(false);
+  };
+
+  let rerenderSemester = () => {
+    setRerenderState(!rerenderState);
+  }
+
+  let updateSemesterFlag = (flagValue) => {
+    const semesterId = semesters.find(sem => sem.name === selectedSemesterName)._id;
+    fetch('/semesters/updateActiveFlag', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({'semesterId': semesterId, "activeFlag": flagValue}),
+    })
+    .then((response) => response.json())
+    .then((data) => {
+      // console.log(data);
+      rerenderSemester();
+      return data;
+    });
   };
 
   let activateSemester = () => {
-    //call backend to update
+    // call backend to update
+    updateSemesterFlag(true);
+    // console.log("isSuccessful:", isSuccessful);
     setSemesters(currSemesters => {
       return currSemesters.map(sem => {
         if (sem.name === selectedSemesterName)
@@ -30,9 +85,13 @@ const Admin = (props) => {
         return {...sem, activeFlag: false}
       });
     });
+    setDeleteSemesterConfirmation(false);
   };
 
   let deactivateSemester = () => {
+    // call backend to update
+    updateSemesterFlag(false);
+    // console.log("isSuccessful:", isSuccessful);
     setSemesters(currSemesters => {
       return currSemesters.map(sem => {
         if (sem.name === selectedSemesterName)
@@ -40,6 +99,69 @@ const Admin = (props) => {
         return {...sem}
       });
     });
+    setDeleteSemesterConfirmation(false);
+  };
+
+  let deleteSemester = () => {
+    // call backend to delete
+    // console.log("Delete semester.");
+    fetch('/semesters/delete', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({semesterId: selectedSemester?._id? selectedSemester._id : null}),
+    })
+    .then(() => {
+      setSemesters(currSemesters => {
+        var newSemesterList = currSemesters.filter(semester => {
+          return semester.name !== selectedSemesterName;
+        });
+        setSelectedSemesterName(newSemesterList[0]?.name);
+        return newSemesterList;
+      });
+      setDeleteSemesterConfirmation(false);
+    });
+  };
+
+  let createSemester = () => {
+    var hasErrors = false;
+    if (newSemester === null || newSemester === "") {
+      setNewSemesterError(true);
+      hasErrors = true;
+    }
+
+    if (!hasErrors) {
+      // Call server to create semester
+      // console.log("Create semester.");
+      // let newSemesterObject;
+      fetch('/semesters/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({name: newSemester}),
+      })
+      .then((response) => response.json())
+      .then((data) => {
+        // newSemesterObject = data;
+        // console.log(data);
+        // setSemesters(currSemesters => {
+        //   currSemesters.unshift(newSemesterObject);
+        //   setSelectedSemesterName(currSemesters[0]?.name);
+        //   return currSemesters;
+        // });
+        // setSelectedSemesterName(newSemester);
+        fetch('/semesters/all/')
+        .then((response) => response.json())
+        .then((data) => {
+          setSemesters(data.semesters);
+          setSelectedSemesterName(newSemester);
+          setNewSemester(null);
+          setDeleteSemesterConfirmation(false);
+        });
+      });
+    }
   };
 
   return(
@@ -50,27 +172,92 @@ const Admin = (props) => {
           <h4 className="header-text">Get Connected Guide Admin</h4>
         </div>
       </div>
-      <div className="admin-container">
+      <div className="admin-subheader" id="subheader">
         <div className="semester-div">
-          <select className="form-control semester-select" id="semester-select" value={selectedSemester?.name}
-            onChange={changeSemester}>
-              {semesters.map(semester => {
-                return (<option key={semester.name} value={semester.name}>{semester.name}{semester.activeFlag ? " (Active)" : ""}</option>)
-              })}
-          </select>
-          {selectedSemester?.activeFlag
-          ? (<input type="button" value="Deactivate Semester" className="btn btn-warning" onClick={deactivateSemester}/>)
-          : (<input type="button" value="Set As Active Semester" className="btn btn-info" onClick={activateSemester}/>)}
+          {selectedSemester
+          ? <><select
+              className="form-control semester-select"
+              id="semester-select"
+              value={selectedSemester?.name}
+              onChange={changeSemester}>
+                {semesters.length > 0
+                ? semesters.map(semester => {
+                  return (<option key={semester.name} value={semester.name}>{semester.name}{semester.activeFlag ? " (Active)" : ""}</option>)
+                })
+                : <option key="noSemestersFound" value="" disabled>No semesters found.</option>
+                }
+            </select>
+            {selectedSemester.activeFlag
+            ? <input type="button" value="Deactivate Semester" className="btn btn-warning admin-btn" onClick={deactivateSemester}/>
+            : <input type="button" value="Set As Active Semester" className="btn btn-info admin-btn" onClick={activateSemester}/>}
+            {deleteSemesterConfirmation === false
+            ? <input type="button" value="Delete Semester" className="btn btn-danger admin-btn" onClick={() => setDeleteSemesterConfirmation(true)}/>
+            : <input type="button" value="Are You Sure You Want To Delete This Semester?" className="btn btn-danger admin-btn" onClick={deleteSemester}/>
+            }
+            <div className="d-flex justify-content-end" style={{width: "100%"}}>
+              {newSemester === null
+              ? <input type="button" value="Create New Semester" className="btn btn-info admin-btn flex-row-reverse" onClick={() => {setNewSemester(""); setDeleteSemesterConfirmation(false);}}/>
+              : <div className="input-group semester-select admin-btn">
+                  <input
+                    type="text"
+                    className={newSemesterError ? "form-control is-invalid" : "form-control"}
+                    placeholder="Create new semester"
+                    onChange={e => {
+                      setNewSemester(e.target.value);
+                      if (newSemesterError) {
+                        setNewSemesterError(false);
+                      }
+                    }}>
+                  </input>
+                  <div className="input-group-append">
+                    <button 
+                      className="btn btn-outline-secondary align-middle"
+                      type="button"
+                      onClick={() => {
+                        createSemester();
+                      }}>
+                      <i className="fas fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              }
+            </div></>
+          : <div className="input-group semester-select admin-btn">
+              <input
+                type="text"
+                className={newSemesterError ? "form-control is-invalid" : "form-control"}
+                placeholder="Create new semester"
+                onChange={e => {
+                  setNewSemester(e.target.value);
+                  if (newSemesterError) {
+                    setNewSemesterError(false);
+                  }
+                }}>
+              </input>
+              <div className="input-group-append">
+                <button 
+                  className="btn btn-outline-secondary align-middle"
+                  type="button"
+                  onClick={() => {
+                    createSemester();
+                  }}>
+                  <i className="fas fa-plus"></i>
+                </button>
+              </div>
+            </div>
+          }
         </div>
+      </div>
+      <div className="admin-container">
         <Tabs>
-          <div label="I-Teams">
-            <ITeamAdmin iteams={selectedSemester.iteams}/>
+          <div label="I-Teams" recordCount={selectedSemester?.iTeams?.length}>
+            <ITeamAdmin semester={selectedSemester} rerenderSemester={rerenderSemester}/>
           </div>
-          <div label="Academic Connections">
-            <MajorCollegeAdmin colleges={selectedSemester.colleges}/>
+          <div label="Academic Connections" recordCount={selectedSemester?.colleges?.length}>
+            <MajorCollegeAdmin semester={selectedSemester} rerenderSemester={rerenderSemester}/>
           </div>
-          <div label="Schedule">
-            <ScheduleAdmin events={selectedSemester.events}/>
+          <div label="Schedule" recordCount={selectedSemester?.events?.length}>
+            <ScheduleAdmin semester={selectedSemester} rerenderSemester={rerenderSemester}/>
           </div>
         </Tabs>
       </div>

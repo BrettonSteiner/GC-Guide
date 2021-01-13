@@ -16,7 +16,8 @@ var semesterService = require('./semesterService');
 function createEvent(req, res, next) {
   const event = new Event({
     date: req.body.date,
-    time: req.body.time,
+    startTime: req.body.startTime,
+    endTime: req.body.endTime,
     name: req.body.name,
     location: req.body.location,
     description: req.body.description,
@@ -61,7 +62,8 @@ function updateEvent(req, res, next) {
     req.body.eventId,
     {$set:{
       date: req.body.date,
-      time: req.body.time,
+      startTime: req.body.startTime,
+      endTime: req.body.endTime,
       name: req.body.name,
       location: req.body.location,
       description: req.body.description,

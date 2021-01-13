@@ -1,12 +1,20 @@
 .semester-select {
-  margin-left: 90px;
-  margin-right: 10px;
-  max-width: 200px;
+  max-width: 300px;
+}
+
+.admin-subheader {
+  background-color: #ebebeb;
+  align-items: center;
+  justify-content: center;
+  margin-top: -32px;
 }
 
 .semester-div {
   display: flex;
-  margin-top: -15px;
+  flex-direction: row;
+  margin: auto;
+  padding: .75rem 1.25rem;
+  margin-right: 2.5%;
 }
 
 .admin-container {
@@ -16,4 +24,33 @@
 
 .admin-btn {
   margin-left: 10px;
+}
+
+/* .btn-info {
+  background-color: #3390CA;
+}
+
+.btn-warning {
+  background-color: #FFCD03;
+} */
+
+.grayscale { 
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  background-color: gray;
+  opacity: .5;
+  z-index: 2;
+  display: flex;
+}
+
+.grayscale-text {
+  background-color: black;
+  color: white;
+  line-height: 50px;
+  height: 50px;
+  width: 50%;
+  text-align: center;
+  border-radius: 5px;
+  margin: auto;
 }

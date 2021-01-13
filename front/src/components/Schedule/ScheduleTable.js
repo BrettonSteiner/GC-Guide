@@ -31,14 +31,14 @@ const ScheduleTable = (props) => {
           <Fragment key={"tableData" + index}>
             <tr className="accordion-toggle collapsed" 
               id={"trAccordionHeader" + index}
-              data-toggle="collapse" 
+              data-toggle="collapse"
               data-target={"#trCollapse" + index} 
               aria-controls={"#trCollapse" + index} 
               onClick={() => {
                 props.changeEvent(row);
                 setMaps(maps.includes(index)? maps : maps.concat(index));
               }}>
-              <td>{row.date}<br/>{row.time}</td>
+              <td>{row.date}<br/>{row.startTime? row.startTime : null}{row.endTime? " - " + row.endTime : null}</td>
               <td>{row.name}</td>
               <td className="align-middle"><i className="fas fa-chevron-down"></i></td>
             </tr>
@@ -46,7 +46,7 @@ const ScheduleTable = (props) => {
               <td colSpan="3">
                 <div id={"trCollapse" + index} className="collapse" data-parent="#scheduleTable">
                   <div className="in p-3">
-                    {row.details && row.details !== `` ? (<p>{row.details}</p>) : null}
+                    {row.description && row.description !== `` ? (<p>{row.description}</p>) : null}
                     {row.location && row.location !== `` ? (<p>Location: {row.location}</p>) : null}
                     <MediaQuery maxDeviceWidth={992}>
                       {row.mapSpots && row.mapSpots.length > 0 ? (<div className="mobileMap" id={"mobileMap" + index}>

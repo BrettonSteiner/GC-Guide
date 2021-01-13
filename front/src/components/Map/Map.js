@@ -12,7 +12,7 @@ const Map = (props) => {
   const [mapRef, setMapRef] = useState(null);
   const [height, setHeight] = useState('300px');
   const [zoom, setZoom] = useState(17);
-  const [center, setCenter] = useState({lat: 43.8144, lng: -111.7833});
+  const [center, setCenter] = useState({lat: 43.818256, lng: -111.783633});
   const [markers, setMarkers] = useState(null);
   const [options] = useState({ streetViewControl: false});
 
@@ -25,7 +25,7 @@ const Map = (props) => {
   }, [props.zoom]);
 
   useEffect(() => {
-    setCenter(props?.center? props.center : {lat: 43.8144, lng: -111.7833});
+    setCenter(props?.center? props.center : {lat: 43.818256, lng: -111.783633});
   }, [props.center]);
   
   const recenterMap = useCallback(() => {

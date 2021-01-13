@@ -23,6 +23,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../front/build')));
 app.use(bodyParser.json());
 
+app.get('/admin', (req, res) => {
+  res.sendFile(path.join(__dirname, '../front/build', 'index.html'));
+});
+
 app.use('/semesters', semesterRouter);
 app.use('/iteams', iteamRouter);
 app.use('/colleges', collegeRouter);

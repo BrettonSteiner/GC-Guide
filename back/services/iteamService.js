@@ -131,7 +131,7 @@ async function deleteITeam(req, res, next) {
   var result = await deleteITeamById(req.body.semesterId, req.body.iTeamId);
 
   if (await semesterService.isSemesterActive(req.body.semesterId)) {
-    complexService.deleteITeamFromComplexes(doc.iTeamNumber);
+    complexService.deleteITeamFromComplexes(req.body.iTeamNumber);
   }
 
   res.send(result);
