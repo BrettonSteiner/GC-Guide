@@ -287,14 +287,19 @@ const ITeamExpand = (props) => {
         },
         body: JSON.stringify(iTeamJson),
       })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP status " + response.status);
+        }
+        response.json();
+      })
       .then((data) => {
-        rerenderSemester();
         // console.log(data);
-        resetForm()
+        resetForm();
+        rerenderSemester();
       });
     }
-  }, [iTeamNumber, isAltered, generateITeamJson, rerenderSemester, resetForm]);
+  }, [iTeamNumber, isAltered, generateITeamJson, resetForm, rerenderSemester]);
 
   const updateITeam = useCallback(() => {
     var hasErrors = false;

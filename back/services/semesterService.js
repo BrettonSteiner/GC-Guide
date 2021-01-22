@@ -22,7 +22,7 @@ function createSemester(req, res, next) {
   Semester.findOne({ 'name': req.body.name })
   .then(result => {
     if(result != null)
-      res.send("A Semester with that name already exists.");
+      res.status(400).send("A Semester with that name already exists.");
     else {
       const semester = new Semester({
         name: req.body.name,
@@ -34,7 +34,7 @@ function createSemester(req, res, next) {
 
       semester.save()
       .then(result => {
-        res.send(result);
+        res.status(201).send(result);
       })
       .catch(err => {
         console.log(err);
@@ -49,7 +49,7 @@ function createSemester(req, res, next) {
 function getSemesters(req, res, next) {
   Semester.find()
   .then(docs => {
-    res.json({semesters: docs});
+    res.status(200).json({semesters: docs});
   })
   .catch(err => {
     console.log(err);
@@ -62,7 +62,7 @@ function getSemester(req, res, next)  {
   .populate('iTeams')
   .populate('events')
   .then(docs => {
-    res.json(docs);
+    res.status(200).json(docs);
   })
   .catch(err => {
     console.log(err);
@@ -127,11 +127,12 @@ async function updateSemesterActiveFlag(req, res, next) {
         console.log("Something wrong when updating Semester activeFlag!");
     }
     // If setting to the active semester, Redo all Complexes
+    // TODO: Async.ParallelLimit
     complexService.deleteAllComplexes();
     if (doc.activeFlag == true && doc.iTeams != null && doc.iTeams != []) {
       complexService.createComplexes(doc.iTeams);
     }
-    res.send(doc);
+    res.status(200).send(doc);
   });
 }
 
@@ -274,6 +275,6 @@ async function deleteSemester(req, res, next) {
     if (err) {
         console.log("Something wrong when deleting Semester!");
     }
-    res.send(doc);
+    res.status(204).send();
   });
 }

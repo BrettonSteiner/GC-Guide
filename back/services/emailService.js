@@ -15,5 +15,5 @@ function sendEmail(req, res, next) {
 
   // Construct and send email
 
-  res.send('Not implemented');
+  res.status(501).send('Not implemented');
 }

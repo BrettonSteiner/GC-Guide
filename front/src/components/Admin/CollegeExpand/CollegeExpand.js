@@ -123,7 +123,7 @@ const CollegeExpand = (props) => {
     if (!hasErrors && isAltered) {
       //Call server to create college
       var collegeJson = generateCollegeJson();
-      console.log("Create college.");
+      // console.log("Create college.");
       fetch('/colleges/create', {
         method: 'POST',
         headers: {
@@ -131,7 +131,12 @@ const CollegeExpand = (props) => {
         },
         body: JSON.stringify(collegeJson),
       })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP status " + response.status);
+        }
+        response.json();
+      })
       .then((data) => {
         rerenderSemester();
         // console.log(data);

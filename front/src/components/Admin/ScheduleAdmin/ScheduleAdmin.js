@@ -58,7 +58,9 @@ const ScheduleAdmin = (props) => {
 
   const filterTimes = (rows, id, filterValue) => {
     return rows.filter(row => {
-      return row.original?.startTime?.toLowerCase().includes(filterValue.toLowerCase()) || row.original?.startTime?.toLowerCase().includes(filterValue.toLowerCase());
+      const timeString = (row.original?.startTime? row.original.startTime : "")
+        + (row.original?.endTime? (" - " + row.original.endTime) : "");
+      return timeString.toLowerCase().includes(filterValue.toLowerCase());
     });
   }
 
