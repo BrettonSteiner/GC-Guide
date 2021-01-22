@@ -226,7 +226,12 @@ const ScheduleExpand = (props) => {
         },
         body: JSON.stringify(eventJson),
       })
-      .then((response) => response.json())
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("HTTP status " + response.status);
+        }
+        response.json();
+      })
       .then((data) => {
         rerenderSemester();
         // console.log(data);
@@ -599,7 +604,7 @@ const ScheduleExpand = (props) => {
               data-target={"#" + cancelTarget}
               aria-controls={cancelTarget}
               onClick={() => createEvent()}
-            >Create I-Team</button>
+            >Create Event</button>
             <button type="reset" className="btn btn-warning admin-btn" disabled={!isAltered} onClick={() => resetForm()}>Reset</button>
             { cancelTarget !== ""?
               <button

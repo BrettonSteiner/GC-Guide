@@ -10,31 +10,47 @@ module.exports = {
 const collegeDummyData = require('../public/dummyData/collegeDummyData.json');
 const {College} = require('../models/college');
 const {Semester} = require('../models/semester');
+const mongoose = require('mongoose');
 
 var semesterService = require('./semesterService');
 
 function createCollege(req, res, next) {
-  College.findOne({ 'name': req.body.name })
-  .then(result => {
-    if(result != null)
-      res.send("A college with that name already exists.");
-    else {
-      const college = new College({
-        name: req.body.name,
-        majors: req.body.majors,
-        flagColor: req.body.flagColor
-      });
-
-      college.save()
-      .then(result => {
-        // Update College ID list in semester with this new ID.
-        semesterService.updateSemesterColleges(req.body.semesterId, result._id);
-        res.send(result);
-      })
-      .catch(err => {
-        console.log(err);
+  // Get semester College Ids
+  Semester.findById(req.body.semesterId)
+  .then(docs => {
+    var collegeObjectIds = [];
+    if (docs != null) {
+      docs.colleges.forEach(college => {
+        collegeObjectIds.push(mongoose.Types.ObjectId(college));
       });
     }
+
+    College.findOne({ 'name': req.body.name, '_id': { $in: collegeObjectIds} })
+    .then(result => {
+      if (result != null) {
+        res.status(400).send("A college with that name already exists in this semester.");
+      }
+      else {
+        const college = new College({
+          name: req.body.name,
+          majors: req.body.majors,
+          flagColor: req.body.flagColor
+        });
+
+        college.save()
+        .then(result => {
+          // Update College ID list in semester with this new ID.
+          semesterService.updateSemesterColleges(req.body.semesterId, result._id);
+          res.status(201).send(result);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
   })
   .catch(err => {
     console.log(err);
@@ -46,7 +62,7 @@ function getColleges(req, res, next) {
     Semester.findById(req.body.semesterId)
     .populate('colleges')
     .then(docs => {
-      res.json({colleges: docs ? docs.colleges : []})
+      res.status(200).json({colleges: docs ? docs.colleges : []})
     })
     .catch(err => {
       console.log(err);
@@ -55,7 +71,7 @@ function getColleges(req, res, next) {
   else {
     College.find()
     .then(docs => {
-      res.json({colleges: docs});
+      res.status(200).json({colleges: docs});
     })
     .catch(err => {
       console.log(err);
@@ -76,13 +92,13 @@ function updateCollege(req, res, next) {
       if (err) {
         console.log("Something wrong when updating college!");
       }
-      res.send(doc);
+      res.status(200).send(doc);
   });
 }
 
 async function deleteCollege(req, res, next) {
   var result = await deleteCollegeById(req.body.semesterId, req.body.collegeId);
-  res.send(result);
+  res.status(200).send(result);
 }
 
 function deleteCollegeById(semesterId, collegeId) {
@@ -97,5 +113,5 @@ function deleteCollegeById(semesterId, collegeId) {
 }
 
 function importColleges(req, res, next) {
-  res.send('Not Implemented');
+  res.status(501).send('Not Implemented');
 }
