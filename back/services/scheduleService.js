@@ -35,8 +35,13 @@ function createEvent(req, res, next) {
   });
 }
 
-function getSchedule(req, res, next) {
-  if (req.body.semesterId != null) {
+async function getSchedule(req, res, next) {
+  var semesterId = req.body.semesterId;
+  if (semesterId != null) {
+    semesterId = await semesterService.getActiveSemesterId();
+  }
+
+  if (semesterId != null) {
     Semester.findById(req.body.semesterId)
     .populate('events')
     .then(docs => {
@@ -47,13 +52,7 @@ function getSchedule(req, res, next) {
     });
   }
   else {
-    Event.find()
-    .then(docs => {
-      res.status(200).json({schedule: docs});
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    res.status(200).json({schedule: []});
   }
 }
 

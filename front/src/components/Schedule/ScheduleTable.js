@@ -26,7 +26,8 @@ const ScheduleTable = (props) => {
       </tr>
     </thead>
     <tbody>
-      {
+      { tableData.length > 0
+        ?
         tableData.map( (row, index) => (
           <Fragment key={"tableData" + index}>
             <tr className="accordion-toggle collapsed" 
@@ -61,6 +62,12 @@ const ScheduleTable = (props) => {
             </tr>
           </Fragment>
         ))
+        :
+        <tr>
+          <td colSpan="3" className="centered">
+            No events
+          </td>
+        </tr>
       }
     </tbody>
   </table>
