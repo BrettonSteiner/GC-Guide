@@ -15,10 +15,12 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
+  # This workflow contains a job called "build-front-end"
+  build-front-end:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
+    env:
+      working-directory: ./front
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
@@ -33,9 +35,42 @@ jobs:
     
     # Installs all dependencies listed in the package.json file
     - run: npm ci
+      working-directory: ${{env.working-directory}}
     
     # Builds the application
     - run: npm run build --if-present
+      working-directory: ${{env.working-directory}}
     
     # Runs all the tests in the test suite
     - run: npm test
+      working-directory: ${{env.working-directory}}
+
+# This workflow also contains a job called "build-back-end"
+  build-back-end:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    env:
+      working-directory: ./back
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+    # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+    - uses: actions/checkout@v2
+
+    # Sets up runner to use the defined node.js version
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: 12.x
+    
+    # Installs all dependencies listed in the package.json file
+    - run: npm ci
+      working-directory: ${{env.working-directory}}
+    
+    # Builds the application
+    - run: npm run build --if-present
+      working-directory: ${{env.working-directory}}
+    
+    # Runs all the tests in the test suite
+    - run: npm test
+      working-directory: ${{env.working-directory}}
