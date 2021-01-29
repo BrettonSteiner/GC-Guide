@@ -57,9 +57,14 @@ function createCollege(req, res, next) {
   });
 }
 
-function getColleges(req, res, next) {
-  if (req.body.semesterId != null) {
-    Semester.findById(req.body.semesterId)
+async function getColleges(req, res, next) {
+  var semesterId = req.body.semesterId;
+  if (semesterId != null) {
+    semesterId = await semesterService.getActiveSemesterId();
+  }
+
+  if (semesterId != null) {
+    Semester.findById(semesterId)
     .populate('colleges')
     .then(docs => {
       res.status(200).json({colleges: docs ? docs.colleges : []})
@@ -69,13 +74,7 @@ function getColleges(req, res, next) {
     });
   }
   else {
-    College.find()
-    .then(docs => {
-      res.status(200).json({colleges: docs});
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    res.status(200).json({colleges: []});
   }
 }
 
