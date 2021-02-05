@@ -14,6 +14,9 @@ passport.deserializeUser(Account.deserializeUser());
 /* GET accounts listing. */
 router.get('/', connectEnsureLogin.ensureLoggedIn(), accountService.getAccounts);
 
+/* GET current account username */
+router.get('/current', connectEnsureLogin.ensureLoggedIn(), accountService.getCurrentAccount);
+
 /* POST check if username is available */
 router.post('/usernames', accountService.checkUsernameAvailability);
 

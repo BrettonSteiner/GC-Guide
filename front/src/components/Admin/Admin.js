@@ -13,7 +13,16 @@ const Admin = (props) => {
   const [newSemester, setNewSemester] = useState(null);
   const [newSemesterError, setNewSemesterError] = useState(false);
   const [selectedSemester, setSelectedSemester] = useState(null);
+  const [username, setUsername] = useState(null);
   const [rerenderState, setRerenderState] = useState(false);
+
+  useEffect(() => {
+    fetch('/accounts/current')
+    .then((response) => response.json())
+    .then((data) => {
+      setUsername(data.username);
+    });
+  }, [])
 
   useEffect(() => {
     //Call database for data
@@ -174,11 +183,11 @@ const Admin = (props) => {
         <div className="admin-container">
           <div className="header-logo"></div>
           <div className="d-flex">
-            <h4 className="admin-header-text">Get Connected Guide Admin</h4>
-            <div className="align-self-center ml-auto p-2 logout-btn">
-              <button type="button" onClick={logout} className="btn btn-secondary btn-sm">Logout</button>
-            </div>
+            <div className="mr-auto p-2"><h4 className="admin-header-text">Get Connected Guide Admin</h4></div>
+            <div className="p-2 align-self-center admin-username-text">{username}</div>
+            <div className="p-2 align-self-center"><button type="button" onClick={logout} className="btn btn-secondary btn-sm">Logout</button></div>
           </div>
+            
         </div>
       </div>
       <div className="admin-subheader" id="subheader">

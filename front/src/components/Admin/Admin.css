@@ -5,8 +5,12 @@
 .admin-header-text {
   color: white;
   text-align: left;
-  padding-top: 15px;
-  padding-left: 28px;
+  padding-top: 7px;
+  padding-left: 20px;
+}
+
+.admin-username-text {
+  color: white;
 }
 
 .admin-subheader {

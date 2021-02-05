@@ -1,5 +1,6 @@
 module.exports = {
   getAccounts: getAccounts,
+  getCurrentAccount: getCurrentAccount,
   checkUsernameAvailability: checkUsernameAvailability,
   createAccount: createAccount,
 };
@@ -14,6 +15,10 @@ function getAccounts(req, res, next) {
   .catch(err => {
     console.log(err);
   });
+}
+
+function getCurrentAccount(req, res, next) {
+  res.status(200).json({username: req.user.username})
 }
 
 function isUsernameAvailable(username) {
