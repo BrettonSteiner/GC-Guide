@@ -2,6 +2,13 @@
   max-width: 300px;
 }
 
+.admin-header-text {
+  color: white;
+  text-align: left;
+  padding-top: 15px;
+  padding-left: 28px;
+}
+
 .admin-subheader {
   background-color: #ebebeb;
   align-items: center;
@@ -20,6 +27,10 @@
 .admin-container {
   width: 95%;
   margin: auto;
+}
+
+.logout-btn {
+  margin-top: 7px;
 }
 
 .admin-btn {

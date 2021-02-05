@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useCallback} from 'react';
 import Tabs from '../Tabs/Tabs.js';
 import './Admin.css';
 import ITeamAdmin from './ITeamAdmin/ITeamAdmin.js';
@@ -133,8 +133,6 @@ const Admin = (props) => {
 
     if (!hasErrors) {
       // Call server to create semester
-      // console.log("Create semester.");
-      // let newSemesterObject;
       fetch('/semesters/create', {
         method: 'POST',
         headers: {
@@ -144,14 +142,6 @@ const Admin = (props) => {
       })
       .then((response) => response.json())
       .then((data) => {
-        // newSemesterObject = data;
-        // console.log(data);
-        // setSemesters(currSemesters => {
-        //   currSemesters.unshift(newSemesterObject);
-        //   setSelectedSemesterName(currSemesters[0]?.name);
-        //   return currSemesters;
-        // });
-        // setSelectedSemesterName(newSemester);
         fetch('/semesters/all/')
         .then((response) => response.json())
         .then((data) => {
@@ -164,12 +154,31 @@ const Admin = (props) => {
     }
   };
 
+  const redirect = useCallback(() => {
+    props.history.push("/login");
+  }, [props]);
+
+  const logout = useCallback(() => {
+    // Call server to logout of your account
+    fetch('/accounts/logout')
+    .then((response) => {
+      if (response.redirected) {
+        redirect();
+      }
+    });
+  }, [redirect])
+
   return(
     <>
       <div className="header" id="header">
-        <div className="admin-container" >
+        <div className="admin-container">
           <div className="header-logo"></div>
-          <h4 className="header-text">Get Connected Guide Admin</h4>
+          <div className="d-flex">
+            <h4 className="admin-header-text">Get Connected Guide Admin</h4>
+            <div className="align-self-center ml-auto p-2 logout-btn">
+              <button type="button" onClick={logout} className="btn btn-secondary btn-sm">Logout</button>
+            </div>
+          </div>
         </div>
       </div>
       <div className="admin-subheader" id="subheader">

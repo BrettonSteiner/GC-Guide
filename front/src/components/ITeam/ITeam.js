@@ -16,11 +16,11 @@ const ITeam = (props) => {
   useEffect(() => {
     //Call database for data
     fetch('/iteams/public/')
-      .then((response) => response.json())
-      .then((data) => {
-        setITeams(data.iTeams);
-        setData(data.complexes);
-      });
+    .then((response) => response.json())
+    .then((data) => {
+      setITeams(data.iTeams);
+      setData(data.complexes);
+    });
   }, []);
 
   useEffect(() => {

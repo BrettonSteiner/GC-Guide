@@ -1,0 +1,13 @@
+.create-account {
+  background-color: #ebebeb;
+  max-width: 375px;
+  margin-top: 100px;
+}
+
+.create-account-btn {
+  width: 200px;
+}
+
+.green {
+  color: green;
+}
