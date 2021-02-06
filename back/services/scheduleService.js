@@ -1,5 +1,6 @@
 module.exports = {
   createEvent: createEvent,
+  getScheduleData: getScheduleData,
   getSchedule: getSchedule,
   updateEvent: updateEvent,
   deleteEvent: deleteEvent,
@@ -35,25 +36,27 @@ function createEvent(req, res, next) {
   });
 }
 
-async function getSchedule(req, res, next) {
-  var semesterId = req.body.semesterId;
-  if (semesterId != null) {
+async function getScheduleData(semesterId = null) {
+  if (semesterId == null) {
     semesterId = await semesterService.getActiveSemesterId();
   }
 
   if (semesterId != null) {
-    Semester.findById(req.body.semesterId)
+    return Semester.findById(semesterId)
     .populate('events')
     .then(docs => {
-      res.status(200).json({schedule: docs ? docs.events : []})
+      return docs ? docs.events : [];
     })
     .catch(err => {
       console.log(err);
     });
   }
-  else {
-    res.status(200).json({schedule: []});
-  }
+  
+  return [];
+}
+
+async function getSchedule(req, res, next) {
+  res.status(200).json({schedule: await getScheduleData(req.body.semesterId)})
 }
 
 function updateEvent(req, res, next) {

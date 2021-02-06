@@ -1,6 +1,7 @@
 module.exports = {
   createCollege: createCollege,
   getColleges: getColleges,
+  getCollege: getCollege,
   updateCollege: updateCollege,
   deleteCollege: deleteCollege,
   deleteCollegeById: deleteCollegeById,
@@ -59,7 +60,7 @@ function createCollege(req, res, next) {
 
 async function getColleges(req, res, next) {
   var semesterId = req.body.semesterId;
-  if (semesterId != null) {
+  if (semesterId == null) {
     semesterId = await semesterService.getActiveSemesterId();
   }
 
@@ -76,6 +77,16 @@ async function getColleges(req, res, next) {
   else {
     res.status(200).json({colleges: []});
   }
+}
+
+function getCollege(collegeId) {
+  return College.findById(collegeId)
+  .then(docs => {
+    return docs;
+  })
+  .catch(err => {
+    console.log(err);
+  });
 }
 
 function updateCollege(req, res, next) {

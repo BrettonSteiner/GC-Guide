@@ -2,6 +2,7 @@ module.exports = {
   createITeam: createITeam,
   getITeams: getITeams,
   getPublicITeams: getPublicITeams,
+  getITeam: getITeam,
   updateITeam: updateITeam,
   deleteITeam: deleteITeam,
   deleteITeamById: deleteITeamById,
@@ -105,6 +106,16 @@ async function getPublicITeams(req, res, next) {
   else {
     res.status(200).json({iTeams: [], complexes: []});
   }
+}
+
+function getITeam(iTeamId) {
+  return ITeam.findById(iTeamId)
+  .then(docs => {
+    return docs;
+  })
+  .catch(err => {
+    console.log(err);
+  });
 }
 
 async function updateITeam(req, res, next) {
