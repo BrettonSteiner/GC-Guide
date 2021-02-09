@@ -43,7 +43,7 @@ async function getCollegeHtml(collegeId) {
   .then(college => {
     if (college != null) {
       return '<h2>Your Academic Connection</h2><h3>College Name:</h3><p><b>'
-      + college.name + '</b></p><h3>Flag Color:</h3><p class="'
+      + college.name + '</b></p><h3>Flag Color:</h3><p class="color-box '
       + college.flagColor + '-box"><b>' + college.flagColor + '</p><b></br>';
     }
     else {
@@ -93,15 +93,17 @@ async function getScheduleHtml(semesterId) {
 }
 
 async function createhtml(req) {
-  flagColorBoxStyle = '<style>.Orange-box {background-color:orange;max-width:100px;height:40px;line-height:40px;margin:auto;border-radius:4px;}'
-    + '.Purple-box {background-color:purple;color:white;max-width:100px;height:40px;line-height: 40px;margin:auto;border-radius:4px;}'
-    + '.Green-box {background-color:green;color:white;max-width:100px;height:40px;line-height:40px;margin:auto;border-radius: 4px;}'
-    + '.Red-box {background-color:red;color:white;max-width:100px;height:40px;line-height:40px;margin:auto;border-radius:4px;}'
-    + '.Blue-box {background-color:blue;color:white;max-width:100px;height:40px;line-height:40px;margin:auto;border-radius:4px;}'
-    + '.Yellow-box {background-color:yellow;max-width:100px;height:40px;line-height:40px;margin:auto;border-radius:4px;}'
-    + '.Grey-box {background-color:grey;color:white;max-width:100px;height:40px;line-height:40px;margin:auto;border-radius:4px;}</style>';
-  html = '<html><head>' + flagColorBoxStyle + '</head><body><div style="text-align: center;"><h1>Get Connected Guide</h1><p>'
-  + new Date().toLocaleDateString() + '</p><p>Please do not reply to this email.</p>';
+  flagColorBoxStyle = '<style>.color-box {max-width:100px;height:40px;line-height:40px;margin:auto;border-radius:4px;} ' 
+    + '.Orange-box {background-color:orange;} '
+    + '.Purple-box {background-color:purple;color:white;} '
+    + '.Green-box {background-color:green;color:white;} '
+    + '.Red-box {background-color:red;color:white;} '
+    + '.Blue-box {background-color:blue;color:white;} '
+    + '.Yellow-box {background-color:yellow;} '
+    + '.Grey-box {background-color:grey;color:white;}</style>';
+  html = '<html><head>' + flagColorBoxStyle 
+  + '</head><body><div style="text-align: center;"><h1>Get Connected Guide</h1><p>'
+  + new Date().toLocaleDateString() + '</p>';
 
   if (req.body.includeITeam) {
     html += await getITeamHtml(req.body.iTeamId);
@@ -115,18 +117,12 @@ async function createhtml(req) {
     html += await getScheduleHtml(req.body.semesterId);
   }
 
-  html += "</div></body></html>"
+  html += "<p>Please do not reply to this email.</p></div></body></html>"
 
   return html;
 }
 
 async function sendEmail(req, res, next) {
-  // var iteamData = iteamService.getITeams;
-  // var collegeData = collegeService.getColleges;
-  // var scheduleData = scheduleService.getSchedule;
-
-  // Pull out data relevant to user
-
   // Construct and send email
   var transporter = nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE,

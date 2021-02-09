@@ -42,7 +42,7 @@ app.get('/admin', connectEnsureLogin.ensureLoggedIn(), (req, res) => {
   res.sendFile(path.join(__dirname, '../front/build', 'index.html'));
 });
 
-app.use('/semesters', connectEnsureLogin.ensureLoggedIn(), semesterRouter);
+app.use('/semesters', semesterRouter);
 app.use('/iteams', iteamRouter);
 app.use('/colleges', collegeRouter);
 app.use('/schedule', scheduleRouter);

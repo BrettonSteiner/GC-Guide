@@ -2,6 +2,7 @@ module.exports = {
   createSemester: createSemester,
   getSemesters: getSemesters,
   getSemester: getSemester,
+  getActiveSemester: getActiveSemester,
   getActiveSemesterId: getActiveSemesterId,
   isSemesterActive: isSemesterActive,
   updateSemesterActiveFlag: updateSemesterActiveFlag,
@@ -69,16 +70,25 @@ function getSemester(req, res, next)  {
   });
 }
 
-async function getActiveSemesterId() {
-  var activeSemesterId = await Semester.findOne({ 'activeFlag': true })
+async function findActiveSemester() {
+  var activeSemester = await Semester.findOne({ 'activeFlag': true })
   .then(result => {
-    return result ? result._id : null;
+    return result;
   })
   .catch(err => {
     console.log(err);
   });
 
-  return activeSemesterId;
+  return activeSemester;
+}
+
+async function getActiveSemester(req, res, next)  {
+  res.status(200).json(await findActiveSemester());
+}
+
+async function getActiveSemesterId() {
+  var activeSemester = await findActiveSemester();
+  return activeSemester? activeSemester._id : null;
 }
 
 async function isSemesterActive(semesterId) {
@@ -88,18 +98,10 @@ async function isSemesterActive(semesterId) {
 
 async function updateSemesterActiveFlag(req, res, next) {
   // Check if another semester has the activeFlag set to true.
-  var activeSemesterId = await Semester.findOne({ 'activeFlag': true })
-  .then(result => {
-    if (result != null && result._id != req.body.semesterId) {
-      return result._id;
-    }
-    else {
-      return null;
-    }
-  })
-  .catch(err => {
-    console.log(err);
-  });
+  var activeSemesterId = await getActiveSemesterId();
+  if (activeSemesterId != null && activeSemesterId == req.body.semesterId) {
+    activeSemesterId = null;
+  }
 
   // Set previously true semester to false.
   if (activeSemesterId != null) {
