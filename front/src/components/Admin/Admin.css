@@ -69,3 +69,23 @@
   border-radius: 5px;
   margin: auto;
 }
+
+.nav-tabs {
+  background-color: rgba(0,0,0,.03);
+}
+
+.nav-tabs .nav-link {
+  color: #495057;
+  border-color: #dee2e6;
+  height: 100%;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: white;
+  color: black;
+}
+
+.tab-content {
+  max-width: 100%;
+  margin-left: 0px;
+}

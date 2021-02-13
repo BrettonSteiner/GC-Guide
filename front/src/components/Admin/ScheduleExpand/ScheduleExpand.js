@@ -30,7 +30,6 @@ const calculateTime = (hour, minute, meridiem) => {
 
 const ScheduleExpand = (props) => {
   const [createMode] = useState(props?.row?.createMode? props.row.createMode : false);
-  const [cancelTarget] = useState(props?.row?.cancelTarget? props.row.cancelTarget : "");
   const [semesterId, setSemesterId] = useState(props?.row?.semesterId? props.row.semesterId : null);
   const [eventId] = useState(props?.row?._id? props.row._id : "0");
   const [originalEventName] = useState(props?.row?.name? props.row.name : "");
@@ -600,23 +599,9 @@ const ScheduleExpand = (props) => {
               type="button"
               className="btn btn-primary"
               disabled={!isAltered}
-              data-toggle="collapse"
-              data-target={"#" + cancelTarget}
-              aria-controls={cancelTarget}
               onClick={() => createEvent()}
             >Create Event</button>
             <button type="reset" className="btn btn-warning admin-btn" disabled={!isAltered} onClick={() => resetForm()}>Reset</button>
-            { cancelTarget !== ""?
-              <button
-                type="button"
-                className="btn btn-danger float-right"
-                data-toggle="collapse"
-                data-target={"#" + cancelTarget}
-                aria-controls={cancelTarget}
-              >Cancel</button>
-              :
-              null
-            }
           </div>
           :
           <div className="col">

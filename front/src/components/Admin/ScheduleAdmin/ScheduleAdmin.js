@@ -79,38 +79,41 @@ const ScheduleAdmin = (props) => {
         </div>
       : null
       }
-      <div className="card-header d-flex justify-content-between">
-        <h5 className="mb-0 align-self-center">
-          Schedule <span className="badge badge-secondary">{events.length} Events</span>
-        </h5>
-        <div className="d-flex flex-row-reverse">
-          <input type="button" value="Import Data From File" className="btn btn-info admin-btn "/>
-          <input
-            id="addEventButton"
-            type="button"
-            value="Add Event"
-            className="btn btn-info admin-btn"
-            data-toggle="collapse"
-            data-target="#createEventCollapse"
-            aria-controls="createEventCollapse"
-          />
+      <ul className="nav nav-tabs" id="eventTabs" role="tablist">
+        <li className="nav-item">
+          <a className="nav-link active" id="eventsTab" data-toggle="tab" href="#events" role="tab" aria-controls="events" aria-selected="true">
+            <h5 className="mb-0 align-self-center">Events <span className="badge badge-secondary">{events.length}</span></h5>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" id="createEventTab" data-toggle="tab" href="#createEvent" role="tab" aria-controls="createEvent" aria-selected="false">
+            <h5 className="mb-0 align-self-center">Create New Event</h5>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" id="importEventsTab" data-toggle="tab" href="#importEvents" role="tab" aria-controls="importEvents" aria-selected="false">
+            <h5 className="mb-0 align-self-center">Import Events From File</h5>
+          </a>
+        </li>
+      </ul>
+      <div className="tab-content">
+        <div className="card-body tab-pane show active" id="events" role="tabpanel" aria-labelledby="eventsTab">
+          <DataTable columns={columns} 
+            data={events.map(row => {
+              let newRow= {...row};
+              newRow.semesterId = semesterId;
+              newRow.displayTimes = <><div>{newRow.startTime? newRow.startTime : null}{newRow.endTime? " - " + newRow.endTime : null}</div></>;
+              return newRow;
+            })}
+            SubComponent={({row}) => { return (<ScheduleExpand row={row.original} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>) }}
+            customFilters={{filterEventNames, filterDates, filterTimes, filterLocations}}/>
         </div>
-      </div>
-      <div id="createEventCollapse" className="collapse border-bottom" aria-labelledby="addEventButton" data-parent="#scheduleTab">
-        <div className="card-body">
-          <ScheduleExpand row={{semesterId:semesterId, createMode:true, cancelTarget:"createEventCollapse"}} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>
+        <div className="card-body tab-pane" id="createEvent" role="tabpanel" aria-labelledby="createEventTab">
+          <ScheduleExpand row={{semesterId:semesterId, createMode:true}} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>
         </div>
-      </div>
-      <div className="card-body">
-        <DataTable columns={columns} 
-          data={events.map(row => {
-            let newRow= {...row};
-            newRow.semesterId = semesterId;
-            newRow.displayTimes = <><div>{newRow.startTime? newRow.startTime : null}{newRow.endTime? " - " + newRow.endTime : null}</div></>;
-            return newRow;
-          })}
-          SubComponent={({row}) => { return (<ScheduleExpand row={row.original} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>) }}
-          customFilters={{filterEventNames, filterDates, filterTimes, filterLocations}}/>
+        <div className="card-body tab-pane" id="importEvents" role="tabpanel" aria-labelledby="importEventsTab">
+          Import Tab
+        </div>
       </div>
     </div>
     </>

@@ -48,7 +48,6 @@ const organizeComplexApartments = complexes => {
 
 const ITeamExpand = (props) => {
   const [createMode] = useState(props?.row?.createMode? props.row.createMode : false);
-  const [cancelTarget] = useState(props?.row?.cancelTarget? props.row.cancelTarget : "");
   const [semesterId, setSemesterId] = useState(props?.row?.semesterId? props.row.semesterId : null);
   const [iTeamId] = useState(props?.row?._id? props.row._id : "0");
   const [originalITeamNumber] = useState(props?.row?.iTeamNumber? props.row.iTeamNumber.toString() : "");
@@ -593,23 +592,9 @@ const ITeamExpand = (props) => {
               type="button"
               className="btn btn-primary"
               disabled={!isAltered}
-              data-toggle="collapse"
-              data-target={"#" + cancelTarget}
-              aria-controls={cancelTarget}
               onClick={() => createITeam()}
             >Create I-Team</button>
             <button type="reset" className="btn btn-warning admin-btn" disabled={!isAltered} onClick={() => resetForm()}>Reset</button>
-            { cancelTarget !== ""?
-              <button
-                type="button"
-                className="btn btn-danger float-right"
-                data-toggle="collapse"
-                data-target={"#" + cancelTarget}
-                aria-controls={cancelTarget}
-              >Cancel</button>
-              :
-              null
-            }
           </div>
           :
           <div className="col">

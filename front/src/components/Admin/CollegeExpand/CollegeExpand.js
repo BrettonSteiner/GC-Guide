@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback, Fragment } from 'react';
 
 const CollegeExpand = (props) => {
   const [createMode] = useState(props?.row?.createMode? props.row.createMode : false);
-  const [cancelTarget] = useState(props?.row?.cancelTarget? props.row.cancelTarget : "");
   const [semesterId, setSemesterId] = useState(props?.row?.semesterId? props.row.semesterId : null);
   const [collegeId] = useState(props?.row?._id? props.row._id : "0");
   const [originalCollegeName] = useState(props?.row?.name? props.row.name : "");
@@ -312,23 +311,9 @@ const CollegeExpand = (props) => {
               type="button"
               className="btn btn-primary"
               disabled={!isAltered}
-              data-toggle="collapse"
-              data-target={"#" + cancelTarget}
-              aria-controls={cancelTarget}
               onClick={() => createCollege()}
             >Create College</button>
             <button type="reset" className="btn btn-warning admin-btn" disabled={!isAltered} onClick={() => resetForm()}>Reset</button>
-            { cancelTarget !== ""?
-              <button
-                type="button"
-                className="btn btn-danger float-right"
-                data-toggle="collapse"
-                data-target={"#" + cancelTarget}
-                aria-controls={cancelTarget}
-              >Cancel</button>
-              :
-              null
-            }
           </div>
           :
           <div className="col">

@@ -71,38 +71,41 @@ const MajorCollegeAdmin = (props) => {
         </div>
       : null
       }
-      <div className="card-header d-flex justify-content-between">
-        <h5 className="mb-0 align-self-center">
-          Academic Connections <span className="badge badge-secondary">{colleges.length} Colleges</span>
-        </h5>
-        <div className="d-flex flex-row-reverse">
-          <input type="button" value="Import Data From File" className="btn btn-info admin-btn "/>
-          <input
-            id="addCollegeButton"
-            type="button"
-            value="Add College"
-            className="btn btn-info admin-btn"
-            data-toggle="collapse"
-            data-target="#createCollegeCollapse"
-            aria-controls="createCollegeCollapse"
-          />
+      <ul className="nav nav-tabs" id="collegeTabs" role="tablist">
+        <li className="nav-item">
+          <a className="nav-link active" id="collegesTab" data-toggle="tab" href="#colleges" role="tab" aria-controls="colleges" aria-selected="true">
+            <h5 className="mb-0 align-self-center">Colleges <span className="badge badge-secondary">{colleges.length}</span></h5>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" id="createCollegeTab" data-toggle="tab" href="#createCollege" role="tab" aria-controls="createCollege" aria-selected="false">
+            <h5 className="mb-0 align-self-center">Create New College</h5>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" id="importCollegesTab" data-toggle="tab" href="#importColleges" role="tab" aria-controls="importColleges" aria-selected="false">
+            <h5 className="mb-0 align-self-center">Import Colleges From File</h5>
+          </a>
+        </li>
+      </ul>
+      <div className="tab-content">
+        <div className="card-body tab-pane show active" id="colleges" role="tabpanel" aria-labelledby="collegesTab">
+          <DataTable columns={columns} 
+            data={colleges.map(row => {
+              let newRow= {...row};
+              newRow.semesterId = semesterId;
+              newRow.displayMajors = (newRow.majors && newRow.majors.length > 0) ? <div>{newRow.majors[0]}{(newRow.majors.length > 1 && newRow.majors[0]) ? " ..." : ""}</div> : null;
+              return newRow;
+            })}
+            SubComponent={({row}) => { return (<CollegeExpand row={row.original} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>) }}
+            customFilters={{filterCollegeNames, filterFlagColors, filterMajors}}/>
         </div>
-      </div>
-      <div id="createCollegeCollapse" className="collapse border-bottom" aria-labelledby="addCollegeButton" data-parent="#collegeTab">
-        <div className="card-body">
-          <CollegeExpand row={{semesterId:semesterId, createMode:true, cancelTarget:"createCollegeCollapse"}} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>
+        <div className="card-body tab-pane" id="createCollege" role="tabpanel" aria-labelledby="createCollegeTab">
+          <CollegeExpand row={{semesterId:semesterId, createMode:true}} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>
         </div>
-      </div>
-      <div className="card-body">
-        <DataTable columns={columns} 
-          data={colleges.map(row => {
-            let newRow= {...row};
-            newRow.semesterId = semesterId;
-            newRow.displayMajors = (newRow.majors && newRow.majors.length > 0) ? <div>{newRow.majors[0]}{(newRow.majors.length > 1 && newRow.majors[0]) ? " ..." : ""}</div> : null;
-            return newRow;
-          })}
-          SubComponent={({row}) => { return (<CollegeExpand row={row.original} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>) }}
-          customFilters={{filterCollegeNames, filterFlagColors, filterMajors}}/>
+        <div className="card-body tab-pane" id="importColleges" role="tabpanel" aria-labelledby="importCollegesTab">
+          Import Tab
+        </div>
       </div>
     </div>
     </>
