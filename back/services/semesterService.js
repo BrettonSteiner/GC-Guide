@@ -7,8 +7,11 @@ module.exports = {
   isSemesterActive: isSemesterActive,
   updateSemesterActiveFlag: updateSemesterActiveFlag,
   updateSemesterColleges: updateSemesterColleges,
+  updateReplaceSemesterColleges: updateReplaceSemesterColleges,
   updateSemesterITeams: updateSemesterITeams,
+  updateReplaceSemesterITeams: updateReplaceSemesterITeams,
   updateSemesterEvents: updateSemesterEvents,
+  updateReplaceSemesterEvents: updateReplaceSemesterEvents,
   deleteSemester: deleteSemester
 };
 
@@ -129,10 +132,11 @@ async function updateSemesterActiveFlag(req, res, next) {
         console.log("Something wrong when updating Semester activeFlag!");
     }
     // If setting to the active semester, Redo all Complexes
-    // TODO: Async.ParallelLimit
-    complexService.deleteAllComplexes();
     if (doc.activeFlag == true && doc.iTeams != null && doc.iTeams != []) {
-      complexService.createComplexes(doc.iTeams);
+      complexService.replaceComplexes(doc.iTeams);
+    }
+    else {
+      complexService.deleteAllComplexes();
     }
     res.status(200).send(doc);
   });
@@ -172,6 +176,22 @@ async function updateSemesterColleges(semesterId, collegeId) {
   }
 }
 
+async function updateReplaceSemesterColleges(semesterId, collegeIds) {
+  // Save changes to the semester colleges list
+  await Semester.findByIdAndUpdate(
+    semesterId,
+    {$set:{ colleges: collegeIds }},
+    {new: true},
+    (err, doc) => {
+      if (err) {
+        console.log("Something wrong when replacing Semester college IDs!");
+        return;
+      }
+      console.log("Successfully replaced Semester college IDs.")
+      // console.log("Semester collegeId list: " + doc.colleges);
+  });
+}
+
 async function updateSemesterITeams(semesterId, iTeamId) {
   // Get semester
   var iTeams = await Semester.findById(semesterId)
@@ -204,6 +224,22 @@ async function updateSemesterITeams(semesterId, iTeamId) {
         console.log("Successfully updated Semester iTeams.")
     });
   }
+}
+
+async function updateReplaceSemesterITeams(semesterId, iTeamIds) {
+  // Save changes to the semester colleges list
+  await Semester.findByIdAndUpdate(
+    semesterId,
+    {$set:{ iTeams: iTeamIds }},
+    {new: true},
+    (err, doc) => {
+      if (err) {
+        console.log("Something wrong when replacing Semester I-Team IDs!");
+        return;
+      }
+      console.log("Successfully replaced Semester I-Team IDs.")
+      console.log("Semester iTeamId list: " + doc.iTeams);
+  });
 }
 
 async function updateSemesterEvents(semesterId, eventId) {
@@ -240,6 +276,22 @@ async function updateSemesterEvents(semesterId, eventId) {
   }
 }
 
+async function updateReplaceSemesterEvents(semesterId, eventIds) {
+  // Save changes to the semester colleges list
+  await Semester.findByIdAndUpdate(
+    semesterId,
+    {$set:{ events: eventIds }},
+    {new: true},
+    (err, doc) => {
+      if (err) {
+        console.log("Something wrong when replacing Semester Event IDs!");
+        return;
+      }
+      console.log("Successfully replaced Semester Event IDs.")
+      console.log("Semester eventId list: " + doc.events);
+  });
+}
+
 async function deleteSemester(req, res, next) {
   // Async Parallel Limit
   var semester = await Semester.findById(req.body.semesterId)
@@ -251,31 +303,27 @@ async function deleteSemester(req, res, next) {
   });
 
   // Delete all associated objects!!
-  // TODO: Async.ParallelLimit
   if (semester != null) {
     if (semester.activeFlag == true) {
       complexService.deleteAllComplexes();
     }
 
-    semester.colleges.forEach(collegeId => {
-      collegeService.deleteCollegeById(semester._id, collegeId);
-      console.log("Deleted college:", collegeId);
-    });
+    if (semester.colleges.length > 0) {
+      collegeService.deleteManyCollegesById(semester.colleges);
+    }
 
-    semester.iTeams.forEach(iTeamId => {
-      iTeamService.deleteITeamById(semester._id, iTeamId);
-      console.log("Deleted iTeam:", iTeamId);
-    });
+    if (semester.iTeams.length > 0) {
+      iTeamService.deleteManyITeamsById(semester.iTeams);
+    }
 
-    semester.events.forEach(eventId => {
-      scheduleService.deleteEventById(semester._id, eventId);
-      console.log("Deleted event:", eventId);
-    });
+    if (semester.events.length > 0) {
+      scheduleService.deleteManyEventsById(semester.events);
+    }
   }
 
   Semester.findByIdAndRemove(semester._id, (err, doc) => {
     if (err) {
-        console.log("Something wrong when deleting Semester!");
+        console.log("Something went wrong when deleting Semester " + semester._id);
     }
     res.status(204).send();
   });

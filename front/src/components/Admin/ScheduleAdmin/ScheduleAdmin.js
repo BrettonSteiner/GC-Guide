@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect, } from 'react';
 import DataTable from '../DataTable/DataTable';
 import ScheduleExpand from "../ScheduleExpand/ScheduleExpand.js";
+import Importer from '../Importer/Importer';
 
 const ScheduleAdmin = (props) => {
   const [semesterId, setSemesterId] = useState(props?.semester?._id? props.semester._id : null);
@@ -112,7 +113,7 @@ const ScheduleAdmin = (props) => {
           <ScheduleExpand row={{semesterId:semesterId, createMode:true}} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>
         </div>
         <div className="card-body tab-pane" id="importEvents" role="tabpanel" aria-labelledby="importEventsTab">
-          Import Tab
+          <Importer semesterId={semesterId} url="/schedule/import" rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>
         </div>
       </div>
     </div>

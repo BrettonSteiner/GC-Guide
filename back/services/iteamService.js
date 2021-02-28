@@ -6,6 +6,7 @@ module.exports = {
   updateITeam: updateITeam,
   deleteITeam: deleteITeam,
   deleteITeamById: deleteITeamById,
+  deleteManyITeamsById: deleteManyITeamsById,
   importITeams: importITeams
 };
 
@@ -175,6 +176,125 @@ function deleteITeamById(semesterId, iTeamId) {
   });
 }
 
+function deleteManyITeamsById(iTeamIds) {
+  ITeam.deleteMany({ _id: { $in: iTeamIds } })
+  .then(doc => {
+    console.log("Successfully deleted " + doc.deletedCount + " I-Teams.");
+  })
+  .catch(err => {
+    console.log(err);
+  });
+}
+
 function importITeams(req, res, next) {
-  res.status(501).send('Not Implemented');
+  // Validate / Organize incoming data
+  var iTeamNumbers = [];
+  var iTeams = [];
+  for (const row of req.body.data) {
+    var apartments = [];
+    if (row.apartments !== null && row.apartments !== undefined && row.apartments !== "") {
+      apartments = row.apartments.replace(/\s/g,"").split(",");
+    }
+
+    if (row.iTeamNumber === null || row.iTeamNumber === undefined || row.iTeamNumber === "") {
+      // Missing required field error
+      res.status(400).json({success: false, message: "I-Team(s) missing 'iTeamNumber' field."});
+      return;
+    }
+    else if (iTeamNumbers.includes(row.iTeamNumber)) {
+      // Edit iTeam
+      index = iTeams.findIndex(iTeam => iTeam.iTeamNumber === row.iTeamNumber);
+
+      if (index === -1) {
+        console.log("Couldn't find the existing I-Team? This shouldn't happen since it was already found literally a few lines before this.");
+      }
+      else {
+        iTeam = iTeams[index];
+        complexIndex = iTeam.complexes.findIndex(complex => complex.name === row.complexName && complex.address === row.addressName);
+        if (complexIndex === -1) {
+          // Add new complex to the iTeam
+          iTeam.complexes.push({
+            name: row.complexName,
+            address: row.complexAddress,
+            apartments: apartments
+          });
+        }
+        else {
+          // Add new apartments to list and filter out duplicates.
+          complex = iTeam.complexes[complexIndex];
+          complex.apartments.concat(apartments.filter(apartment => complex.apartments.indexOf(apartment) < 0))
+        }
+        iTeams[index] = iTeam;
+      }
+    }
+    else {
+      // Add iTeamNumber to list
+      iTeamNumbers.push(row.iTeamNumber);
+
+      // Extract the complex if one is given
+      complexes = []
+      if ((row.complexName !== null && row.complexName !== undefined && row.complexName !== "")
+      || (row.complexAddress !== null && row.complexAddress !== undefined && row.complexAddress !== "")) {
+        complexes.push({
+          name: row.complexName,
+          address: row.complexAddress,
+          apartments: apartments
+        });
+      }
+      
+      // Create new iTeam
+      iTeams.push({
+        iTeamNumber: row.iTeamNumber,
+        mentor1: {
+          name: row.mentor1Name,
+          phone: row.mentor1Phone
+        },
+        mentor2: {
+          name: row.mentor2Name,
+          phone: row.mentor2Phone
+        },
+        complexes: complexes
+      });
+    }
+  };
+
+  // Delete all current iTeams in the semester
+  Semester.findById(req.body.semesterId)
+  .then(docs => {
+    if (docs !== null && docs.iTeams !== null && docs.iTeams.length > 0) {
+      deleteManyITeamsById(docs.iTeams);
+    }
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
+  // Create all new iTeams at once
+  ITeam.insertMany(iTeams)
+  .then(docs => {
+    console.log("Successfully created " + docs.length + " I-Teams.")
+
+    // Extract all of the new ids
+    var newITeamIds = [];
+    docs.forEach(iTeam => {
+      newITeamIds.push(iTeam._id);
+    });
+
+    // Update ITeam ID list in semester with the new IDs.
+    semesterService.updateReplaceSemesterITeams(req.body.semesterId, newITeamIds)
+    .then(async () => {
+      if (await semesterService.isSemesterActive(req.body.semesterId)) {
+        complexService.replaceComplexes(iTeams);
+      }
+
+      // Return success status and message
+      res.status(201).json({success: true, message: "Successfully imported " + newITeamIds.length + " I-Teams."});
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  })
+  .catch(err => {
+    console.log(err);
+  });
 }

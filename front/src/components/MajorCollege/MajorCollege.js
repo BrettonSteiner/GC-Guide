@@ -14,7 +14,6 @@ dummyData.colleges.forEach((col) => {
 
 const MajorCollege = () => {
   const {major, setMajor, college, setCollege, collegeError, setCollegeError} = useContext(StudentContext);
-  // TODO: Once we get to a point where we always need the back-end running, remove the dummyData back-up.
   const [collegeData, setCollegeData] = useState(dummyData.colleges);
   const [allMajors, setAllMajors] = useState(dummyAllMajors);
 
