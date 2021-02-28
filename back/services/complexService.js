@@ -2,6 +2,7 @@ module.exports = {
   createComplexes: createComplexes,
   getComplexes: getComplexes,
   createOrUpdateComplexes: createOrUpdateComplexes,
+  replaceComplexes: replaceComplexes,
   deleteITeamFromComplexes: deleteITeamFromComplexes,
   deleteAllComplexes: deleteAllComplexes
 };
@@ -146,6 +147,57 @@ function updateComplexITeam(nameAddress, teams) {
       else {
         console.log("Updated Complex:", nameAddress);
       }
+  });
+}
+
+function replaceComplexes(iTeams) {
+  deleteAllComplexes();
+
+  var nameAddresses = [];
+  var complexes = [];
+  iTeams.forEach(iTeam => {
+    iTeam.complexes.forEach(complex => {
+      const nameAddress = calculateNameAddress(complex.name, complex.address);
+      if (nameAddresses.includes(nameAddress)) {
+        // Edit complex
+        index = complexes.findIndex(college => college.nameAddress === nameAddress);
+
+        if (index === -1) {
+          console.log("Couldn't find the existing complex? This shouldn't happen since it was already found literally a few lines before this.");
+        }
+        else {
+          currentComplex = complexes[index];
+          currentComplex.teams.push({
+            iTeamNumber: iTeam.iTeamNumber,
+            apartments: complex.apartments
+          });
+          complexes[index] = currentComplex;
+        }
+      }
+      else {
+        // Create new complex
+        complexes.push({
+          nameAddress: nameAddress,
+          teams: [
+            {
+              iTeamNumber: iTeam.iTeamNumber,
+              apartments: complex.apartments
+            }
+          ]
+        })
+  
+        // Add iTeamNumber to list
+        nameAddresses.push(nameAddress);
+      }
+    });
+  });
+
+  Complex.insertMany(complexes)
+  .then(docs => {
+    console.log("Successfully created " + docs.length + " complexes.");
+  })
+  .catch(err => {
+    console.log(err);
   });
 }
 

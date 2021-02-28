@@ -1,6 +1,7 @@
 import React, { useState, useMemo, useEffect,} from 'react';
 import DataTable from '../DataTable/DataTable';
 import ITeamExpand from '../ITeamExpand/ITeamExpand';
+import Importer from '../Importer/Importer';
 
 const ITeamAdmin = (props) => {
   const [semesterId, setSemesterId] = useState(props?.semester?._id? props.semester._id : null);
@@ -93,41 +94,44 @@ const ITeamAdmin = (props) => {
         </div>
       : null
       }
-      <div className="card-header d-flex justify-content-between">
-        <h5 className="mb-0 align-self-center">
-          I-Teams <span className="badge badge-secondary">{iTeams.length} I-Teams</span>
-        </h5>
-        <div className="d-flex flex-row-reverse">
-          <input type="button" value="Import Data From File" className="btn btn-info admin-btn"/>
-          <input
-            id="addITeamButton"
-            type="button"
-            value="Add I-Team"
-            className="btn btn-info admin-btn"
-            data-toggle="collapse"
-            data-target="#createITeamCollapse"
-            aria-controls="createITeamCollapse"
-          />
+      <ul className="nav nav-tabs" id="iTeamTabs" role="tablist">
+        <li className="nav-item">
+          <a className="nav-link active" id="iTeamsTab" data-toggle="tab" href="#iTeams" role="tab" aria-controls="iTeams" aria-selected="true">
+            <h5 className="mb-0 align-self-center">I-Teams <span className="badge badge-secondary">{iTeams.length}</span></h5>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" id="createITeamTab" data-toggle="tab" href="#createIteam" role="tab" aria-controls="createIteam" aria-selected="false">
+            <h5 className="mb-0 align-self-center">Create New I-Team</h5>
+          </a>
+        </li>
+        <li className="nav-item">
+          <a className="nav-link" id="importITeamsTab" data-toggle="tab" href="#importIteams" role="tab" aria-controls="importIteams" aria-selected="false">
+            <h5 className="mb-0 align-self-center">Import I-Teams From File</h5>
+          </a>
+        </li>
+      </ul>
+      <div className="tab-content">
+        <div className="card-body tab-pane show active" id="iTeams" role="tabpanel" aria-labelledby="iTeamsTab">
+          <DataTable columns={columns} 
+            data={iTeams.map(row => {
+              let newRow= {...row};
+              newRow.semesterId = semesterId;
+              newRow.displayMentors = <><div>{newRow.mentor1?.name? newRow.mentor1.name : null}</div><div>{newRow.mentor2?.name? newRow.mentor2.name : null}</div></>;
+              newRow.displayNumbers = <><div>{newRow.mentor1?.phone? newRow.mentor1.phone : null}</div><div>{newRow.mentor2?.phone? newRow.mentor2.phone : null}</div></>;
+              newRow.displayComplexes = (newRow.complexes && newRow.complexes.length > 0) ? <div>{newRow.complexes[0].name}{(newRow.complexes.length > 1 && newRow.complexes[0].name) ? " ..." : ""}</div> : null;
+              newRow.displayAddresses = (newRow.complexes && newRow.complexes.length > 0) ? <div>{newRow.complexes[0].address}{(newRow.complexes.length > 1 && newRow.complexes[0].address) ? " ..." : ""}</div> : null;
+              return newRow;
+            })}
+            SubComponent={({row}) => { return (<ITeamExpand row={row.original} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>) }}
+            customFilters={{filterMentors, filterPhoneNumbers, filterAddresses, filterComplex}}/>
         </div>
-      </div>
-      <div id="createITeamCollapse" className="collapse border-bottom" aria-labelledby="addITeamButton" data-parent="#iTeamTab">
-        <div className="card-body">
-          <ITeamExpand row={{semesterId:semesterId, createMode:true, cancelTarget:"createITeamCollapse"}} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>
+        <div className="card-body tab-pane" id="createIteam" role="tabpanel" aria-labelledby="createITeamTab">
+          <ITeamExpand row={{semesterId:semesterId, createMode:true}} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>
         </div>
-      </div>
-      <div className="card-body">
-        <DataTable columns={columns} 
-          data={iTeams.map(row => {
-            let newRow= {...row};
-            newRow.semesterId = semesterId;
-            newRow.displayMentors = <><div>{newRow.mentor1?.name? newRow.mentor1.name : null}</div><div>{newRow.mentor2?.name? newRow.mentor2.name : null}</div></>;
-            newRow.displayNumbers = <><div>{newRow.mentor1?.phone? newRow.mentor1.phone : null}</div><div>{newRow.mentor2?.phone? newRow.mentor2.phone : null}</div></>;
-            newRow.displayComplexes = (newRow.complexes && newRow.complexes.length > 0) ? <div>{newRow.complexes[0].name}{(newRow.complexes.length > 1 && newRow.complexes[0].name) ? " ..." : ""}</div> : null;
-            newRow.displayAddresses = (newRow.complexes && newRow.complexes.length > 0) ? <div>{newRow.complexes[0].address}{(newRow.complexes.length > 1 && newRow.complexes[0].address) ? " ..." : ""}</div> : null;
-            return newRow;
-          })}
-          SubComponent={({row}) => { return (<ITeamExpand row={row.original} rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>) }}
-          customFilters={{filterMentors, filterPhoneNumbers, filterAddresses, filterComplex}}/>
+        <div className="card-body tab-pane" id="importIteams" role="tabpanel" aria-labelledby="importITeamsTab">
+          <Importer semesterId={semesterId} url="/iteams/import" rerenderSemester={props?.rerenderSemester? props.rerenderSemester : null}/>
+        </div>
       </div>
     </div>
     </>

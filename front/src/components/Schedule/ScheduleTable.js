@@ -5,7 +5,6 @@ import dummyData from './dummyData.json'
 import Map from '../Map/Map';
 
 const ScheduleTable = (props) => {
-  // TODO: Once we get to a point where we always need the back-end running, remove the dummyData back-up.
   const [tableData, setTableData] = useState(dummyData.schedule);
   const [maps, setMaps] = useState([]);
   

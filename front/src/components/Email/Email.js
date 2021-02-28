@@ -1,20 +1,33 @@
-import React, {useState, useContext, useCallback} from 'react';
+import React, {useState, useEffect, useContext, useCallback} from 'react';
 import { StudentContext } from '../../contexts/StudentContext/StudentContext.js';
 
 const Email = (props) => {
   const [email, setEmail] = useState("");
+  const [semester, setSemester] = useState();
   const [includeITeam, setIncludeITeam] = useState(false);
   const [includeAcInfo, setIncludeAcInfo] = useState(false);
   const [includeSchedule, setIncludeSchedule] = useState(true);
+  const [emailInProcess, setEmailInProcess] = useState(false);
+  const [emailResult, setEmailResult] = useState("");
   const [emailError, setEmailError] = useState(false);
   const [errorsExist, setErrorsExist] = useState(false);
+  const [emailResultError, setEmailResultError] = useState(false);
 
-  const {ITeamNumber, major, college, ITeamError, setITeamError, collegeError, setCollegeError} = useContext(StudentContext);
+  const {iTeam, major, college, iTeamError, setITeamError, collegeError, setCollegeError} = useContext(StudentContext);
+
+  useEffect(() => {
+    //Call database for data
+    fetch('/semesters/active')
+      .then((response) => response.json())
+      .then((data) => {
+        setSemester(data);
+      });
+  }, []);
 
   const checkForErrors = useCallback(() => {
     let hasErrors = false;
 
-    if (includeITeam && !ITeamNumber) {
+    if (includeITeam && !iTeam) {
       setITeamError(true);
       hasErrors = true;
     }
@@ -32,12 +45,45 @@ const Email = (props) => {
     setErrorsExist(hasErrors);
 
     return hasErrors;
-  }, [includeITeam, ITeamNumber, includeAcInfo, major, college, email, setCollegeError, setITeamError]);
+  }, [includeITeam, iTeam, includeAcInfo, major, college, email, setCollegeError, setITeamError]);
 
   const sendEmail = () => {
     let hasErrors = checkForErrors();
     if (!hasErrors) {
-      //send email
+      setEmailInProcess(true);
+      var json = {
+        semesterId: semester._id,
+        iTeamId: iTeam._id,
+        collegeId: college._id,
+        includeITeam: includeITeam,
+        includeAcademicConnections: includeAcInfo,
+        includeSchedule: includeSchedule,
+        emailAddress: email
+      };
+      
+      fetch('/email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(json),
+      })
+      .then((response) => {
+        setEmailInProcess(false);
+        if (!response.ok) {
+          setEmailResult("HTTP status " + response.status);
+          setEmailResultError(true);
+          return null;
+        }
+
+        return response.json();
+      })
+      .then((data) => {
+        if (data !== null) {
+          setEmailResult(data.message);
+          setEmailResultError(false);
+        }
+      });
     }
   }
 
@@ -65,26 +111,34 @@ const Email = (props) => {
       Include Get Connected schedule
     </label>
   </div>
-  <button type="button" className="btn btn-primary" onClick={sendEmail}>Send Email</button>
+  <button type="button" className="btn btn-primary" disabled={(!includeITeam && !includeAcInfo && !includeSchedule) || emailInProcess} onClick={sendEmail}>
+    {emailInProcess ?
+    <><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Sending email...</>
+    : <>Send Email</>
+    }
+  </button>
   <div id="emailResult">
     <br></br>
-    {errorsExist ? (<>
+    {errorsExist || emailResultError ? (<>
       <div className="alert alert-danger">
         {`Error: `} 
         {emailError ? ` Invalid email address. Must be '...@byui.edu'.` : null}
-        {ITeamError ? ` Missing I-Team Information.` : null}
+        {iTeamError ? ` Missing I-Team Information.` : null}
         {collegeError ? ` Missing Academic Connections information.` : null}
-      <button type="button" className="close" aria-label="Close" onClick={() => setErrorsExist(false)}>
+        {emailResultError ? emailResult : null}
+      <button type="button" className="close" aria-label="Close" onClick={() => { setErrorsExist(false); setEmailResultError(false); }}>
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     </>) : null}
-    {/* <div className="alert alert-success" role="alert">
-      Email sent.
-      <button type="button" className="close" data-dismiss="alert" aria-label="Close">
+    {emailResult !== "" && !emailResultError ?
+    <div className="alert alert-success">
+      {emailResult}
+      <button type="button" className="close" aria-label="Close" onClick={() => setEmailResult("")}>
         <span aria-hidden="true">&times;</span>
       </button>
-    </div> */}
+    </div>
+    : null}
   </div>
   </>);
 }

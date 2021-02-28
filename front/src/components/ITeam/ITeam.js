@@ -11,32 +11,33 @@ const ITeam = (props) => {
   const [iTeams, setITeams] = useState(dummyData.iTeams);
   const [data, setData] = useState(dummyData.complexes);
 
-  const {setITeamNumber, ITeamError, setITeamError} = useContext(StudentContext);
+  const {setITeam, iTeamError, setITeamError} = useContext(StudentContext);
 
   useEffect(() => {
     //Call database for data
     fetch('/iteams/public/')
-      .then((response) => response.json())
-      .then((data) => {
-        setITeams(data.iTeams);
-        setData(data.complexes);
-      });
+    .then((response) => response.json())
+    .then((data) => {
+      setITeams(data.iTeams);
+      setData(data.complexes);
+    });
   }, []);
 
   useEffect(() => {
     if (myPlace?.teams?.length === 1) {
       let iTeamNumber = myPlace.teams[0].iTeamNumber;
-      setMyTeam(iTeams.find((team) => team?.iTeamNumber === iTeamNumber));
-      setITeamNumber(iTeamNumber);
+      let iTeam = iTeams.find((team) => team?.iTeamNumber === iTeamNumber)
+      setMyTeam(iTeam);
+      setITeam(iTeam);
       setITeamError(false);
     } 
-  }, [myPlace, iTeams, setITeamError, setITeamNumber]);
+  }, [myTeam, myPlace, iTeams, setITeamError, setITeam]);
 
   let placeOnChange = (value) => {
     setMyPlace(data.find((place) => place.nameAddress === value));
     setMyApartNo(''); 
     setMyTeam('');
-    setITeamNumber('');
+    setITeam('');
     // findMyTeam('');
   }
 
@@ -45,13 +46,14 @@ const ITeam = (props) => {
       setMyApartNo(apartNo);
       // figure out my I team info.
       let tempTeamNumber = myPlace.teams.find((team) => team.apartments.includes(apartNo)).iTeamNumber; 
-      setMyTeam(iTeams.find((team) => team.iTeamNumber === tempTeamNumber));
-      setITeamNumber(tempTeamNumber);
+      let iTeam = iTeams.find((team) => team.iTeamNumber === tempTeamNumber)
+      setMyTeam(iTeam);
+      setITeam(iTeam);
       setITeamError(false);
     } else {
       setMyApartNo("");
       setMyTeam("");
-      setITeamNumber("");
+      setITeam("");
     }
   };
 
@@ -59,11 +61,11 @@ const ITeam = (props) => {
     <div className="form-group">
       <label htmlFor="addressOrApartmentComplexName">Address or Apartment Complex Name</label>
       <AutoComplete suggestions={data ? data.map((place) => place.nameAddress) : []} onChange={placeOnChange} 
-        hasError={(ITeamError && !myPlace)}/>
+        hasError={(iTeamError && !myPlace)}/>
     </div>
     {myPlace?.teams?.length > 1 ? <div className="form-group">
       <label htmlFor="apartmentNumber">Apartment Number</label>
-      <select className={(ITeamError && !myApartNo) ? "form-control error-style" : "form-control"}
+      <select className={(iTeamError && !myApartNo) ? "form-control error-style" : "form-control"}
         id="apartmentNumber" value={myApartNo}
         onChange={(e) => findMyTeam(e.target.value)}>
 

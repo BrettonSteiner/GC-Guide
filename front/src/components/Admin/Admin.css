@@ -2,6 +2,17 @@
   max-width: 300px;
 }
 
+.admin-header-text {
+  color: white;
+  text-align: left;
+  padding-top: 7px;
+  padding-left: 20px;
+}
+
+.admin-username-text {
+  color: white;
+}
+
 .admin-subheader {
   background-color: #ebebeb;
   align-items: center;
@@ -20,6 +31,10 @@
 .admin-container {
   width: 95%;
   margin: auto;
+}
+
+.logout-btn {
+  margin-top: 7px;
 }
 
 .admin-btn {
@@ -53,4 +68,24 @@
   text-align: center;
   border-radius: 5px;
   margin: auto;
+}
+
+.nav-tabs {
+  background-color: rgba(0,0,0,.03);
+}
+
+.nav-tabs .nav-link {
+  color: #495057;
+  border-color: #dee2e6;
+  height: 100%;
+}
+
+.nav-tabs .nav-link.active {
+  background-color: white;
+  color: black;
+}
+
+.tab-content {
+  max-width: 100%;
+  margin-left: 0px;
 }
