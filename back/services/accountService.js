@@ -22,7 +22,7 @@ function getCurrentAccount(req, res, next) {
 }
 
 function isUsernameAvailable(username) {
-  return Account.findOne({ 'username': username })
+  return Account.findOne({ 'username': username.toLowerCase() })
   .then(result => {
     return result === null;
   })
@@ -45,7 +45,7 @@ function createAccount(req, res, next) {
   isUsernameAvailable(req.body.username)
   .then(isUsernameAvailable => {
     if (isUsernameAvailable) {
-      const account = new Account({ username: req.body.username });
+      const account = new Account({ username: req.body.username.toLowerCase() });
 
       // This uses the passport-local-mongoose method to set the password
       // It uses the pbkdf2 algorithm to encrypt the password.
