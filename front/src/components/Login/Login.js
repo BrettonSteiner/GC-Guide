@@ -23,6 +23,7 @@ const Login = (props) => {
     .then((response) => {
       if (response.redirected) {
         redirect();
+        return;
       }
       return response.json();
     })
@@ -30,11 +31,11 @@ const Login = (props) => {
       // If login failed display error
       setLoginError(data?.error);
     });
-  }, [usernameRef, passwordRef, redirect])
+  }, [usernameRef, passwordRef, redirect]);
 
   const handleKeyDown = useCallback((e) => {
     if (e.key === "Enter") {
-      signIn()
+      signIn();
     }
   }, [signIn]);
 
