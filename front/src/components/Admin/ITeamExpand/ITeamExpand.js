@@ -468,22 +468,22 @@ const ITeamExpand = (props) => {
               </div>
             </div>
           </div>
-          <div className="form-group" id={iTeamId + "-complexAccordion"}>
+          <div className="form-group" id={"id" + iTeamId + "-complexAccordion"}>
             {
               complexes.length > 0
               ?
               complexes.map( (complex, index) => (
-                <Fragment key={iTeamId + "-complexKey" + index}>
+                <Fragment key={"id" + iTeamId + "-complexKey" + index}>
                   <div className="card">
                     <div className="btn-group" role="group">
                       <button
                         className="btn btn-light btn-block text-left card-header"
-                        id={iTeamId + "-complexHeading" + index}
+                        id={"id" + iTeamId + "-complexHeading" + index}
                         type="button"
                         data-toggle="collapse"
-                        data-target={"#" + iTeamId + "-complex" + index}
+                        data-target={"#id" + iTeamId + "-complex" + index}
                         aria-expanded="false"
-                        aria-controls={iTeamId + "-complex" + index}
+                        aria-controls={"id" + iTeamId + "-complex" + index}
                         onClick={() => {
                           if (emptyApartmentError) {
                             setEmptyApartmentError(false);
@@ -506,7 +506,12 @@ const ITeamExpand = (props) => {
                         <i className="fas fa-trash"></i>
                       </button>
                     </div>
-                    <div id={iTeamId + "-complex" + index} className="collapse" aria-labelledby={iTeamId + "-complexHeading" + index} data-parent={"#" + iTeamId + "-complexAccordion"}>
+                    <div
+                      id={"id" + iTeamId + "-complex" + index}
+                      className="collapse"
+                      aria-labelledby={"id" + iTeamId + "-complexHeading" + index}
+                      data-parent={"#id" + iTeamId + "-complexAccordion"}
+                      >
                       <div className="card-body">
                         <div className="input-group form-group">
                           <input
@@ -546,7 +551,7 @@ const ITeamExpand = (props) => {
                               complex.apartments.length > 0
                               ?
                               complex.apartments.map( (apartment, apartmentIndex) => (
-                                <Fragment key={iTeamId + "-complex" + index + "-apartment" + apartmentIndex}>
+                                <Fragment key={"id" + iTeamId + "-complex" + index + "-apartment" + apartmentIndex}>
                                   <tr>
                                     <td>{apartment}</td>
                                     <td>
