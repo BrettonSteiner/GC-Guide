@@ -24,13 +24,19 @@ const Login = (props) => {
       if (response.redirected) {
         redirect();
       }
-      response.json();
+      return response.json();
     })
     .then((data) => {
       // If login failed display error
       setLoginError(data?.error);
     });
   }, [usernameRef, passwordRef, redirect])
+
+  const handleKeyDown = useCallback((e) => {
+    if (e.key === "Enter") {
+      signIn()
+    }
+  }, [signIn]);
 
   return(
     <>
@@ -60,6 +66,7 @@ const Login = (props) => {
                 type="password"
                 className="form-control"
                 id="pwd"
+                onKeyDown={handleKeyDown}
                 ref={passwordRef}>
               </input>
             </div>
