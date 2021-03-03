@@ -72,6 +72,8 @@ const ITeamExpand = (props) => {
   const [existingComplexError, setExistingComplexError] = useState(false);
   const [emptyApartmentError, setEmptyApartmentError] = useState(false);
   const [existingApartmentError, setExistingApartmentError] = useState(false);
+  const [result, setResult] = useState(null);
+  const [resultError, setResultError] = useState(false);
   let rerenderSemester = props.rerenderSemester;
 
   useEffect(() => {
@@ -209,6 +211,8 @@ const ITeamExpand = (props) => {
     setExistingComplexError(false);
     setEmptyApartmentError(false);
     setExistingApartmentError(false);
+    setResult(null);
+    setResultError(false);
   }, [
     originalITeamNumber,
     originalMentor1Name,
@@ -276,9 +280,8 @@ const ITeamExpand = (props) => {
     }
 
     if (!hasErrors && isAltered) {
-      //Call server to update I-Team
+      // Call server to update I-Team
       var iTeamJson = generateITeamJson();
-      // console.log("Create I-Team:");
       fetch('/iteams/create', {
         method: 'POST',
         headers: {
@@ -287,18 +290,19 @@ const ITeamExpand = (props) => {
         body: JSON.stringify(iTeamJson),
       })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("HTTP status " + response.status);
-        }
-        response.json();
+        return response.json();
       })
       .then((data) => {
-        // console.log(data);
-        resetForm();
-        rerenderSemester();
+        if (data !== null) {
+          setResult(data.message);
+          setResultError(!data.success);
+          if (data.success) {
+            rerenderSemester();
+          }
+        }
       });
     }
-  }, [iTeamNumber, isAltered, generateITeamJson, resetForm, rerenderSemester]);
+  }, [iTeamNumber, isAltered, generateITeamJson, rerenderSemester]);
 
   const updateITeam = useCallback(() => {
     var hasErrors = false;
@@ -308,9 +312,8 @@ const ITeamExpand = (props) => {
     }
 
     if (!hasErrors && isAltered) {
-      //Call server to update I-Team
+      // Call server to update I-Team
       var iTeamJson = generateITeamJson();
-      // console.log("Update I-Team:");
       fetch('/iteams/update', {
         method: 'POST',
         headers: {
@@ -320,15 +323,19 @@ const ITeamExpand = (props) => {
       })
       .then((response) => response.json())
       .then((data) => {
-        rerenderSemester();
-        // console.log(data);
+        if (data !== null) {
+          setResult(data.message);
+          setResultError(!data.success);
+          if (data.success) {
+            rerenderSemester();
+          }
+        }
       });
     }
   }, [iTeamNumber, isAltered, generateITeamJson, rerenderSemester]);
 
   const deleteITeam = useCallback(() => {
-    //Call server to delete I-Team
-    // console.log("Delete I-Team.");
+    // Call server to delete I-Team
     fetch('/iteams/delete', {
       method: 'DELETE',
       headers: {
@@ -336,7 +343,16 @@ const ITeamExpand = (props) => {
       },
       body: JSON.stringify({semesterId: semesterId, iTeamId: iTeamId, iTeamNumber: iTeamNumber}),
     })
-    .then(() => rerenderSemester());
+    .then((response) => response.json())
+    .then((data) => {
+      if (data !== null) {
+        setResult(data.message);
+        setResultError(!data.success);
+        if (data.success) {
+          rerenderSemester();
+        }
+      }
+    });
   }, [semesterId, iTeamId, iTeamNumber, rerenderSemester]);
 
   return (
@@ -609,6 +625,16 @@ const ITeamExpand = (props) => {
           </div>
         }
       </div>
+      {result !== null ?
+      <><br></br>
+      <div className={resultError? "alert alert-danger" : "alert alert-success"}>
+        {resultError? ("Error: " + result) : result}
+        <button type="button" className="close" aria-label="Close" onClick={() => { setResult(null); if (resultError) { setResultError(false); } }}>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      </>
+      : null }
     </form>
     </>
   )

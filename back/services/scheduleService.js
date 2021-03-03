@@ -30,7 +30,7 @@ function createEvent(req, res, next) {
   .then(result => {
     // Update the Event ID list in the semester with this new ID.
     semesterService.updateSemesterEvents(req.body.semesterId, result._id);
-    res.status(201).send(result);
+    res.status(201).json({success: true, message: "Successfully created new event."});
   })
   .catch(err => {
     console.log(err);
@@ -77,13 +77,13 @@ function updateEvent(req, res, next) {
       if (err) {
           console.log("Something wrong when updating event!");
       }
-      res.status(200).send(doc);
+      res.status(200).json({success: true, message: "Successfully updated event."});
   });
 }
 
 async function deleteEvent(req, res, next) {
   var result = await deleteEventById(req.body.semesterId, req.body.eventId);
-  res.status(200).send(result);
+  res.status(200).json({success: true, message: "Successfully deleted event."});
 }
 
 function deleteEventById(semesterId, eventId) {

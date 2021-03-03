@@ -30,7 +30,7 @@ function createCollege(req, res, next) {
     College.findOne({ 'name': req.body.name, '_id': { $in: collegeObjectIds} })
     .then(result => {
       if (result != null) {
-        res.status(400).send("A college with that name already exists in this semester.");
+        res.status(400).json({success: false, message: "A college with that name already exists in this semester."});
       }
       else {
         const college = new College({
@@ -43,7 +43,7 @@ function createCollege(req, res, next) {
         .then(result => {
           // Update College ID list in semester with this new ID.
           semesterService.updateSemesterColleges(req.body.semesterId, result._id);
-          res.status(201).send(result);
+          res.status(201).json({success: true, message: "Successfully created new college."});
         })
         .catch(err => {
           console.log(err);
@@ -91,25 +91,50 @@ function getCollege(collegeId) {
 }
 
 function updateCollege(req, res, next) {
-  College.findByIdAndUpdate(
-    req.body.collegeId,
-    {$set:{
-      name: req.body.name,
-      flagColor: req.body.flagColor,
-      majors: req.body.majors
-    }},
-    {new: true},
-    (err, doc) => {
-      if (err) {
-        console.log("Something wrong when updating college!");
+  // Get semester College Ids
+  Semester.findById(req.body.semesterId)
+  .then(docs => {
+    var collegeObjectIds = [];
+    if (docs != null) {
+      docs.colleges.forEach(college => {
+        collegeObjectIds.push(mongoose.Types.ObjectId(college));
+      });
+    }
+
+    College.findOne({ 'name': req.body.name, '_id': { $in: collegeObjectIds} })
+    .then(result => {
+      if (result != null) {
+        res.status(400).json({success: false, message: "A college with that name already exists in this semester."});
       }
-      res.status(200).send(doc);
+      else {
+        College.findByIdAndUpdate(
+          req.body.collegeId,
+          {$set:{
+            name: req.body.name,
+            flagColor: req.body.flagColor,
+            majors: req.body.majors
+          }},
+          {new: true},
+          (err, doc) => {
+            if (err) {
+              console.log("Something wrong when updating college!");
+            }
+            res.status(200).json({success: true, message: "Successfully updated college."});
+        });
+      }
+    })
+    .catch(err => {
+      console.log(err);
+    });
+  })
+  .catch(err => {
+    console.log(err);
   });
 }
 
 async function deleteCollege(req, res, next) {
   var result = await deleteCollegeById(req.body.semesterId, req.body.collegeId);
-  res.status(200).send(result);
+  res.status(200).json({success: true, message: "Successfully deleted college."});
 }
 
 function deleteCollegeById(semesterId, collegeId) {

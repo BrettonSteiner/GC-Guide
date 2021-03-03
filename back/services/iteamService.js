@@ -32,7 +32,7 @@ function createITeam(req, res, next) {
     ITeam.findOne({ 'iTeamNumber': req.body.iTeamNumber, '_id': { $in: iTeamObjectIds} })
     .then(result => {
       if (result != null) {
-        res.status(400).send("An I-Team with that number already exists in this semester.");
+        res.status(400).json({success: false, message: "An I-Team with that number already exists in this semester."});
       }
       else {
         const iTeam = new ITeam({
@@ -49,7 +49,7 @@ function createITeam(req, res, next) {
           if (await semesterService.isSemesterActive(req.body.semesterId)) {
             complexService.createOrUpdateComplexes(req.body.complexes, req.body.iTeamNumber);
           }
-          res.status(201).send(result);
+          res.status(201).json({success: true, message: "Successfully created new I-Team."});
         })
         .catch(err => {
           console.log(err);
@@ -131,7 +131,7 @@ async function updateITeam(req, res, next) {
     });
 
     if (alreadyExists) {
-      return res.status(400).send("An I-Team with that number already exists.");
+      return res.status(400).json({success: false, message: "An I-Team with that number already exists."});
     }
   }
 
@@ -151,7 +151,7 @@ async function updateITeam(req, res, next) {
       if (await semesterService.isSemesterActive(req.body.semesterId)) {
         complexService.createOrUpdateComplexes(req.body.complexes, req.body.iTeamNumber, req.body.oldITeamNumber);
       }
-      res.status(200).send(doc);
+      res.status(200).json({success: true, message: "Successfully updated I-Team."});
   });
 }
 
@@ -162,7 +162,7 @@ async function deleteITeam(req, res, next) {
     complexService.deleteITeamFromComplexes(req.body.iTeamNumber);
   }
 
-  res.status(200).send(result);
+  res.status(200).json({success: true, message: "Successfully deleted I-Team."});
 }
 
 function deleteITeamById(semesterId, iTeamId) {
