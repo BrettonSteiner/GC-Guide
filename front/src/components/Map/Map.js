@@ -29,11 +29,18 @@ const Map = (props) => {
   }, [props.center]);
   
   const recenterMap = useCallback(() => {
-    if (mapRef && props.event.mapSpots) {
+    if (mapRef && props.event.mapSpots && props.event.mapSpots.length) {
       const bounds = new window.google.maps.LatLngBounds();
-      props.event.mapSpots.forEach(marker => {
-        bounds.extend(new window.google.maps.LatLng(parseFloat(marker.lat), parseFloat(marker.lng)));
-      });
+      if (props.event.mapSpots.length === 1) {
+        var marker = props.event.mapSpots[0];
+        bounds.extend(new window.google.maps.LatLng(parseFloat(marker.lat) + 0.0005, parseFloat(marker.lng) + 0.0005));
+        bounds.extend(new window.google.maps.LatLng(parseFloat(marker.lat) - 0.0005, parseFloat(marker.lng) - 0.0005));
+      }
+      else if (props.event.mapSpots.length > 1) {
+        props.event.mapSpots.forEach(marker => {
+          bounds.extend(new window.google.maps.LatLng(parseFloat(marker.lat), parseFloat(marker.lng)));
+        });
+      }
       mapRef.fitBounds(bounds);
       mapRef.setZoom(mapRef.zoom > 18 ? 18 : mapRef.zoom);
     }
