@@ -6,7 +6,7 @@ const Email = (props) => {
   const [semester, setSemester] = useState();
   const [includeITeam, setIncludeITeam] = useState(false);
   const [includeAcInfo, setIncludeAcInfo] = useState(false);
-  const [includeSchedule, setIncludeSchedule] = useState(true);
+  const [includeSchedule, setIncludeSchedule] = useState(false);
   const [emailInProcess, setEmailInProcess] = useState(false);
   const [emailResult, setEmailResult] = useState("");
   const [emailError, setEmailError] = useState(false);
@@ -23,6 +23,12 @@ const Email = (props) => {
         setSemester(data);
       });
   }, []);
+
+  useEffect(() => {
+    if (!iTeamError && !collegeError && !emailError) {
+      setErrorsExist(false);
+    }
+  }, [iTeamError, collegeError, emailError]);
 
   const checkForErrors = useCallback(() => {
     let hasErrors = false;
@@ -106,9 +112,9 @@ const Email = (props) => {
     </label>
   </div>
   <div className="form-group form-check">
-    <input className="form-check-input" type="checkbox" value={includeSchedule} id="scheduleCheck" onChange={(event) => setIncludeSchedule(event.target.checked)} defaultChecked></input>
+    <input className="form-check-input" type="checkbox" value={includeSchedule} id="scheduleCheck" onChange={(event) => setIncludeSchedule(event.target.checked)} disabled={!semester?.events.length}></input>
     <label className="form-check-label" htmlFor="scheduleCheck">
-      Include Get Connected schedule
+      Include Get Connected schedule {semester?.events.length ? null : <>(Only available if a schedule exists)</>}
     </label>
   </div>
   <button type="button" className="btn btn-primary" disabled={(!includeITeam && !includeAcInfo && !includeSchedule) || emailInProcess} onClick={sendEmail}>
