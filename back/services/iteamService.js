@@ -10,7 +10,6 @@ module.exports = {
   importITeams: importITeams
 };
 
-const iteamDummyData = require('../public/dummyData/iteamDummyData.json');
 const {ITeam} = require('../models/iTeam');
 const {Semester} = require('../models/semester');
 const mongoose = require('mongoose');

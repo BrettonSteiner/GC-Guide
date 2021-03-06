@@ -9,7 +9,6 @@ module.exports = {
   importColleges: importColleges
 };
 
-const collegeDummyData = require('../public/dummyData/collegeDummyData.json');
 const {College} = require('../models/college');
 const {Semester} = require('../models/semester');
 const mongoose = require('mongoose');

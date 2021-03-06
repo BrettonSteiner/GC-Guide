@@ -4,10 +4,9 @@ import './Admin.css';
 import ITeamAdmin from './ITeamAdmin/ITeamAdmin.js';
 import MajorCollegeAdmin from './MajorCollegeAdmin/MajorCollegeAdmin.js';
 import ScheduleAdmin from './ScheduleAdmin/ScheduleAdmin.js';
-import dummyData from './dummy.json';
 
 const Admin = (props) => {
-  const [semesters, setSemesters] = useState(dummyData);
+  const [semesters, setSemesters] = useState([]);
   const [selectedSemesterName, setSelectedSemesterName] = useState(null);
   const [deleteSemesterConfirmation, setDeleteSemesterConfirmation] = useState(false);
   const [newSemester, setNewSemester] = useState(null);

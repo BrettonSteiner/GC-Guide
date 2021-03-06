@@ -9,7 +9,6 @@ module.exports = {
   importSchedule: importSchedule
 };
 
-const scheduleDummyData = require('../public/dummyData/scheduleDummyData.json');
 const {Event} = require('../models/event');
 const {Semester} = require('../models/semester');
 

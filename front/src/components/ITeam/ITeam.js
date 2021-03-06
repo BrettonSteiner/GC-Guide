@@ -2,14 +2,13 @@ import React, {useState, useContext, useEffect} from 'react';
 import { StudentContext } from '../../contexts/StudentContext/StudentContext.js';
 import AutoComplete from '../AutoComplete/AutoComplete.js';
 import './iTeam.css';
-import dummyData from './dummy.json';
 
 const ITeam = (props) => {
   const [myTeam, setMyTeam] = useState('');
   const [myPlace, setMyPlace] = useState('');
   const [myApartNo, setMyApartNo] = useState('');
-  const [iTeams, setITeams] = useState(dummyData.iTeams);
-  const [data, setData] = useState(dummyData.complexes);
+  const [iTeams, setITeams] = useState([]);
+  const [data, setData] = useState([]);
 
   const {setITeam, iTeamError, setITeamError} = useContext(StudentContext);
 
