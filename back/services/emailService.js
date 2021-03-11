@@ -101,10 +101,10 @@ async function createhtml(req) {
     + '.Blue-box {background-color:blue;color:white;} '
     + '.Yellow-box {background-color:yellow;} '
     + '.Grey-box {background-color:grey;color:white;}</style>';
-  var header = '<img style="height: auto; line-height: 100%; outline: none; text-decoration: none; border: 0.25pt solid #959595;"'
-    + ' height="72px" width="72px" src="https://www.byui.edu/images/Branding/BYU-Idaho-Box-Black.png" alt="BYU-Idaho Logo" align="left">'
-    + '<h1 style="background-color: #0076B6; line-height: 74px; margin-top: 0; margin-bottom: 0; font-weight: 500;'
-    + ' vertical-align: baseline; font-size: 36px; color: #ffffff;" align="center">Get Connected Guide</h1>';
+  var header = '<div style="background-color: #0076B6"><img style="height: auto; line-height: 100%; outline: none; text-decoration: none; '
+    + 'border: 0.25pt solid #959595;" height="72px" width="72px" src="https://www.byui.edu/images/Branding/BYU-Idaho-Box-Black.png" '
+    + 'alt="BYU-Idaho Logo" align="left"><h1 class="text-center text-white" style="line-height: 74px; margin: auto; margin-right: 74px; '
+    + 'font-weight: 500; vertical-align: baseline; font-size: 36px; color: #ffffff;" align="center">Get Connected Guide</h1></div>';
   var html = '<html><head>' + flagColorBoxStyle  + '</head><body>' + header + '<div style="text-align: center;"><p>'
   + new Date().toLocaleDateString() + '</p>';
 
