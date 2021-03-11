@@ -51,7 +51,7 @@ const Admin = (props) => {
     else {
       setSelectedSemester(null);
       if (rerenderState) {
-        rerenderState(!rerenderState);
+        setRerenderState(!rerenderState);
       }
     }
   }, [selectedSemesterName, semesters, rerenderState]);
@@ -94,6 +94,7 @@ const Admin = (props) => {
       });
     });
     setDeleteSemesterConfirmation(false);
+    setNewSemester(null);
   };
 
   let deactivateSemester = () => {
@@ -108,6 +109,7 @@ const Admin = (props) => {
       });
     });
     setDeleteSemesterConfirmation(false);
+    setNewSemester(null);
   };
 
   let deleteSemester = () => {
@@ -208,7 +210,7 @@ const Admin = (props) => {
             ? <input type="button" value="Deactivate Semester" className="btn btn-warning admin-btn" onClick={deactivateSemester}/>
             : <input type="button" value="Set As Active Semester" className="btn btn-info admin-btn" onClick={activateSemester}/>}
             {deleteSemesterConfirmation === false
-            ? <input type="button" value="Delete Semester" className="btn btn-danger admin-btn" onClick={() => setDeleteSemesterConfirmation(true)}/>
+            ? <input type="button" value="Delete Semester" className="btn btn-danger admin-btn" onClick={() => {setDeleteSemesterConfirmation(true); setNewSemester(null);}}/>
             : <input type="button" value="Are You Sure You Want To Delete This Semester?" className="btn btn-danger admin-btn" onClick={deleteSemester}/>
             }
             <div className="d-flex justify-content-end" style={{width: "100%"}}>
@@ -234,6 +236,17 @@ const Admin = (props) => {
                         createSemester();
                       }}>
                       <i className="fas fa-plus"></i>
+                    </button>
+                  </div>
+                  <div className="input-group-append">
+                    <button 
+                      className="btn btn-outline-secondary align-middle"
+                      type="button"
+                      onClick={() => {
+                        setNewSemester(null);
+                        setDeleteSemesterConfirmation(false);
+                      }}>
+                      <i className="fas fa-times"></i>
                     </button>
                   </div>
                 </div>

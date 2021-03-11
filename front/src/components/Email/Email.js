@@ -132,7 +132,7 @@ const Email = (props) => {
         {iTeamError ? ` Missing I-Team Information.` : null}
         {collegeError ? ` Missing Academic Connections information.` : null}
         {emailResultError ? emailResult : null}
-      <button type="button" className="close" aria-label="Close" onClick={() => { setErrorsExist(false); setEmailResultError(false); }}>
+      <button type="button" className="close" aria-label="Close" onClick={() => { setErrorsExist(false); setEmailResultError(false); setEmailResult(""); }}>
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
