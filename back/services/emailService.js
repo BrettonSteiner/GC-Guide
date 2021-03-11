@@ -62,8 +62,8 @@ async function getScheduleHtml(semesterId) {
       var stripeStyle = 'style="" bgcolor="#f2f2f2"';
       var html = '<h2>Get Connected Schedule</h2>';
 
-      grouped = groupBy(schedule, 'date');
-      keys = Object.keys(grouped).sort((a,b) => new Date(a).getTime() - new Date(b).getTime());
+      var grouped = groupBy(schedule, 'date');
+      var keys = Object.keys(grouped).sort((a,b) => new Date(a).getTime() - new Date(b).getTime());
       keys.forEach(key => {
         html += '<h3>' + new Date(key).toDateString() + '</h3>'
         + '<table ' + tableStyle + '><thead><tr>'
@@ -93,7 +93,7 @@ async function getScheduleHtml(semesterId) {
 }
 
 async function createhtml(req) {
-  flagColorBoxStyle = '<style>.color-box {max-width:100px;height:40px;line-height:40px;margin:auto;border-radius:4px;} ' 
+  var flagColorBoxStyle = '<style>.color-box {max-width:100px;height:40px;line-height:40px;margin:auto;border-radius:4px;} ' 
     + '.Orange-box {background-color:orange;} '
     + '.Purple-box {background-color:purple;color:white;} '
     + '.Green-box {background-color:green;color:white;} '
@@ -101,8 +101,11 @@ async function createhtml(req) {
     + '.Blue-box {background-color:blue;color:white;} '
     + '.Yellow-box {background-color:yellow;} '
     + '.Grey-box {background-color:grey;color:white;}</style>';
-  html = '<html><head>' + flagColorBoxStyle 
-  + '</head><body><div style="text-align: center;"><h1>Get Connected Guide</h1><p>'
+  var header = '<img style="height: auto; line-height: 100%; outline: none; text-decoration: none; border: 0.25pt solid #959595;"'
+    + ' height="72px" width="72px" src="https://www.byui.edu/images/Branding/BYU-Idaho-Box-Black.png" alt="BYU-Idaho Logo" align="left">'
+    + '<h1 style="background-color: #0076B6; line-height: 74px; margin-top: 0; margin-bottom: 0; font-weight: 500;'
+    + ' vertical-align: baseline; font-size: 36px; color: #ffffff;" align="center">Get Connected Guide</h1>';
+  var html = '<html><head>' + flagColorBoxStyle  + '</head><body>' + header + '<div style="text-align: center;"><p>'
   + new Date().toLocaleDateString() + '</p>';
 
   if (req.body.includeITeam) {
