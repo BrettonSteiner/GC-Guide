@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 const dotenv = require('dotenv');
 dotenv.config();
 
-const connection = process.env.DATABASE_LOCAL_URL || "mongodb://mongo:27017/mongo-test";
+const connection = "mongodb://mongo:27017/mongo";
 
 const connectDb = () => {
   mongoose.connect(connection, {useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false})
