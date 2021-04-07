@@ -1,21 +1,12 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { StudentContext } from '../../contexts/StudentContext/StudentContext.js';
 import "./MajorCollege.css";
-import dummyData from './collegeDummyData.json'
 import AutoComplete from '../AutoComplete/AutoComplete';
-
-//remove this once development is over.
-let dummyAllMajors = [];
-dummyData.colleges.forEach((col) => {
-  col.majors.forEach((maj) => {
-    dummyAllMajors.push(maj);
-  })
-});
 
 const MajorCollege = () => {
   const {major, setMajor, college, setCollege, collegeError, setCollegeError} = useContext(StudentContext);
-  const [collegeData, setCollegeData] = useState(dummyData.colleges);
-  const [allMajors, setAllMajors] = useState(dummyAllMajors);
+  const [collegeData, setCollegeData] = useState([]);
+  const [allMajors, setAllMajors] = useState([]);
 
   useEffect(() => {
     //Call database for data

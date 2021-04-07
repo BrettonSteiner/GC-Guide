@@ -1,11 +1,10 @@
 import React, {useState, useEffect, Fragment} from 'react';
 import MediaQuery from 'react-responsive';
 import './Schedule.css';
-import dummyData from './dummyData.json'
 import Map from '../Map/Map';
 
 const ScheduleTable = (props) => {
-  const [tableData, setTableData] = useState(dummyData.schedule);
+  const [tableData, setTableData] = useState([]);
   const [maps, setMaps] = useState([]);
   
   useEffect(() => {

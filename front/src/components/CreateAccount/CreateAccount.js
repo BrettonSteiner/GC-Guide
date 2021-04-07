@@ -63,6 +63,7 @@ const CreateAccount = (props) => {
       .then((response) => {
         if (response.redirected) {
           redirect();
+          return;
         }
         response.json();
       })

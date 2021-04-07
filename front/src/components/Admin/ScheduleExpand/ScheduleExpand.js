@@ -60,6 +60,8 @@ const ScheduleExpand = (props) => {
   const [dateError, setDateError] = useState(false);
   const [startTimeError, setStartTimeError] = useState(false);
   const [endTimeError, setEndTimeError] = useState(false);
+  const [result, setResult] = useState(null);
+  const [resultError, setResultError] = useState(false);
   let rerenderSemester = props.rerenderSemester;
 
   useEffect(() => {
@@ -130,6 +132,8 @@ const ScheduleExpand = (props) => {
     setDateError(false);
     setStartTimeError(false);
     setEndTimeError(false);
+    setResult(null);
+    setResultError(false);
   }, [
     originalEventName,
     originalDate,
@@ -215,9 +219,8 @@ const ScheduleExpand = (props) => {
     }
 
     if (!hasErrors && isAltered) {
-      //Call server to create event
+      // Call server to create event
       var eventJson = generateEventJson();
-      // console.log("Create event:");
       fetch('/schedule/create', {
         method: 'POST',
         headers: {
@@ -226,15 +229,16 @@ const ScheduleExpand = (props) => {
         body: JSON.stringify(eventJson),
       })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("HTTP status " + response.status);
-        }
-        response.json();
+        return response.json();
       })
       .then((data) => {
-        rerenderSemester();
-        // console.log(data);
-        resetForm();
+        if (data !== null) {
+          setResult(data.message);
+          setResultError(!data.success);
+          if (data.success) {
+            rerenderSemester();
+          }
+        }
       });
     }
   }, [
@@ -248,8 +252,7 @@ const ScheduleExpand = (props) => {
     endMeridiem,
     isAltered,
     generateEventJson,
-    rerenderSemester,
-    resetForm
+    rerenderSemester
   ]);
 
   const updateEvent = useCallback(() => {
@@ -277,9 +280,8 @@ const ScheduleExpand = (props) => {
     }
 
     if (!hasErrors && isAltered) {
-      //Call server to update event
+      // Call server to update event
       var eventJson = generateEventJson();
-      // console.log("Update Event:");
       fetch('/schedule/update', {
         method: 'POST',
         headers: {
@@ -289,8 +291,13 @@ const ScheduleExpand = (props) => {
       })
       .then((response) => response.json())
       .then((data) => {
-        rerenderSemester();
-        // console.log(data);
+        if (data !== null) {
+          setResult(data.message);
+          setResultError(!data.success);
+          if (data.success) {
+            rerenderSemester();
+          }
+        }
       });
     }
   }, [
@@ -308,8 +315,7 @@ const ScheduleExpand = (props) => {
   ]);
 
   const deleteEvent = useCallback(() => {
-    //Call server to delete event
-    // console.log("Delete event.");
+    // Call server to delete event
     fetch('/schedule/delete', {
       method: 'DELETE',
       headers: {
@@ -317,7 +323,16 @@ const ScheduleExpand = (props) => {
       },
       body: JSON.stringify({semesterId: semesterId, eventId: eventId}),
     })
-    .then(() => rerenderSemester());
+    .then((response) => response.json())
+    .then((data) => {
+      if (data !== null) {
+        setResult(data.message);
+        setResultError(!data.success);
+        if (data.success) {
+          rerenderSemester();
+        }
+      }
+    });
   }, [semesterId, eventId, rerenderSemester]);
 
   return (
@@ -611,6 +626,16 @@ const ScheduleExpand = (props) => {
           </div>
         }
       </div>
+      {result !== null ?
+      <><br></br>
+      <div className={resultError? "alert alert-danger" : "alert alert-success"}>
+        {resultError? ("Error: " + result) : result}
+        <button type="button" className="close" aria-label="Close" onClick={() => { setResult(null); if (resultError) { setResultError(false); } }}>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      </>
+      : null }
     </form>
     </>
   )

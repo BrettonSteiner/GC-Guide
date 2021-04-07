@@ -25,6 +25,7 @@ router.post('/create', accountService.createAccount);
 
 /* POST login to account. */
 router.post('/login', (req, res, next) => {
+  req.body.username = req.body.username.toLowerCase();
   passport.authenticate('local',
   (err, user, info) => {   
     if (err) {

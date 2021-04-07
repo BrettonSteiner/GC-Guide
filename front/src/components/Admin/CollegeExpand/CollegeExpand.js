@@ -16,6 +16,8 @@ const CollegeExpand = (props) => {
   const [flagColorError, setFlagColorError] = useState(false);
   const [emptyMajorNameError, setEmptyMajorNameError] = useState(false);
   const [existingMajorNameError, setExistingMajorNameError] = useState(false);
+  const [result, setResult] = useState(null);
+  const [resultError, setResultError] = useState(false);
   let rerenderSemester = props.rerenderSemester;
 
   useEffect(() => {
@@ -71,6 +73,8 @@ const CollegeExpand = (props) => {
     setFlagColorError(false);
     setEmptyMajorNameError(false);
     setExistingMajorNameError(false);
+    setResult(null);
+    setResultError(false);
   }, [
     originalCollegeName,
     originalFlagColor,
@@ -120,9 +124,8 @@ const CollegeExpand = (props) => {
     }
 
     if (!hasErrors && isAltered) {
-      //Call server to create college
+      // Call server to create college
       var collegeJson = generateCollegeJson();
-      // console.log("Create college.");
       fetch('/colleges/create', {
         method: 'POST',
         headers: {
@@ -131,18 +134,19 @@ const CollegeExpand = (props) => {
         body: JSON.stringify(collegeJson),
       })
       .then((response) => {
-        if (!response.ok) {
-          throw new Error("HTTP status " + response.status);
-        }
-        response.json();
+        return response.json();
       })
       .then((data) => {
-        rerenderSemester();
-        // console.log(data);
-        resetForm();
+        if (data !== null) {
+          setResult(data.message);
+          setResultError(!data.success);
+          if (data.success) {
+            rerenderSemester();
+          }
+        }
       });
     }
-  }, [collegeName, flagColor, isAltered, generateCollegeJson, rerenderSemester, resetForm]);
+  }, [collegeName, flagColor, isAltered, generateCollegeJson, rerenderSemester]);
 
   const updateCollege = useCallback(() => {
     var hasErrors = false;
@@ -157,9 +161,8 @@ const CollegeExpand = (props) => {
     }
 
     if (!hasErrors && isAltered) {
-      //Call server to update college
+      // Call server to update college
       var collegeJson = generateCollegeJson();
-      // console.log("Update College:");
       fetch('/colleges/update', {
         method: 'POST',
         headers: {
@@ -169,15 +172,19 @@ const CollegeExpand = (props) => {
       })
       .then((response) => response.json())
       .then((data) => {
-        rerenderSemester();
-        // console.log(data);
+        if (data !== null) {
+          setResult(data.message);
+          setResultError(!data.success);
+          if (data.success) {
+            rerenderSemester();
+          }
+        }
       });
     }
   }, [collegeName, flagColor, isAltered, generateCollegeJson, rerenderSemester]);
 
   const deleteCollege = useCallback(() => {
-    //Call server to delete college
-    // console.log("Delete college.");
+    // Call server to delete college
     fetch('/colleges/delete', {
       method: 'DELETE',
       headers: {
@@ -185,7 +192,16 @@ const CollegeExpand = (props) => {
       },
       body: JSON.stringify({semesterId: semesterId, collegeId: collegeId}),
     })
-    .then(() => rerenderSemester());
+    .then((response) => response.json())
+    .then((data) => {
+      if (data !== null) {
+        setResult(data.message);
+        setResultError(!data.success);
+        if (data.success) {
+          rerenderSemester();
+        }
+      }
+    });
   }, [semesterId, collegeId, rerenderSemester]);
 
   return (
@@ -323,6 +339,16 @@ const CollegeExpand = (props) => {
           </div>
         }
       </div>
+      {result !== null ?
+      <><br></br>
+      <div className={resultError? "alert alert-danger" : "alert alert-success"}>
+        {resultError? ("Error: " + result) : result}
+        <button type="button" className="close" aria-label="Close" onClick={() => { setResult(null); if (resultError) { setResultError(false); } }}>
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      </>
+      : null }
     </form>
     </>
   )
