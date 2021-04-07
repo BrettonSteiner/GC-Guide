@@ -5,11 +5,11 @@ The Get Connected Guide (GC Guide) is be a website that provides new students wi
 
 ## Installing / Getting started
 
-The to set up this application we'll be using Docker and Docker Compose. Docker will create and run a container from a Docker image of this application. First, you will need to have Docker installed on your computer:
+To set up this application we'll be using Docker and Docker Compose. Docker will create and run a container from a Docker image of this application. First, you will need to have Docker installed on your computer:
 
 https://docs.docker.com/get-docker/
 
-Make sure your computer has these packages installed:
+Make sure your computer has these packages installed in the project's root directory:
 
 ```shell
 npm install docker
